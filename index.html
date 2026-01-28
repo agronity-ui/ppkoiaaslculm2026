@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mandiangin Timur Hub</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#1B4332',  /* Hijau Botol Gelap */
+                            leaf: '#2D6A4F',  /* Hijau Daun */
+                            light: '#40916C',
+                            surface: '#F5F7F5', /* Off-white surface */
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'apple': '0 4px 24px rgba(0, 0, 0, 0.06)',
+                        'inner-light': 'inset 0 2px 4px 0 rgba(255, 255, 255, 0.2)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Hide Scrollbar for clean look */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        /* Glassmorphism Effect */
+        .glass {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        body {
+            background-color: #F2F2F7; /* Apple iOS System Gray 6 */
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+</head>
+<body class="flex justify-center min-h-screen text-gray-800">
+
+    <div class="w-full max-w-[480px] bg-brand-surface min-h-screen relative shadow-2xl overflow-hidden pb-24">
+        
+        <header class="sticky top-0 z-50 glass px-6 pt-12 pb-4">
+            <div class="flex justify-between items-center mb-4">
+                <div>
+                    <p class="text-xs font-semibold text-brand-leaf uppercase tracking-wider mb-0.5">Lokasi</p>
+                    <div class="flex items-center gap-1">
+                        <i data-lucide="map-pin" class="w-4 h-4 text-brand-dark fill-current"></i>
+                        <h1 class="text-lg font-bold text-brand-dark">Mandiangin Timur</h1>
+                    </div>
+                </div>
+                <div class="w-10 h-10 rounded-full bg-gray-200 overflow-hidden border-2 border-white shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80" alt="Profile" class="w-full h-full object-cover">
+                </div>
+            </div>
+
+            <h2 class="text-2xl font-bold text-brand-dark mb-4">Halo, Selamat Pagi <span class="text-2xl">👋</span></h2>
+
+            <div class="relative group">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i data-lucide="search" class="w-5 h-5 text-gray-400 group-focus-within:text-brand-leaf transition-colors"></i>
+                </div>
+                <input type="text" 
+                       class="block w-full pl-11 pr-4 py-3.5 bg-white border-none rounded-2xl text-sm shadow-sm focus:ring-2 focus:ring-brand-leaf/20 focus:outline-none transition-all placeholder-gray-400 font-medium" 
+                       placeholder="Cari jamur, kopi, atau bibit...">
+            </div>
+        </header>
+
+        <main class="px-6 py-6 space-y-8 overflow-y-auto no-scrollbar">
+            
+            <section class="relative w-full h-48 rounded-[32px] bg-brand-dark overflow-hidden shadow-apple group">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-leaf rounded-full blur-3xl opacity-50 -mr-10 -mt-10"></div>
+                <div class="absolute bottom-0 left-0 w-24 h-24 bg-yellow-400 rounded-full blur-3xl opacity-20 -ml-5 -mb-5"></div>
+                
+                <div class="relative z-10 p-6 flex flex-col justify-between h-full">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-brand-light font-medium text-sm mb-1">Update Panen</p>
+                            <h3 class="text-white text-2xl font-bold leading-tight">Jamur Tiram <br>Siap Panen!</h3>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur-md p-2 rounded-xl border border-white/10">
+                            <i data-lucide="cloud-sun" class="w-6 h-6 text-yellow-300"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-end justify-between">
+                        <div>
+                            <span class="text-4xl font-bold text-white tracking-tighter">28°C</span>
+                            <p class="text-gray-300 text-xs mt-1">Lembab & Berawan</p>
+                        </div>
+                        <button class="bg-white text-brand-dark px-4 py-2 rounded-xl text-xs font-bold shadow-lg hover:scale-105 transition-transform">
+                            Lihat Stok
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-bold text-gray-800">Kategori</h3>
+                    <a href="#" class="text-xs font-semibold text-brand-leaf">Lihat Semua</a>
+                </div>
+                <div class="flex gap-4 overflow-x-auto no-scrollbar pb-2">
+                    <div class="flex flex-col items-center gap-2 min-w-[72px]">
+                        <div class="w-16 h-16 rounded-2xl bg-white shadow-sm flex items-center justify-center border border-gray-100">
+                            <i data-lucide="sprout" class="w-7 h-7 text-brand-leaf"></i>
+                        </div>
+                        <span class="text-xs font-medium text-gray-600">Jamur</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-2 min-w-[72px]">
+                        <div class="w-16 h-16 rounded-2xl bg-white shadow-sm flex items-center justify-center border border-gray-100">
+                            <i data-lucide="coffee" class="w-7 h-7 text-brown-600 text-[#8D6E63]"></i>
+                        </div>
+                        <span class="text-xs font-medium text-gray-600">Kopi</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-2 min-w-[72px]">
+                        <div class="w-16 h-16 rounded-2xl bg-white shadow-sm flex items-center justify-center border border-gray-100">
+                            <i data-lucide="flower-2" class="w-7 h-7 text-pink-500"></i>
+                        </div>
+                        <span class="text-xs font-medium text-gray-600">Bibit</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-2 min-w-[72px]">
+                        <div class="w-16 h-16 rounded-2xl bg-white shadow-sm flex items-center justify-center border border-gray-100">
+                            <i data-lucide="wheat" class="w-7 h-7 text-yellow-600"></i>
+                        </div>
+                        <span class="text-xs font-medium text-gray-600">Olahan</span>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3 class="text-lg font-bold text-gray-800 mb-4">Produk Unggulan</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    
+                    <div class="bg-white p-3 rounded-[24px] shadow-apple border border-gray-50 flex flex-col">
+                        <div class="relative w-full aspect-square rounded-2xl overflow-hidden mb-3 bg-gray-100">
+                            <img src="https://images.unsplash.com/photo-1595304193557-0b16fc8c4600?auto=format&fit=crop&w=300&q=80" alt="Jamur Tiram" class="w-full h-full object-cover">
+                            <div class="absolute top-2 right-2 bg-white/90 backdrop-blur px-2 py-1 rounded-lg flex items-center gap-1 shadow-sm">
+                                <i data-lucide="star" class="w-3 h-3 text-yellow-400 fill-current"></i>
+                                <span class="text-[10px] font-bold">4.8</span>
+                            </div>
+                        </div>
+                        <h4 class="font-bold text-brand-dark text-sm truncate">Jamur Tiram Segar</h4>
+                        <p class="text-gray-400 text-xs mb-3">Panen hari ini</p>
+                        <div class="mt-auto flex justify-between items-center">
+                            <span class="font-bold text-brand-leaf text-sm">Rp 15rb</span>
+                            <button class="w-8 h-8 rounded-full bg-brand-dark flex items-center justify-center text-white shadow-lg hover:bg-brand-leaf transition-colors" onclick="addToCart()">
+                                <i data-lucide="plus" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-3 rounded-[24px] shadow-apple border border-gray-50 flex flex-col">
+                        <div class="relative w-full aspect-square rounded-2xl overflow-hidden mb-3 bg-gray-100">
+                            <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=300&q=80" alt="Kopi Desa" class="w-full h-full object-cover">
+                            <div class="absolute top-2 right-2 bg-white/90 backdrop-blur px-2 py-1 rounded-lg flex items-center gap-1 shadow-sm">
+                                <i data-lucide="star" class="w-3 h-3 text-yellow-400 fill-current"></i>
+                                <span class="text-[10px] font-bold">5.0</span>
+                            </div>
+                        </div>
+                        <h4 class="font-bold text-brand-dark text-sm truncate">Kopi Robusta Asli</h4>
+                        <p class="text-gray-400 text-xs mb-3">Bubuk 250gr</p>
+                        <div class="mt-auto flex justify-between items-center">
+                            <span class="font-bold text-brand-leaf text-sm">Rp 35rb</span>
+                            <button class="w-8 h-8 rounded-full bg-brand-dark flex items-center justify-center text-white shadow-lg hover:bg-brand-leaf transition-colors" onclick="addToCart()">
+                                <i data-lucide="plus" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                     <div class="bg-white p-3 rounded-[24px] shadow-apple border border-gray-50 flex flex-col">
+                        <div class="relative w-full aspect-square rounded-2xl overflow-hidden mb-3 bg-gray-100">
+                            <img src="https://images.unsplash.com/photo-1601648764658-ad77728f46eb?auto=format&fit=crop&w=300&q=80" alt="Bibit Cabai" class="w-full h-full object-cover">
+                        </div>
+                        <h4 class="font-bold text-brand-dark text-sm truncate">Bibit Cabai Rawit</h4>
+                        <p class="text-gray-400 text-xs mb-3">Siap tanam</p>
+                        <div class="mt-auto flex justify-between items-center">
+                            <span class="font-bold text-brand-leaf text-sm">Rp 5rb</span>
+                            <button class="w-8 h-8 rounded-full bg-brand-dark flex items-center justify-center text-white shadow-lg hover:bg-brand-leaf transition-colors" onclick="addToCart()">
+                                <i data-lucide="plus" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-3 rounded-[24px] shadow-apple border border-gray-50 flex flex-col">
+                        <div class="relative w-full aspect-square rounded-2xl overflow-hidden mb-3 bg-gray-100">
+                            <img src="https://images.unsplash.com/photo-1566478919030-26176a21f19d?auto=format&fit=crop&w=300&q=80" alt="Keripik" class="w-full h-full object-cover">
+                        </div>
+                        <h4 class="font-bold text-brand-dark text-sm truncate">Keripik Singkong</h4>
+                        <p class="text-gray-400 text-xs mb-3">Rasa Balado</p>
+                        <div class="mt-auto flex justify-between items-center">
+                            <span class="font-bold text-brand-leaf text-sm">Rp 12rb</span>
+                            <button class="w-8 h-8 rounded-full bg-brand-dark flex items-center justify-center text-white shadow-lg hover:bg-brand-leaf transition-colors" onclick="addToCart()">
+                                <i data-lucide="plus" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <section class="pt-4">
+                <div class="bg-white rounded-[24px] p-6 shadow-apple border border-gray-50">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="bg-brand-leaf/10 p-2 rounded-xl">
+                            <i data-lucide="users" class="w-5 h-5 text-brand-leaf"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-brand-dark">Tim PPKO IAAS LC ULM 2026</h3>
+                            <p class="text-xs text-gray-500">Mahasiswa Universitas Lambung Mangkurat</p>
+                        </div>
+                    </div>
+                    
+                    <div class="h-48 overflow-y-auto pr-2 space-y-3 custom-scroll">
+                        <div class="flex justify-between items-center text-xs border-b border-gray-50 pb-2">
+                            <div>
+                                <p class="font-semibold text-gray-800">Mutmainnah</p>
+                                <p class="text-gray-400 text-[10px]">2510517120013</p>
+                            </div>
+                            <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-lg text-[10px] font-medium">Proteksi Tanaman</span>
+                        </div>
+                        <div class="flex justify-between items-center text-xs border-b border-gray-50 pb-2">
+                            <div>
+                                <p class="font-semibold text-gray-800">Very Apta Santana</p>
+                                <p class="text-gray-400 text-[10px]">2310514110007</p>
+                            </div>
+                            <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-lg text-[10px] font-medium">Agribisnis</span>
+                        </div>
+                        <div class="flex justify-between items-center text-xs border-b border-gray-50 pb-2">
+                            <div>
+                                <p class="font-semibold text-gray-800">Nadia Hazmi</p>
+                                <p class="text-gray-400 text-[10px]">2510517120012</p>
+                            </div>
+                            <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-lg text-[10px] font-medium">Proteksi Tanaman</span>
+                        </div>
+                        <div class="flex justify-between items-center text-xs border-b border-gray-50 pb-2">
+                            <div>
+                                <p class="font-semibold text-gray-800">Nur Hidayatullah</p>
+                                <p class="text-gray-400 text-[10px]">2410514210029</p>
+                            </div>
+                            <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-lg text-[10px] font-medium">Agribisnis</span>
+                        </div>
+                         <div class="flex justify-between items-center text-xs border-b border-gray-50 pb-2">
+                            <div>
+                                <p class="font-semibold text-gray-800">Asyifa Rahmah</p>
+                                <p class="text-gray-400 text-[10px]">2410514320011</p>
+                            </div>
+                            <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-lg text-[10px] font-medium">Agribisnis</span>
+                        </div>
+                        <div class="flex justify-between items-center text-xs border-b border-gray-50 pb-2">
+                            <div>
+                                <p class="font-semibold text-gray-800">Juwita Maharani</p>
+                                <p class="text-gray-400 text-[10px]">2410514320005</p>
+                            </div>
+                            <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-lg text-[10px] font-medium">Agribisnis</span>
+                        </div>
+                        <div class="flex justify-between items-center text-xs border-b border-gray-50 pb-2">
+                            <div>
+                                <p class="font-semibold text-gray-800">Ahmad Nafis Al Adieb</p>
+                                <p class="text-gray-400 text-[10px]">2510516110007</p>
+                            </div>
+                            <span class="bg-gray-100 text-brand-dark/10 text-brand-dark px-2 py-1 rounded-lg text-[10px] font-bold">TIP</span>
+                        </div>
+                        <div class="flex justify-between items-center text-xs border-b border-gray-50 pb-2">
+                            <div>
+                                <p class="font-semibold text-gray-800">Naela Afkhariya</p>
+                                <p class="text-gray-400 text-[10px]">2510512220003</p>
+                            </div>
+                            <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-lg text-[10px] font-medium">Agroekoteknologi</span>
+                        </div>
+                        <div class="flex justify-between items-center text-xs border-b border-gray-50 pb-2">
+                            <div>
+                                <p class="font-semibold text-gray-800">Marsya Aulia Khusnul K.</p>
+                                <p class="text-gray-400 text-[10px]">2510512120001</p>
+                            </div>
+                            <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-lg text-[10px] font-medium">Agroekoteknologi</span>
+                        </div>
+                        <div class="flex justify-between items-center text-xs border-b border-gray-50 pb-2">
+                            <div>
+                                <p class="font-semibold text-gray-800">Maulana Baskara</p>
+                                <p class="text-gray-400 text-[10px]">2410516110014</p>
+                            </div>
+                            <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-lg text-[10px] font-medium">TIP</span>
+                        </div>
+                         <div class="flex justify-between items-center text-xs border-b border-gray-50 pb-2">
+                            <div>
+                                <p class="font-semibold text-gray-800">Muhammad Fariz Wildan</p>
+                                <p class="text-gray-400 text-[10px]">2410513310006</p>
+                            </div>
+                            <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-lg text-[10px] font-medium">Iltan</span>
+                        </div>
+                        <div class="flex justify-between items-center text-xs border-b border-gray-50 pb-2">
+                            <div>
+                                <p class="font-semibold text-gray-800">Muhamad Fathan M.</p>
+                                <p class="text-gray-400 text-[10px]">2510516310011</p>
+                            </div>
+                            <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-lg text-[10px] font-medium">TIP</span>
+                        </div>
+                        <div class="flex justify-between items-center text-xs border-b border-gray-50 pb-2">
+                            <div>
+                                <p class="font-semibold text-gray-800">Hayyan Luqman El Hakim</p>
+                                <p class="text-gray-400 text-[10px]">2310513210024</p>
+                            </div>
+                            <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-lg text-[10px] font-medium">Iltan</span>
+                        </div>
+                         <div class="flex justify-between items-center text-xs border-b border-gray-50 pb-2">
+                            <div>
+                                <p class="font-semibold text-gray-800">Muiza Azahra Setyakhsa</p>
+                                <p class="text-gray-400 text-[10px]">2510511220006</p>
+                            </div>
+                            <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-lg text-[10px] font-medium">Agronomi</span>
+                        </div>
+                         <div class="flex justify-between items-center text-xs border-b border-gray-50 pb-2">
+                            <div>
+                                <p class="font-semibold text-gray-800">Catur Indah Apriani</p>
+                                <p class="text-gray-400 text-[10px]">2510516220029</p>
+                            </div>
+                            <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-lg text-[10px] font-medium">TIP</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="text-center pb-8 pt-2">
+                <p class="text-[10px] text-gray-400 font-medium uppercase tracking-widest">
+                    Buatan mahasiswa ULM dari PPKO IAAS LC ULM 2026
+                </p>
+            </footer>
+        </main>
+
+        <nav class="absolute bottom-0 w-full bg-white/90 backdrop-blur-lg border-t border-gray-200 px-6 py-4 flex justify-between items-center z-50 rounded-t-[32px]">
+            <a href="#" class="flex flex-col items-center gap-1 group">
+                <i data-lucide="home" class="w-6 h-6 text-brand-leaf transition-transform group-hover:-translate-y-1"></i>
+                <span class="text-[10px] font-bold text-brand-leaf">Home</span>
+            </a>
+            <a href="#" class="flex flex-col items-center gap-1 group">
+                <i data-lucide="shopping-bag" class="w-6 h-6 text-gray-400 transition-colors group-hover:text-brand-leaf"></i>
+                <span class="text-[10px] font-medium text-gray-400 group-hover:text-brand-leaf">Produk</span>
+            </a>
+             <a href="#" class="flex flex-col items-center gap-1 group">
+                <i data-lucide="bar-chart-2" class="w-6 h-6 text-gray-400 transition-colors group-hover:text-brand-leaf"></i>
+                <span class="text-[10px] font-medium text-gray-400 group-hover:text-brand-leaf">Statistik</span>
+            </a>
+            <a href="#" class="flex flex-col items-center gap-1 group">
+                <i data-lucide="user" class="w-6 h-6 text-gray-400 transition-colors group-hover:text-brand-leaf"></i>
+                <span class="text-[10px] font-medium text-gray-400 group-hover:text-brand-leaf">Profil</span>
+            </a>
+        </nav>
+    </div>
+
+    <div id="toast" class="fixed top-6 left-1/2 transform -translate-x-1/2 bg-brand-dark text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-3 transition-all duration-300 opacity-0 translate-y-[-20px] pointer-events-none z-[100]">
+        <i data-lucide="check-circle" class="w-5 h-5 text-green-400"></i>
+        <span class="text-sm font-medium">Ditambahkan ke keranjang!</span>
+    </div>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Simple Add to Cart Interaction
+        function addToCart() {
+            const toast = document.getElementById('toast');
+            
+            // Show toast
+            toast.classList.remove('opacity-0', 'translate-y-[-20px]');
+            
+            // Hide after 2 seconds
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-[-20px]');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
