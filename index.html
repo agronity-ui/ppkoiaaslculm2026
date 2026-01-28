@@ -2,12 +2,12 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mandiangin Timur Hub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mandiangin Timur Hub - Official App</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -19,18 +19,39 @@
                 extend: {
                     colors: {
                         brand: {
-                            dark: '#1B4332',  /* Hijau Botol Gelap */
-                            leaf: '#2D6A4F',  /* Hijau Daun */
-                            light: '#40916C',
-                            surface: '#F5F7F5', /* Off-white surface */
+                            dark: '#1B4332',  /* Primary Dark */
+                            leaf: '#2D6A4F',  /* Primary Green */
+                            soft: '#40916C',  /* Soft Green */
+                            sage: '#D8F3DC',  /* Light Background */
+                            bg: '#F2F2F7',    /* iOS Gray */
                         }
                     },
                     fontFamily: {
-                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                        sans: ['Inter', '-apple-system', 'sans-serif'],
                     },
                     boxShadow: {
-                        'apple': '0 4px 24px rgba(0, 0, 0, 0.06)',
-                        'inner-light': 'inset 0 2px 4px 0 rgba(255, 255, 255, 0.2)',
+                        'ios': '0 8px 30px rgba(0,0,0,0.04)',
+                        'float': '0 20px 40px rgba(27, 67, 50, 0.15)',
+                        'inner-soft': 'inset 0 2px 4px 0 rgba(255, 255, 255, 0.3)',
+                    },
+                    animation: {
+                        'slide-up': 'slideUp 0.4s cubic-bezier(0.2, 0.8, 0.2, 1)',
+                        'fade-in': 'fadeIn 0.3s ease-out',
+                        'bounce-slight': 'bounceSlight 0.3s ease-in-out',
+                    },
+                    keyframes: {
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        bounceSlight: {
+                            '0%, 100%': { transform: 'scale(1)' },
+                            '50%': { transform: 'scale(0.95)' },
+                        }
                     }
                 }
             }
@@ -38,358 +59,651 @@
     </script>
 
     <style>
-        /* Hide Scrollbar for clean look */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+        /* Utility Styles */
+        body { 
+            background-color: #e5e5e5; 
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
         
-        /* Glassmorphism Effect */
+        /* Hiding Scrollbar but keeping functionality */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Glassmorphism Classes */
         .glass {
             background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255,255,255,0.3);
         }
         
-        body {
-            background-color: #F2F2F7; /* Apple iOS System Gray 6 */
-            -webkit-font-smoothing: antialiased;
+        .glass-dark {
+            background: rgba(27, 67, 50, 0.9);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        /* Page Transition Logic */
+        .page-section {
+            display: none;
+            animation: fadeIn 0.3s ease-out;
+        }
+        .page-section.active {
+            display: block;
+        }
+
+        /* Loading Spinner */
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 3px solid #1B4332;
+            width: 24px;
+            height: 24px;
+            -webkit-animation: spin 1s linear infinite; /* Safari */
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
-<body class="flex justify-center min-h-screen text-gray-800">
+<body class="flex justify-center min-h-screen">
 
-    <div class="w-full max-w-[480px] bg-brand-surface min-h-screen relative shadow-2xl overflow-hidden pb-24">
+    <div class="w-full max-w-[480px] bg-brand-bg min-h-screen relative shadow-2xl overflow-hidden flex flex-col">
         
-        <header class="sticky top-0 z-50 glass px-6 pt-12 pb-4">
-            <div class="flex justify-between items-center mb-4">
-                <div>
-                    <p class="text-xs font-semibold text-brand-leaf uppercase tracking-wider mb-0.5">Lokasi</p>
-                    <div class="flex items-center gap-1">
-                        <i data-lucide="map-pin" class="w-4 h-4 text-brand-dark fill-current"></i>
-                        <h1 class="text-lg font-bold text-brand-dark">Mandiangin Timur</h1>
-                    </div>
-                </div>
-                <div class="w-10 h-10 rounded-full bg-gray-200 overflow-hidden border-2 border-white shadow-sm">
-                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80" alt="Profile" class="w-full h-full object-cover">
-                </div>
-            </div>
-
-            <h2 class="text-2xl font-bold text-brand-dark mb-4">Halo, Selamat Pagi <span class="text-2xl">👋</span></h2>
-
-            <div class="relative group">
-                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <i data-lucide="search" class="w-5 h-5 text-gray-400 group-focus-within:text-brand-leaf transition-colors"></i>
-                </div>
-                <input type="text" 
-                       class="block w-full pl-11 pr-4 py-3.5 bg-white border-none rounded-2xl text-sm shadow-sm focus:ring-2 focus:ring-brand-leaf/20 focus:outline-none transition-all placeholder-gray-400 font-medium" 
-                       placeholder="Cari jamur, kopi, atau bibit...">
-            </div>
-        </header>
-
-        <main class="px-6 py-6 space-y-8 overflow-y-auto no-scrollbar">
+        <header id="main-header" class="fixed top-0 w-full max-w-[480px] z-40 transition-all duration-300">
+            </header>
+        <div class="h-24"></div> <main id="app-content" class="flex-1 overflow-y-auto no-scrollbar pb-28 px-6">
             
-            <section class="relative w-full h-48 rounded-[32px] bg-brand-dark overflow-hidden shadow-apple group">
-                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-leaf rounded-full blur-3xl opacity-50 -mr-10 -mt-10"></div>
-                <div class="absolute bottom-0 left-0 w-24 h-24 bg-yellow-400 rounded-full blur-3xl opacity-20 -ml-5 -mb-5"></div>
-                
-                <div class="relative z-10 p-6 flex flex-col justify-between h-full">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-brand-light font-medium text-sm mb-1">Update Panen</p>
-                            <h3 class="text-white text-2xl font-bold leading-tight">Jamur Tiram <br>Siap Panen!</h3>
+            <div id="view-home" class="page-section active space-y-8">
+                <div class="relative w-full h-56 rounded-[32px] bg-brand-dark overflow-hidden shadow-float group cursor-pointer" onclick="navigateTo('harvest')">
+                    <img src="https://images.unsplash.com/photo-1510798831971-661eb04b3739?q=80&w=600&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent"></div>
+                    
+                    <div class="relative z-10 p-6 flex flex-col justify-between h-full text-white">
+                        <div class="flex justify-between items-start">
+                            <div class="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full border border-white/20">
+                                <p class="text-[10px] font-bold tracking-wider uppercase">Info Desa</p>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="cloud-sun" class="w-5 h-5 text-yellow-300"></i>
+                                <span class="text-sm font-medium">28°C</span>
+                            </div>
                         </div>
-                        <div class="bg-white/10 backdrop-blur-md p-2 rounded-xl border border-white/10">
-                            <i data-lucide="cloud-sun" class="w-6 h-6 text-yellow-300"></i>
+                        <div>
+                            <p class="text-brand-sage text-sm mb-1">Panen Raya Minggu Ini</p>
+                            <h2 class="text-3xl font-bold leading-tight">Jamur Tiram & <br>Kopi Robusta</h2>
+                            <div class="mt-3 flex items-center gap-2 text-xs text-gray-300">
+                                <span>Lihat Jadwal Lengkap</span>
+                                <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                            </div>
                         </div>
                     </div>
-                    
-                    <div class="flex items-end justify-between">
-                        <div>
-                            <span class="text-4xl font-bold text-white tracking-tighter">28°C</span>
-                            <p class="text-gray-300 text-xs mt-1">Lembab & Berawan</p>
-                        </div>
-                        <button class="bg-white text-brand-dark px-4 py-2 rounded-xl text-xs font-bold shadow-lg hover:scale-105 transition-transform">
-                            Lihat Stok
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 px-1">Kategori</h3>
+                    <div class="flex gap-4 overflow-x-auto no-scrollbar pb-2 -mx-2 px-2">
+                        <button onclick="filterCategory('all')" class="flex flex-col items-center gap-2 min-w-[72px]">
+                            <div class="w-16 h-16 rounded-2xl bg-brand-dark text-white shadow-lg flex items-center justify-center">
+                                <i data-lucide="layout-grid" class="w-7 h-7"></i>
+                            </div>
+                            <span class="text-xs font-medium text-gray-800">Semua</span>
+                        </button>
+                        <button onclick="filterCategory('jamur')" class="flex flex-col items-center gap-2 min-w-[72px] group">
+                            <div class="w-16 h-16 rounded-2xl bg-white shadow-sm flex items-center justify-center border border-gray-100 group-active:scale-95 transition-transform">
+                                <i data-lucide="sprout" class="w-7 h-7 text-brand-leaf"></i>
+                            </div>
+                            <span class="text-xs font-medium text-gray-600">Jamur</span>
+                        </button>
+                        <button onclick="filterCategory('kopi')" class="flex flex-col items-center gap-2 min-w-[72px] group">
+                            <div class="w-16 h-16 rounded-2xl bg-white shadow-sm flex items-center justify-center border border-gray-100 group-active:scale-95 transition-transform">
+                                <i data-lucide="coffee" class="w-7 h-7 text-[#8D6E63]"></i>
+                            </div>
+                            <span class="text-xs font-medium text-gray-600">Kopi</span>
+                        </button>
+                        <button onclick="filterCategory('bibit')" class="flex flex-col items-center gap-2 min-w-[72px] group">
+                            <div class="w-16 h-16 rounded-2xl bg-white shadow-sm flex items-center justify-center border border-gray-100 group-active:scale-95 transition-transform">
+                                <i data-lucide="flower-2" class="w-7 h-7 text-pink-500"></i>
+                            </div>
+                            <span class="text-xs font-medium text-gray-600">Bibit</span>
                         </button>
                     </div>
                 </div>
-            </section>
 
-            <section>
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-bold text-gray-800">Kategori</h3>
-                    <a href="#" class="text-xs font-semibold text-brand-leaf">Lihat Semua</a>
+                <div>
+                    <div class="flex justify-between items-end mb-4 px-1">
+                        <h3 class="text-lg font-bold text-gray-800">Produk Segar</h3>
+                        <span class="text-xs text-brand-leaf font-semibold">Langsung dari Petani</span>
+                    </div>
+                    <div id="product-grid" class="grid grid-cols-2 gap-4">
+                        </div>
                 </div>
-                <div class="flex gap-4 overflow-x-auto no-scrollbar pb-2">
-                    <div class="flex flex-col items-center gap-2 min-w-[72px]">
-                        <div class="w-16 h-16 rounded-2xl bg-white shadow-sm flex items-center justify-center border border-gray-100">
-                            <i data-lucide="sprout" class="w-7 h-7 text-brand-leaf"></i>
-                        </div>
-                        <span class="text-xs font-medium text-gray-600">Jamur</span>
-                    </div>
-                    <div class="flex flex-col items-center gap-2 min-w-[72px]">
-                        <div class="w-16 h-16 rounded-2xl bg-white shadow-sm flex items-center justify-center border border-gray-100">
-                            <i data-lucide="coffee" class="w-7 h-7 text-brown-600 text-[#8D6E63]"></i>
-                        </div>
-                        <span class="text-xs font-medium text-gray-600">Kopi</span>
-                    </div>
-                    <div class="flex flex-col items-center gap-2 min-w-[72px]">
-                        <div class="w-16 h-16 rounded-2xl bg-white shadow-sm flex items-center justify-center border border-gray-100">
-                            <i data-lucide="flower-2" class="w-7 h-7 text-pink-500"></i>
-                        </div>
-                        <span class="text-xs font-medium text-gray-600">Bibit</span>
-                    </div>
-                    <div class="flex flex-col items-center gap-2 min-w-[72px]">
-                        <div class="w-16 h-16 rounded-2xl bg-white shadow-sm flex items-center justify-center border border-gray-100">
-                            <i data-lucide="wheat" class="w-7 h-7 text-yellow-600"></i>
-                        </div>
-                        <span class="text-xs font-medium text-gray-600">Olahan</span>
-                    </div>
-                </div>
-            </section>
+            </div>
 
-            <section>
-                <h3 class="text-lg font-bold text-gray-800 mb-4">Produk Unggulan</h3>
-                <div class="grid grid-cols-2 gap-4">
+            <div id="view-harvest" class="page-section space-y-6 pt-4">
+                <div class="bg-white p-6 rounded-[32px] shadow-ios">
+                    <h2 class="text-2xl font-bold text-brand-dark mb-2">Kalender Tani</h2>
+                    <p class="text-gray-500 text-sm mb-6">Estimasi jadwal panen komoditas unggulan desa Mandiangin Timur bulan ini.</p>
                     
-                    <div class="bg-white p-3 rounded-[24px] shadow-apple border border-gray-50 flex flex-col">
-                        <div class="relative w-full aspect-square rounded-2xl overflow-hidden mb-3 bg-gray-100">
-                            <img src="https://images.unsplash.com/photo-1595304193557-0b16fc8c4600?auto=format&fit=crop&w=300&q=80" alt="Jamur Tiram" class="w-full h-full object-cover">
-                            <div class="absolute top-2 right-2 bg-white/90 backdrop-blur px-2 py-1 rounded-lg flex items-center gap-1 shadow-sm">
-                                <i data-lucide="star" class="w-3 h-3 text-yellow-400 fill-current"></i>
-                                <span class="text-[10px] font-bold">4.8</span>
-                            </div>
+                    <div class="space-y-6 border-l-2 border-brand-sage ml-3 pl-6 relative">
+                        <div class="relative">
+                            <div class="absolute -left-[31px] bg-brand-leaf w-4 h-4 rounded-full border-4 border-white shadow-sm"></div>
+                            <span class="text-xs font-bold text-brand-leaf bg-brand-sage px-2 py-1 rounded-md">Hari Ini</span>
+                            <h4 class="text-lg font-bold text-gray-800 mt-1">Panen Raya Jamur Tiram</h4>
+                            <p class="text-sm text-gray-500">Lokasi: Kumbung Kelompok Tani Maju</p>
+                            <button onclick="addToCart(1)" class="mt-3 text-xs bg-brand-dark text-white px-3 py-1.5 rounded-lg">Pesan Sekarang</button>
                         </div>
-                        <h4 class="font-bold text-brand-dark text-sm truncate">Jamur Tiram Segar</h4>
-                        <p class="text-gray-400 text-xs mb-3">Panen hari ini</p>
-                        <div class="mt-auto flex justify-between items-center">
-                            <span class="font-bold text-brand-leaf text-sm">Rp 15rb</span>
-                            <button class="w-8 h-8 rounded-full bg-brand-dark flex items-center justify-center text-white shadow-lg hover:bg-brand-leaf transition-colors" onclick="addToCart()">
-                                <i data-lucide="plus" class="w-4 h-4"></i>
-                            </button>
+                        <div class="relative">
+                            <div class="absolute -left-[31px] bg-gray-300 w-4 h-4 rounded-full border-4 border-white"></div>
+                            <span class="text-xs font-bold text-gray-500">2 Februari 2026</span>
+                            <h4 class="text-lg font-bold text-gray-800 mt-1">Panen Kopi Robusta</h4>
+                            <p class="text-sm text-gray-500">Lokasi: Bukit Mandiangin</p>
                         </div>
-                    </div>
-
-                    <div class="bg-white p-3 rounded-[24px] shadow-apple border border-gray-50 flex flex-col">
-                        <div class="relative w-full aspect-square rounded-2xl overflow-hidden mb-3 bg-gray-100">
-                            <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=300&q=80" alt="Kopi Desa" class="w-full h-full object-cover">
-                            <div class="absolute top-2 right-2 bg-white/90 backdrop-blur px-2 py-1 rounded-lg flex items-center gap-1 shadow-sm">
-                                <i data-lucide="star" class="w-3 h-3 text-yellow-400 fill-current"></i>
-                                <span class="text-[10px] font-bold">5.0</span>
-                            </div>
-                        </div>
-                        <h4 class="font-bold text-brand-dark text-sm truncate">Kopi Robusta Asli</h4>
-                        <p class="text-gray-400 text-xs mb-3">Bubuk 250gr</p>
-                        <div class="mt-auto flex justify-between items-center">
-                            <span class="font-bold text-brand-leaf text-sm">Rp 35rb</span>
-                            <button class="w-8 h-8 rounded-full bg-brand-dark flex items-center justify-center text-white shadow-lg hover:bg-brand-leaf transition-colors" onclick="addToCart()">
-                                <i data-lucide="plus" class="w-4 h-4"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                     <div class="bg-white p-3 rounded-[24px] shadow-apple border border-gray-50 flex flex-col">
-                        <div class="relative w-full aspect-square rounded-2xl overflow-hidden mb-3 bg-gray-100">
-                            <img src="https://images.unsplash.com/photo-1601648764658-ad77728f46eb?auto=format&fit=crop&w=300&q=80" alt="Bibit Cabai" class="w-full h-full object-cover">
-                        </div>
-                        <h4 class="font-bold text-brand-dark text-sm truncate">Bibit Cabai Rawit</h4>
-                        <p class="text-gray-400 text-xs mb-3">Siap tanam</p>
-                        <div class="mt-auto flex justify-between items-center">
-                            <span class="font-bold text-brand-leaf text-sm">Rp 5rb</span>
-                            <button class="w-8 h-8 rounded-full bg-brand-dark flex items-center justify-center text-white shadow-lg hover:bg-brand-leaf transition-colors" onclick="addToCart()">
-                                <i data-lucide="plus" class="w-4 h-4"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="bg-white p-3 rounded-[24px] shadow-apple border border-gray-50 flex flex-col">
-                        <div class="relative w-full aspect-square rounded-2xl overflow-hidden mb-3 bg-gray-100">
-                            <img src="https://images.unsplash.com/photo-1566478919030-26176a21f19d?auto=format&fit=crop&w=300&q=80" alt="Keripik" class="w-full h-full object-cover">
-                        </div>
-                        <h4 class="font-bold text-brand-dark text-sm truncate">Keripik Singkong</h4>
-                        <p class="text-gray-400 text-xs mb-3">Rasa Balado</p>
-                        <div class="mt-auto flex justify-between items-center">
-                            <span class="font-bold text-brand-leaf text-sm">Rp 12rb</span>
-                            <button class="w-8 h-8 rounded-full bg-brand-dark flex items-center justify-center text-white shadow-lg hover:bg-brand-leaf transition-colors" onclick="addToCart()">
-                                <i data-lucide="plus" class="w-4 h-4"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                </div>
-            </section>
-
-            <section class="pt-4">
-                <div class="bg-white rounded-[24px] p-6 shadow-apple border border-gray-50">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="bg-brand-leaf/10 p-2 rounded-xl">
-                            <i data-lucide="users" class="w-5 h-5 text-brand-leaf"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-sm font-bold text-brand-dark">Tim PPKO IAAS LC ULM 2026</h3>
-                            <p class="text-xs text-gray-500">Mahasiswa Universitas Lambung Mangkurat</p>
-                        </div>
-                    </div>
-                    
-                    <div class="h-48 overflow-y-auto pr-2 space-y-3 custom-scroll">
-                        <div class="flex justify-between items-center text-xs border-b border-gray-50 pb-2">
-                            <div>
-                                <p class="font-semibold text-gray-800">Mutmainnah</p>
-                                <p class="text-gray-400 text-[10px]">2510517120013</p>
-                            </div>
-                            <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-lg text-[10px] font-medium">Proteksi Tanaman</span>
-                        </div>
-                        <div class="flex justify-between items-center text-xs border-b border-gray-50 pb-2">
-                            <div>
-                                <p class="font-semibold text-gray-800">Very Apta Santana</p>
-                                <p class="text-gray-400 text-[10px]">2310514110007</p>
-                            </div>
-                            <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-lg text-[10px] font-medium">Agribisnis</span>
-                        </div>
-                        <div class="flex justify-between items-center text-xs border-b border-gray-50 pb-2">
-                            <div>
-                                <p class="font-semibold text-gray-800">Nadia Hazmi</p>
-                                <p class="text-gray-400 text-[10px]">2510517120012</p>
-                            </div>
-                            <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-lg text-[10px] font-medium">Proteksi Tanaman</span>
-                        </div>
-                        <div class="flex justify-between items-center text-xs border-b border-gray-50 pb-2">
-                            <div>
-                                <p class="font-semibold text-gray-800">Nur Hidayatullah</p>
-                                <p class="text-gray-400 text-[10px]">2410514210029</p>
-                            </div>
-                            <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-lg text-[10px] font-medium">Agribisnis</span>
-                        </div>
-                         <div class="flex justify-between items-center text-xs border-b border-gray-50 pb-2">
-                            <div>
-                                <p class="font-semibold text-gray-800">Asyifa Rahmah</p>
-                                <p class="text-gray-400 text-[10px]">2410514320011</p>
-                            </div>
-                            <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-lg text-[10px] font-medium">Agribisnis</span>
-                        </div>
-                        <div class="flex justify-between items-center text-xs border-b border-gray-50 pb-2">
-                            <div>
-                                <p class="font-semibold text-gray-800">Juwita Maharani</p>
-                                <p class="text-gray-400 text-[10px]">2410514320005</p>
-                            </div>
-                            <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-lg text-[10px] font-medium">Agribisnis</span>
-                        </div>
-                        <div class="flex justify-between items-center text-xs border-b border-gray-50 pb-2">
-                            <div>
-                                <p class="font-semibold text-gray-800">Ahmad Nafis Al Adieb</p>
-                                <p class="text-gray-400 text-[10px]">2510516110007</p>
-                            </div>
-                            <span class="bg-gray-100 text-brand-dark/10 text-brand-dark px-2 py-1 rounded-lg text-[10px] font-bold">TIP</span>
-                        </div>
-                        <div class="flex justify-between items-center text-xs border-b border-gray-50 pb-2">
-                            <div>
-                                <p class="font-semibold text-gray-800">Naela Afkhariya</p>
-                                <p class="text-gray-400 text-[10px]">2510512220003</p>
-                            </div>
-                            <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-lg text-[10px] font-medium">Agroekoteknologi</span>
-                        </div>
-                        <div class="flex justify-between items-center text-xs border-b border-gray-50 pb-2">
-                            <div>
-                                <p class="font-semibold text-gray-800">Marsya Aulia Khusnul K.</p>
-                                <p class="text-gray-400 text-[10px]">2510512120001</p>
-                            </div>
-                            <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-lg text-[10px] font-medium">Agroekoteknologi</span>
-                        </div>
-                        <div class="flex justify-between items-center text-xs border-b border-gray-50 pb-2">
-                            <div>
-                                <p class="font-semibold text-gray-800">Maulana Baskara</p>
-                                <p class="text-gray-400 text-[10px]">2410516110014</p>
-                            </div>
-                            <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-lg text-[10px] font-medium">TIP</span>
-                        </div>
-                         <div class="flex justify-between items-center text-xs border-b border-gray-50 pb-2">
-                            <div>
-                                <p class="font-semibold text-gray-800">Muhammad Fariz Wildan</p>
-                                <p class="text-gray-400 text-[10px]">2410513310006</p>
-                            </div>
-                            <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-lg text-[10px] font-medium">Iltan</span>
-                        </div>
-                        <div class="flex justify-between items-center text-xs border-b border-gray-50 pb-2">
-                            <div>
-                                <p class="font-semibold text-gray-800">Muhamad Fathan M.</p>
-                                <p class="text-gray-400 text-[10px]">2510516310011</p>
-                            </div>
-                            <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-lg text-[10px] font-medium">TIP</span>
-                        </div>
-                        <div class="flex justify-between items-center text-xs border-b border-gray-50 pb-2">
-                            <div>
-                                <p class="font-semibold text-gray-800">Hayyan Luqman El Hakim</p>
-                                <p class="text-gray-400 text-[10px]">2310513210024</p>
-                            </div>
-                            <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-lg text-[10px] font-medium">Iltan</span>
-                        </div>
-                         <div class="flex justify-between items-center text-xs border-b border-gray-50 pb-2">
-                            <div>
-                                <p class="font-semibold text-gray-800">Muiza Azahra Setyakhsa</p>
-                                <p class="text-gray-400 text-[10px]">2510511220006</p>
-                            </div>
-                            <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-lg text-[10px] font-medium">Agronomi</span>
-                        </div>
-                         <div class="flex justify-between items-center text-xs border-b border-gray-50 pb-2">
-                            <div>
-                                <p class="font-semibold text-gray-800">Catur Indah Apriani</p>
-                                <p class="text-gray-400 text-[10px]">2510516220029</p>
-                            </div>
-                            <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-lg text-[10px] font-medium">TIP</span>
+                         <div class="relative">
+                            <div class="absolute -left-[31px] bg-gray-300 w-4 h-4 rounded-full border-4 border-white"></div>
+                            <span class="text-xs font-bold text-gray-500">10 Februari 2026</span>
+                            <h4 class="text-lg font-bold text-gray-800 mt-1">Panen Cabe Rawit</h4>
+                            <p class="text-sm text-gray-500">Lokasi: Kebun Warga RT 02</p>
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
 
-            <footer class="text-center pb-8 pt-2">
-                <p class="text-[10px] text-gray-400 font-medium uppercase tracking-widest">
-                    Buatan mahasiswa ULM dari PPKO IAAS LC ULM 2026
-                </p>
-            </footer>
+            <div id="view-profile" class="page-section pt-0 -mt-6 -mx-6">
+                <div class="relative h-72 w-full">
+                    <img src="https://images.unsplash.com/photo-1596395819057-e37f55a851eb?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black/40"></div>
+                    <div class="absolute bottom-0 left-0 p-8 text-white">
+                        <h1 class="text-3xl font-bold">Mandiangin Timur</h1>
+                        <p class="text-gray-200">Kec. Karang Intan, Kab. Banjar</p>
+                    </div>
+                </div>
+                
+                <div class="px-6 py-8 bg-brand-bg rounded-t-[32px] -mt-8 relative z-10 space-y-6">
+                    <div class="flex justify-between bg-white p-6 rounded-3xl shadow-sm">
+                        <div class="text-center">
+                            <p class="text-2xl font-bold text-brand-dark">500+</p>
+                            <p class="text-[10px] text-gray-400 uppercase">Kepala Keluarga</p>
+                        </div>
+                        <div class="w-px bg-gray-100"></div>
+                        <div class="text-center">
+                            <p class="text-2xl font-bold text-brand-dark">12</p>
+                            <p class="text-[10px] text-gray-400 uppercase">Kelompok Tani</p>
+                        </div>
+                        <div class="w-px bg-gray-100"></div>
+                        <div class="text-center">
+                            <p class="text-2xl font-bold text-brand-dark">Tahura</p>
+                            <p class="text-[10px] text-gray-400 uppercase">Wisata Alam</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2 text-sm text-gray-600 leading-relaxed">
+                        <p>Desa Mandiangin Timur terkenal dengan potensi wisata alamnya, termasuk bagian dari kawasan <strong>Tahura Sultan Adam</strong>. Dikelilingi perbukitan yang asri, desa ini memiliki potensi agribisnis yang besar mulai dari kopi, karet, hingga budidaya jamur tiram.</p>
+                    </div>
+
+                    <div class="bg-white rounded-[24px] p-6 shadow-ios border border-gray-50">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="bg-brand-leaf/10 p-2 rounded-xl">
+                                <i data-lucide="code-2" class="w-5 h-5 text-brand-leaf"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-brand-dark">Pengembang Aplikasi</h3>
+                                <p class="text-[10px] text-gray-500">Mahasiswa PPKO IAAS LC ULM 2026</p>
+                            </div>
+                        </div>
+                        
+                        <div class="h-64 overflow-y-auto pr-2 space-y-3 custom-scroll" id="team-list-container">
+                            </div>
+                        <div class="mt-4 pt-4 border-t border-gray-100 text-center">
+                            <p class="text-[10px] text-gray-400">© 2026 Mandiangin Timur Hub. Built with ❤️ for Banjar.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-cart" class="page-section space-y-6 pt-4">
+                <h2 class="text-2xl font-bold text-brand-dark px-1">Keranjang Saya</h2>
+                
+                <div id="cart-items-container" class="space-y-4 min-h-[200px]">
+                    <div class="flex flex-col items-center justify-center h-48 text-gray-400">
+                        <i data-lucide="shopping-basket" class="w-12 h-12 mb-2 opacity-50"></i>
+                        <p class="text-sm">Keranjang masih kosong</p>
+                        <button onclick="navigateTo('home')" class="mt-4 text-brand-leaf text-sm font-bold">Mulai Belanja</button>
+                    </div>
+                </div>
+
+                <div id="cart-summary" class="hidden bg-white p-6 rounded-[24px] shadow-ios">
+                    <div class="flex justify-between mb-2 text-sm text-gray-600">
+                        <span>Subtotal</span>
+                        <span id="summary-subtotal">Rp 0</span>
+                    </div>
+                    <div class="flex justify-between mb-4 text-sm text-gray-600">
+                        <span>Biaya Layanan</span>
+                        <span>Rp 1.000</span>
+                    </div>
+                    <div class="h-px bg-gray-100 my-4"></div>
+                    <div class="flex justify-between mb-6 text-lg font-bold text-brand-dark">
+                        <span>Total</span>
+                        <span id="summary-total">Rp 0</span>
+                    </div>
+                    <button onclick="navigateTo('checkout')" class="w-full bg-brand-dark text-white py-4 rounded-xl font-bold shadow-lg shadow-brand-dark/30 hover:scale-[1.02] transition-transform">
+                        Lanjut ke Pembayaran
+                    </button>
+                </div>
+            </div>
+
+            <div id="view-checkout" class="page-section space-y-6 pt-4">
+                <div class="flex items-center gap-2 mb-4">
+                    <button onclick="navigateTo('cart')" class="p-2 bg-white rounded-full shadow-sm"><i data-lucide="arrow-left" class="w-4 h-4"></i></button>
+                    <h2 class="text-xl font-bold text-brand-dark">Pengiriman & Bayar</h2>
+                </div>
+
+                <form id="checkout-form" onsubmit="handleCheckout(event)" class="space-y-6">
+                    <div class="bg-white p-5 rounded-[24px] shadow-sm space-y-4">
+                        <div class="flex items-center gap-2 text-brand-dark mb-2">
+                            <i data-lucide="map-pin" class="w-5 h-5"></i>
+                            <h3 class="font-bold">Alamat Pengiriman</h3>
+                        </div>
+                        <div class="space-y-3">
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-500 mb-1">Nama Penerima</label>
+                                <input type="text" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-leaf focus:ring-1 focus:ring-brand-leaf">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-500 mb-1">Nomor WhatsApp</label>
+                                <input type="tel" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-leaf focus:ring-1 focus:ring-brand-leaf">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-500 mb-1">Alamat Lengkap</label>
+                                <textarea required rows="3" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-leaf focus:ring-1 focus:ring-brand-leaf"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-[24px] shadow-sm space-y-4">
+                        <div class="flex items-center gap-2 text-brand-dark mb-2">
+                            <i data-lucide="credit-card" class="w-5 h-5"></i>
+                            <h3 class="font-bold">Metode Pembayaran</h3>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="payment" value="cod" class="peer hidden" checked>
+                                <div class="p-4 border border-gray-200 rounded-xl peer-checked:border-brand-leaf peer-checked:bg-brand-sage/30 transition-all text-center">
+                                    <i data-lucide="banknote" class="w-6 h-6 mx-auto mb-2 text-gray-600 peer-checked:text-brand-dark"></i>
+                                    <span class="text-xs font-bold text-gray-600 peer-checked:text-brand-dark">COD (Bayar di Tempat)</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="payment" value="qris" class="peer hidden">
+                                <div class="p-4 border border-gray-200 rounded-xl peer-checked:border-brand-leaf peer-checked:bg-brand-sage/30 transition-all text-center">
+                                    <i data-lucide="qr-code" class="w-6 h-6 mx-auto mb-2 text-gray-600 peer-checked:text-brand-dark"></i>
+                                    <span class="text-xs font-bold text-gray-600 peer-checked:text-brand-dark">QRIS</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="bg-brand-dark text-white p-6 rounded-[24px] shadow-lg">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-sm opacity-80">Total Pembayaran</span>
+                            <span id="checkout-total" class="text-2xl font-bold">Rp 0</span>
+                        </div>
+                        <button type="submit" class="w-full bg-white text-brand-dark py-4 rounded-xl font-bold hover:bg-gray-100 transition-colors flex justify-center items-center gap-2">
+                            <span>Konfirmasi Pesanan</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
         </main>
 
-        <nav class="absolute bottom-0 w-full bg-white/90 backdrop-blur-lg border-t border-gray-200 px-6 py-4 flex justify-between items-center z-50 rounded-t-[32px]">
-            <a href="#" class="flex flex-col items-center gap-1 group">
-                <i data-lucide="home" class="w-6 h-6 text-brand-leaf transition-transform group-hover:-translate-y-1"></i>
-                <span class="text-[10px] font-bold text-brand-leaf">Home</span>
-            </a>
-            <a href="#" class="flex flex-col items-center gap-1 group">
-                <i data-lucide="shopping-bag" class="w-6 h-6 text-gray-400 transition-colors group-hover:text-brand-leaf"></i>
-                <span class="text-[10px] font-medium text-gray-400 group-hover:text-brand-leaf">Produk</span>
-            </a>
-             <a href="#" class="flex flex-col items-center gap-1 group">
-                <i data-lucide="bar-chart-2" class="w-6 h-6 text-gray-400 transition-colors group-hover:text-brand-leaf"></i>
-                <span class="text-[10px] font-medium text-gray-400 group-hover:text-brand-leaf">Statistik</span>
-            </a>
-            <a href="#" class="flex flex-col items-center gap-1 group">
-                <i data-lucide="user" class="w-6 h-6 text-gray-400 transition-colors group-hover:text-brand-leaf"></i>
-                <span class="text-[10px] font-medium text-gray-400 group-hover:text-brand-leaf">Profil</span>
-            </a>
-        </nav>
-    </div>
+        <nav class="absolute bottom-0 w-full bg-white/90 backdrop-blur-lg border-t border-gray-200 px-6 py-3 flex justify-between items-center z-50 rounded-t-[32px] shadow-[0_-5px_20px_rgba(0,0,0,0.05)]">
+            <button onclick="navigateTo('home')" class="nav-btn flex flex-col items-center gap-1 w-12 group active" data-target="home">
+                <i data-lucide="home" class="w-6 h-6 text-gray-400 group-[.active]:text-brand-leaf transition-colors"></i>
+                <span class="text-[10px] font-medium text-gray-400 group-[.active]:text-brand-leaf">Home</span>
+            </button>
+            <button onclick="navigateTo('harvest')" class="nav-btn flex flex-col items-center gap-1 w-12 group" data-target="harvest">
+                <i data-lucide="calendar" class="w-6 h-6 text-gray-400 group-[.active]:text-brand-leaf transition-colors"></i>
+                <span class="text-[10px] font-medium text-gray-400 group-[.active]:text-brand-leaf">Jadwal</span>
+            </button>
+            
+            <button onclick="navigateTo('cart')" class="relative -top-8 bg-brand-dark w-14 h-14 rounded-full flex items-center justify-center text-white shadow-lg shadow-brand-dark/40 hover:scale-105 transition-transform">
+                <i data-lucide="shopping-basket" class="w-6 h-6"></i>
+                <div id="nav-cart-badge" class="absolute top-0 right-0 w-5 h-5 bg-red-500 rounded-full text-[10px] font-bold flex items-center justify-center border-2 border-brand-bg hidden">0</div>
+            </button>
 
-    <div id="toast" class="fixed top-6 left-1/2 transform -translate-x-1/2 bg-brand-dark text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-3 transition-all duration-300 opacity-0 translate-y-[-20px] pointer-events-none z-[100]">
-        <i data-lucide="check-circle" class="w-5 h-5 text-green-400"></i>
-        <span class="text-sm font-medium">Ditambahkan ke keranjang!</span>
+            <button onclick="navigateTo('profile')" class="nav-btn flex flex-col items-center gap-1 w-12 group" data-target="profile">
+                <i data-lucide="user-circle" class="w-6 h-6 text-gray-400 group-[.active]:text-brand-leaf transition-colors"></i>
+                <span class="text-[10px] font-medium text-gray-400 group-[.active]:text-brand-leaf">Profil</span>
+            </button>
+        </nav>
+
+        <div id="toast" class="fixed top-8 left-1/2 transform -translate-x-1/2 bg-gray-900/90 backdrop-blur text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-3 transition-all duration-300 opacity-0 translate-y-[-20px] pointer-events-none z-[100] w-max">
+            <i data-lucide="check-circle" class="w-5 h-5 text-green-400"></i>
+            <span class="text-sm font-medium">Berhasil ditambahkan!</span>
+        </div>
+
+        <div id="modal-success" class="fixed inset-0 z-[60] hidden">
+            <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity"></div>
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-[400px] bg-white rounded-[32px] p-8 text-center shadow-2xl animate-bounce-slight">
+                <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 text-green-600">
+                    <i data-lucide="check" class="w-10 h-10"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-brand-dark mb-2">Pesanan Diterima!</h3>
+                <p class="text-gray-500 text-sm mb-6">Terima kasih telah berbelanja di Mandiangin Timur Hub. Petani kami akan segera menyiapkan pesanan Anda.</p>
+                <button onclick="closeModal()" class="w-full bg-brand-dark text-white py-3 rounded-xl font-bold hover:bg-brand-leaf">Kembali ke Beranda</button>
+            </div>
+        </div>
+
     </div>
 
     <script>
-        // Initialize Icons
-        lucide.createIcons();
+        // --- DATA ---
+        const products = [
+            { id: 1, name: "Jamur Tiram Segar", price: 15000, category: "jamur", unit: "1 kg", image: "https://images.unsplash.com/photo-1595304193557-0b16fc8c4600?auto=format&fit=crop&w=300&q=80", rating: 4.8 },
+            { id: 2, name: "Kopi Robusta Asli", price: 35000, category: "kopi", unit: "250 gr", image: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=300&q=80", rating: 5.0 },
+            { id: 3, name: "Bibit Cabai Rawit", price: 5000, category: "bibit", unit: "1 polybag", image: "https://images.unsplash.com/photo-1601648764658-ad77728f46eb?auto=format&fit=crop&w=300&q=80", rating: 4.5 },
+            { id: 4, name: "Keripik Singkong", price: 12000, category: "olahan", unit: "200 gr", image: "https://images.unsplash.com/photo-1566478919030-26176a21f19d?auto=format&fit=crop&w=300&q=80", rating: 4.7 },
+            { id: 5, name: "Madu Hutan Asli", price: 75000, category: "olahan", unit: "250 ml", image: "https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=300&q=80", rating: 4.9 },
+            { id: 6, name: "Bibit Durian", price: 45000, category: "bibit", unit: "1 batang", image: "https://images.unsplash.com/photo-1591143890223-b1d5c568770d?auto=format&fit=crop&w=300&q=80", rating: 4.6 },
+        ];
 
-        // Simple Add to Cart Interaction
-        function addToCart() {
+        const teamMembers = [
+            { name: "Mutmainnah", nim: "2510517120013", major: "Proteksi Tanaman" },
+            { name: "Very Apta Santana", nim: "2310514110007", major: "Agribisnis" },
+            { name: "Nadia Hazmi", nim: "2510517120012", major: "Proteksi Tanaman" },
+            { name: "Nur Hidayatullah", nim: "2410514210029", major: "Agribisnis" },
+            { name: "Asyifa Rahmah", nim: "2410514320011", major: "Agribisnis" },
+            { name: "Juwita Maharani", nim: "2410514320005", major: "Agribisnis" },
+            { name: "Ahmad Nafis Al Adieb", nim: "2510516110007", major: "TIP", special: true },
+            { name: "Naela Afkhariya", nim: "2510512220003", major: "Agroekoteknologi" },
+            { name: "Marsya Aulia Khusnul K.", nim: "2510512120001", major: "Agroekoteknologi" },
+            { name: "Maulana Baskara", nim: "2410516110014", major: "TIP" },
+            { name: "Muhammad Fariz Wildan", nim: "2410513310006", major: "Iltan" },
+            { name: "Muhamad Fathan Maulana", nim: "2510516310011", major: "TIP" },
+            { name: "Hayyan Luqman El Hakim", nim: "2310513210024", major: "Iltan" },
+            { name: "Muiza Azahra Setyakhsa", nim: "2510511220006", major: "Agronomi" },
+            { name: "Catur Indah Apriani", nim: "2510516220029", major: "TIP" },
+        ];
+
+        // --- STATE MANAGEMENT ---
+        let cart = [];
+        let currentCategory = 'all';
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            renderHeader('home');
+            renderProducts();
+            renderTeam();
+        });
+
+        // --- ROUTING SYSTEM ---
+        function navigateTo(pageId) {
+            // 1. Hide all pages
+            document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
+            
+            // 2. Show target page
+            const target = document.getElementById(`view-${pageId}`);
+            if (target) {
+                target.classList.add('active');
+                // Scroll to top
+                document.getElementById('app-content').scrollTo(0, 0);
+            }
+
+            // 3. Update Bottom Nav UI
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if (btn.dataset.target === pageId) {
+                    btn.classList.add('active');
+                    btn.querySelector('i').classList.remove('text-gray-400');
+                    btn.querySelector('i').classList.add('text-brand-leaf');
+                    btn.querySelector('span').classList.remove('text-gray-400');
+                    btn.querySelector('span').classList.add('text-brand-leaf');
+                } else {
+                    btn.classList.remove('active');
+                    btn.querySelector('i').classList.add('text-gray-400');
+                    btn.querySelector('i').classList.remove('text-brand-leaf');
+                    btn.querySelector('span').classList.add('text-gray-400');
+                    btn.querySelector('span').classList.remove('text-brand-leaf');
+                }
+            });
+
+            // 4. Update Header Logic
+            renderHeader(pageId);
+        }
+
+        // --- HEADER RENDERER ---
+        function renderHeader(pageId) {
+            const header = document.getElementById('main-header');
+            
+            if (pageId === 'home') {
+                header.className = 'fixed top-0 w-full max-w-[480px] z-40 glass px-6 pt-12 pb-4 transition-all duration-300';
+                header.innerHTML = `
+                    <div class="flex justify-between items-center mb-4">
+                        <div>
+                            <p class="text-xs font-semibold text-brand-leaf uppercase tracking-wider mb-0.5">Lokasi</p>
+                            <div class="flex items-center gap-1">
+                                <i data-lucide="map-pin" class="w-4 h-4 text-brand-dark fill-current"></i>
+                                <h1 class="text-lg font-bold text-brand-dark">Mandiangin Timur</h1>
+                            </div>
+                        </div>
+                        <div class="w-10 h-10 rounded-full bg-gray-200 overflow-hidden border-2 border-white shadow-sm cursor-pointer" onclick="navigateTo('profile')">
+                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80" alt="Profile" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                    <div class="relative group">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <i data-lucide="search" class="w-5 h-5 text-gray-400"></i>
+                        </div>
+                        <input type="text" class="block w-full pl-11 pr-4 py-3.5 bg-white border-none rounded-2xl text-sm shadow-sm focus:ring-2 focus:ring-brand-leaf/20 focus:outline-none transition-all placeholder-gray-400 font-medium" placeholder="Cari hasil panen...">
+                    </div>
+                `;
+            } else if (pageId === 'profile' || pageId === 'harvest') {
+                 // Minimal Header for secondary pages
+                 header.className = 'fixed top-0 w-full max-w-[480px] z-40 bg-transparent px-6 pt-6 pb-2 pointer-events-none';
+                 header.innerHTML = ''; // Clear header content for cleaner look
+            } else {
+                // Default Header
+                header.className = 'fixed top-0 w-full max-w-[480px] z-40 glass px-6 pt-12 pb-4';
+                header.innerHTML = `
+                    <div class="flex items-center justify-center relative">
+                        <h1 class="text-lg font-bold text-brand-dark capitalize">${pageId}</h1>
+                    </div>
+                `;
+            }
+            lucide.createIcons();
+        }
+
+        // --- PRODUCT LOGIC ---
+        function renderProducts() {
+            const container = document.getElementById('product-grid');
+            container.innerHTML = '';
+            
+            const filtered = currentCategory === 'all' 
+                ? products 
+                : products.filter(p => p.category === currentCategory);
+
+            filtered.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'bg-white p-3 rounded-[24px] shadow-ios border border-gray-50 flex flex-col hover:shadow-float transition-shadow duration-300';
+                card.innerHTML = `
+                    <div class="relative w-full aspect-square rounded-2xl overflow-hidden mb-3 bg-gray-100">
+                        <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover">
+                        <div class="absolute top-2 right-2 bg-white/90 backdrop-blur px-2 py-1 rounded-lg flex items-center gap-1 shadow-sm">
+                            <i data-lucide="star" class="w-3 h-3 text-yellow-400 fill-current"></i>
+                            <span class="text-[10px] font-bold">${p.rating}</span>
+                        </div>
+                    </div>
+                    <h4 class="font-bold text-brand-dark text-sm truncate">${p.name}</h4>
+                    <p class="text-gray-400 text-xs mb-3">${p.unit}</p>
+                    <div class="mt-auto flex justify-between items-center">
+                        <span class="font-bold text-brand-leaf text-sm">Rp ${p.price/1000}rb</span>
+                        <button class="w-8 h-8 rounded-full bg-brand-dark flex items-center justify-center text-white shadow-lg hover:bg-brand-leaf transition-colors active:scale-90" onclick="addToCart(${p.id})">
+                            <i data-lucide="plus" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+            lucide.createIcons();
+        }
+
+        function filterCategory(cat) {
+            currentCategory = cat;
+            renderProducts();
+        }
+
+        // --- CART LOGIC ---
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+
+            if (existingItem) {
+                existingItem.qty++;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+
+            updateCartUI();
+            showToast();
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartUI();
+        }
+
+        function changeQty(productId, delta) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                item.qty += delta;
+                if (item.qty <= 0) removeFromCart(productId);
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            // Update Badge
+            const totalQty = cart.reduce((acc, item) => acc + item.qty, 0);
+            const badge = document.getElementById('nav-cart-badge');
+            if (totalQty > 0) {
+                badge.classList.remove('hidden');
+                badge.innerText = totalQty;
+            } else {
+                badge.classList.add('hidden');
+            }
+
+            // Render Cart Page Items
+            const container = document.getElementById('cart-items-container');
+            const summaryBox = document.getElementById('cart-summary');
+            
+            if (cart.length === 0) {
+                container.innerHTML = `
+                     <div class="flex flex-col items-center justify-center h-48 text-gray-400">
+                        <i data-lucide="shopping-basket" class="w-12 h-12 mb-2 opacity-50"></i>
+                        <p class="text-sm">Keranjang masih kosong</p>
+                        <button onclick="navigateTo('home')" class="mt-4 text-brand-leaf text-sm font-bold">Mulai Belanja</button>
+                    </div>
+                `;
+                summaryBox.classList.add('hidden');
+            } else {
+                container.innerHTML = '';
+                let subtotal = 0;
+
+                cart.forEach(item => {
+                    subtotal += item.price * item.qty;
+                    const el = document.createElement('div');
+                    el.className = 'flex gap-4 bg-white p-4 rounded-2xl shadow-sm border border-gray-50';
+                    el.innerHTML = `
+                        <div class="w-20 h-20 rounded-xl bg-gray-100 overflow-hidden shrink-0">
+                            <img src="${item.image}" class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex-1 flex flex-col justify-between">
+                            <div>
+                                <h4 class="font-bold text-gray-800 text-sm">${item.name}</h4>
+                                <p class="text-xs text-brand-leaf font-medium">Rp ${item.price.toLocaleString('id-ID')}</p>
+                            </div>
+                            <div class="flex items-center justify-between mt-2">
+                                <div class="flex items-center bg-gray-50 rounded-lg p-1">
+                                    <button onclick="changeQty(${item.id}, -1)" class="w-6 h-6 flex items-center justify-center bg-white rounded shadow-sm text-xs font-bold text-gray-600">-</button>
+                                    <span class="w-8 text-center text-xs font-bold text-gray-800">${item.qty}</span>
+                                    <button onclick="changeQty(${item.id}, 1)" class="w-6 h-6 flex items-center justify-center bg-white rounded shadow-sm text-xs font-bold text-gray-600">+</button>
+                                </div>
+                                <button onclick="removeFromCart(${item.id})" class="text-red-400 hover:text-red-600"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(el);
+                });
+
+                // Update Summary
+                summaryBox.classList.remove('hidden');
+                document.getElementById('summary-subtotal').innerText = 'Rp ' + subtotal.toLocaleString('id-ID');
+                document.getElementById('summary-total').innerText = 'Rp ' + (subtotal + 1000).toLocaleString('id-ID');
+                document.getElementById('checkout-total').innerText = 'Rp ' + (subtotal + 1000).toLocaleString('id-ID');
+            }
+            lucide.createIcons();
+        }
+
+        // --- CHECKOUT LOGIC ---
+        function handleCheckout(e) {
+            e.preventDefault();
+            
+            // Simulation of API Call
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            
+            btn.innerHTML = '<div class="loader"></div>';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                
+                // Show Success Modal
+                document.getElementById('modal-success').classList.remove('hidden');
+                
+                // Clear Cart
+                cart = [];
+                updateCartUI();
+            }, 1500);
+        }
+
+        function closeModal() {
+            document.getElementById('modal-success').classList.add('hidden');
+            navigateTo('home');
+        }
+
+        // --- TEAM RENDERER ---
+        function renderTeam() {
+            const container = document.getElementById('team-list-container');
+            teamMembers.forEach(member => {
+                const el = document.createElement('div');
+                el.className = 'flex justify-between items-center text-xs border-b border-gray-50 pb-2 last:border-0';
+                
+                // Highlight Styling for Ahmad Nafis (optional based on user data context)
+                const nameClass = member.special ? "font-bold text-brand-dark" : "font-semibold text-gray-800";
+                const badgeClass = member.special ? "bg-brand-dark text-white font-bold" : "bg-gray-100 text-gray-600 font-medium";
+
+                el.innerHTML = `
+                    <div>
+                        <p class="${nameClass}">${member.name}</p>
+                        <p class="text-gray-400 text-[10px]">${member.nim}</p>
+                    </div>
+                    <span class="${badgeClass} px-2 py-1 rounded-lg text-[10px]">${member.major}</span>
+                `;
+                container.appendChild(el);
+            });
+        }
+
+        // --- UTILS ---
+        function showToast() {
             const toast = document.getElementById('toast');
-            
-            // Show toast
             toast.classList.remove('opacity-0', 'translate-y-[-20px]');
-            
-            // Hide after 2 seconds
             setTimeout(() => {
                 toast.classList.add('opacity-0', 'translate-y-[-20px]');
             }, 2000);
