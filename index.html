@@ -1,734 +1,651 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mandiangin Timur Hub</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <script src="https://unpkg.com/lucide@latest"></script>
+import React, { useState, useEffect, useRef } from 'react';
+import { 
+  Ship, Droplets, Fish, AlertTriangle, BookOpen, Building2, 
+  Home, Scale, TrendingUp, Globe, Clock, CheckCircle, 
+  Settings, TestTube, Microscope, ArrowRight, X, Play,
+  Cpu, FileText, Zap, Award
+} from 'lucide-react';
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            dark: '#1B4332',  /* Hijau Botol Gelap */
-                            leaf: '#2D6A4F',  /* Hijau Daun Utama */
-                            soft: '#40916C',  /* Hijau Lembut */
-                            sage: '#D8F3DC',  /* Background Hijau Pudar */
-                            bg: '#F2F2F7',    /* iOS System Gray */
-                            surface: '#FFFFFF',
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
-                    },
-                    boxShadow: {
-                        'ios': '0 8px 30px rgba(0,0,0,0.04)',
-                        'float': '0 20px 40px rgba(27, 67, 50, 0.15)',
-                        'card': '0 4px 12px rgba(0,0,0,0.05)',
-                    },
-                    animation: {
-                        'slide-up': 'slideUp 0.4s cubic-bezier(0.2, 0.8, 0.2, 1)',
-                        'fade-in': 'fadeIn 0.3s ease-out',
-                        'bounce-slight': 'bounceSlight 0.3s ease-in-out',
-                    },
-                    keyframes: {
-                        slideUp: {
-                            '0%': { transform: 'translateY(20px)', opacity: '0' },
-                            '100%': { transform: 'translateY(0)', opacity: '1' },
-                        },
-                        fadeIn: {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' },
-                        },
-                        bounceSlight: {
-                            '0%, 100%': { transform: 'scale(1)' },
-                            '50%': { transform: 'scale(0.95)' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+// --- CUSTOM CSS & ANIMATIONS ---
+const customStyles = `
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap');
 
-    <style>
-        /* Global Reset & Utility */
-        body { 
-            background-color: #e0e0e0; 
-            font-family: 'Inter', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-        
-        /* Hide Scrollbar but allow scrolling */
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        /* Glassmorphism Classes */
-        .glass {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-        }
-        
-        /* Page Transition Handling */
-        .page-section {
-            display: none;
-            animation: fadeIn 0.3s ease-out;
-            padding-bottom: 120px; /* Space for bottom nav */
-        }
-        .page-section.active {
-            display: block;
-        }
+  :root {
+    --ocean-blue: #0077be;
+    --eco-green: #2ecc71;
+    --shrimp-pink: #ff7f50;
+    --corp-gold: #f1c40f;
+    --dark-bg: #0a0a0a;
+  }
 
-        /* Loading Spinner */
-        .loader {
-            width: 16px;
-            height: 16px;
-            border: 2px solid #ffffff;
-            border-bottom-color: transparent;
-            border-radius: 50%;
-            display: inline-block;
-            box-sizing: border-box;
-            animation: rotation 1s linear infinite;
-        }
-        @keyframes rotation {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
-</head>
-<body class="flex justify-center min-h-screen text-gray-800">
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--dark-bg);
+    color: white;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+  }
 
-    <div class="w-full max-w-[480px] bg-brand-bg min-h-screen relative shadow-2xl overflow-hidden flex flex-col">
-        
-        <header id="main-header" class="fixed top-0 w-full max-w-[480px] z-40 transition-all duration-300">
-            </header>
-        <div class="h-24"></div> <main id="app-content" class="flex-1 overflow-y-auto no-scrollbar px-6">
-            
-            <div id="view-home" class="page-section active space-y-8">
-                <div class="relative w-full h-56 rounded-[32px] bg-brand-dark overflow-hidden shadow-float group cursor-pointer" onclick="navigateTo('harvest')">
-                    <img src="https://images.unsplash.com/photo-1595855799307-2856f4d2b2d7?q=80&w=800&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700">
-                    <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent"></div>
-                    
-                    <div class="relative z-10 p-6 flex flex-col justify-between h-full text-white">
-                        <div class="flex justify-between items-start">
-                            <div class="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full border border-white/20">
-                                <p class="text-[10px] font-bold tracking-wider uppercase">Info Tani</p>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <i data-lucide="cloud-sun" class="w-5 h-5 text-yellow-300"></i>
-                                <span class="text-sm font-medium">28°C</span>
-                            </div>
-                        </div>
-                        <div>
-                            <p class="text-brand-sage text-sm mb-1">Panen Raya Minggu Ini</p>
-                            <h2 class="text-3xl font-bold leading-tight">Jamur Tiram & <br>Kopi Robusta</h2>
-                            <div class="mt-3 flex items-center gap-2 text-xs text-gray-300">
-                                <span>Lihat Jadwal Lengkap</span>
-                                <i data-lucide="arrow-right" class="w-3 h-3"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  /* Cinematic Lighting & Effects */
+  .cinematic-lighting {
+    background: radial-gradient(circle at 50% 50%, rgba(0, 119, 190, 0.2) 0%, rgba(10, 10, 10, 1) 100%);
+  }
+  
+  .sunset-lighting {
+    background: linear-gradient(to bottom, #ff7f50 0%, #8e44ad 50%, #0a0a0a 100%);
+  }
 
-                <div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-4">Kategori</h3>
-                    <div class="flex gap-4 overflow-x-auto no-scrollbar pb-2 -mx-2 px-2">
-                        <button onclick="filterCategory('all')" class="flex flex-col items-center gap-2 min-w-[72px]">
-                            <div class="w-16 h-16 rounded-2xl bg-brand-dark text-white shadow-lg flex items-center justify-center">
-                                <i data-lucide="layout-grid" class="w-7 h-7"></i>
-                            </div>
-                            <span class="text-xs font-medium text-gray-800">Semua</span>
-                        </button>
-                        <button onclick="filterCategory('jamur')" class="flex flex-col items-center gap-2 min-w-[72px] group">
-                            <div class="w-16 h-16 rounded-2xl bg-white shadow-sm flex items-center justify-center border border-gray-100 group-active:scale-95 transition-transform">
-                                <i data-lucide="sprout" class="w-7 h-7 text-brand-leaf"></i>
-                            </div>
-                            <span class="text-xs font-medium text-gray-600">Jamur</span>
-                        </button>
-                        <button onclick="filterCategory('kopi')" class="flex flex-col items-center gap-2 min-w-[72px] group">
-                            <div class="w-16 h-16 rounded-2xl bg-white shadow-sm flex items-center justify-center border border-gray-100 group-active:scale-95 transition-transform">
-                                <i data-lucide="coffee" class="w-7 h-7 text-[#8D6E63]"></i>
-                            </div>
-                            <span class="text-xs font-medium text-gray-600">Kopi</span>
-                        </button>
-                        <button onclick="filterCategory('bibit')" class="flex flex-col items-center gap-2 min-w-[72px] group">
-                            <div class="w-16 h-16 rounded-2xl bg-white shadow-sm flex items-center justify-center border border-gray-100 group-active:scale-95 transition-transform">
-                                <i data-lucide="flower-2" class="w-7 h-7 text-pink-500"></i>
-                            </div>
-                            <span class="text-xs font-medium text-gray-600">Bibit</span>
-                        </button>
-                    </div>
-                </div>
+  /* 3D Isometric View */
+  .isometric-container {
+    transform: rotateX(60deg) rotateZ(-45deg);
+    transform-style: preserve-3d;
+    transition: all 1s ease-in-out;
+  }
 
-                <div>
-                    <div class="flex justify-between items-end mb-4">
-                        <h3 class="text-lg font-bold text-gray-800">Produk Segar</h3>
-                        <span class="text-xs text-brand-leaf font-semibold">Langsung dari Petani</span>
-                    </div>
-                    <div id="product-grid" class="grid grid-cols-2 gap-4">
-                        </div>
-                </div>
-            </div>
+  .isometric-item {
+    transform: translateZ(20px);
+    transition: all 0.3s ease;
+  }
+  
+  .isometric-item:hover {
+    transform: translateZ(40px) scale(1.1);
+    box-shadow: 0 20px 30px rgba(0,0,0,0.5);
+  }
 
-            <div id="view-harvest" class="page-section pt-4">
-                <div class="bg-white p-6 rounded-[32px] shadow-ios">
-                    <h2 class="text-2xl font-bold text-brand-dark mb-2">Kalender Tani</h2>
-                    <p class="text-gray-500 text-sm mb-6">Jadwal panen komoditas unggulan desa Mandiangin Timur bulan ini.</p>
-                    
-                    <div class="space-y-8 border-l-2 border-brand-sage ml-3 pl-6 relative">
-                        <div class="relative">
-                            <div class="absolute -left-[31px] bg-brand-leaf w-4 h-4 rounded-full border-4 border-white shadow-sm"></div>
-                            <span class="text-xs font-bold text-brand-leaf bg-brand-sage px-2 py-1 rounded-md">Hari Ini</span>
-                            <h4 class="text-lg font-bold text-gray-800 mt-1">Panen Raya Jamur Tiram</h4>
-                            <p class="text-sm text-gray-500 mb-2">Lokasi: Kumbung Kelompok Tani Maju</p>
-                            <button onclick="addToCart(1)" class="text-xs bg-brand-dark text-white px-3 py-1.5 rounded-lg shadow-sm hover:bg-brand-leaf">Pesan Stok Baru</button>
-                        </div>
-                        <div class="relative">
-                            <div class="absolute -left-[31px] bg-gray-300 w-4 h-4 rounded-full border-4 border-white"></div>
-                            <span class="text-xs font-bold text-gray-500">2 Februari 2026</span>
-                            <h4 class="text-lg font-bold text-gray-800 mt-1">Panen Kopi Robusta</h4>
-                            <p class="text-sm text-gray-500">Lokasi: Bukit Mandiangin</p>
-                        </div>
-                         <div class="relative">
-                            <div class="absolute -left-[31px] bg-gray-300 w-4 h-4 rounded-full border-4 border-white"></div>
-                            <span class="text-xs font-bold text-gray-500">10 Februari 2026</span>
-                            <h4 class="text-lg font-bold text-gray-800 mt-1">Panen Cabe Rawit</h4>
-                            <p class="text-sm text-gray-500">Lokasi: Kebun Warga RT 02</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  /* Animations */
+  @keyframes waveSweep {
+    0% { transform: translateX(-100%); opacity: 0; }
+    50% { transform: translateX(0); opacity: 1; }
+    100% { transform: translateX(100%); opacity: 0; }
+  }
+  .animate-wave { animation: waveSweep 3s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
 
-            <div id="view-profile" class="page-section pt-0 -mt-6 -mx-6">
-                <div class="relative h-72 w-full bg-brand-dark">
-                    <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover opacity-80">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                    <div class="absolute bottom-0 left-0 p-8 text-white w-full">
-                        <h1 class="text-3xl font-bold mb-1">Mandiangin Timur</h1>
-                        <p class="text-gray-200 text-sm flex items-center gap-1"><i data-lucide="map-pin" class="w-3 h-3"></i> Kec. Karang Intan, Kab. Banjar</p>
-                    </div>
-                </div>
-                
-                <div class="px-6 py-8 bg-brand-bg rounded-t-[32px] -mt-8 relative z-10 space-y-6">
-                    <div class="flex justify-between bg-white p-6 rounded-3xl shadow-card">
-                        <div class="text-center">
-                            <p class="text-xl font-bold text-brand-dark">500+</p>
-                            <p class="text-[9px] text-gray-400 uppercase tracking-wide">KK</p>
-                        </div>
-                        <div class="w-px bg-gray-100"></div>
-                        <div class="text-center">
-                            <p class="text-xl font-bold text-brand-dark">12</p>
-                            <p class="text-[9px] text-gray-400 uppercase tracking-wide">Poktan</p>
-                        </div>
-                        <div class="w-px bg-gray-100"></div>
-                        <div class="text-center">
-                            <p class="text-xl font-bold text-brand-dark">Tahura</p>
-                            <p class="text-[9px] text-gray-400 uppercase tracking-wide">Wisata</p>
-                        </div>
-                    </div>
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(2deg); }
+  }
+  .animate-float { animation: float 4s ease-in-out infinite; }
 
-                    <div class="space-y-2 text-sm text-gray-600 leading-relaxed">
-                        <p>Desa Mandiangin Timur adalah desa agrowisata yang terletak di kaki pegunungan. Terkenal dengan potensi wisata alam <strong>Tahura Sultan Adam</strong> dan hasil bumi berkualitas tinggi seperti jamur, kopi, dan karet.</p>
-                    </div>
+  @keyframes hologramSpin {
+    0% { transform: rotateY(0deg); filter: drop-shadow(0 0 10px var(--ocean-blue)); }
+    100% { transform: rotateY(360deg); filter: drop-shadow(0 0 30px var(--eco-green)); }
+  }
+  .animate-hologram {
+    animation: hologramSpin 5s linear infinite;
+    transform-style: preserve-3d;
+  }
 
-                    <div class="bg-white rounded-[24px] p-6 shadow-ios border border-gray-50">
-                        <div class="flex items-center gap-3 mb-4">
-                            <div class="bg-brand-leaf/10 p-2 rounded-xl">
-                                <i data-lucide="code-2" class="w-5 h-5 text-brand-leaf"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-sm font-bold text-brand-dark">Tim Pengembang</h3>
-                                <p class="text-[10px] text-gray-500">PPKO IAAS LC ULM 2026</p>
-                            </div>
-                        </div>
-                        
-                        <div class="h-64 overflow-y-auto pr-2 space-y-3 custom-scroll" id="team-list-container">
-                            </div>
-                        
-                        <div class="mt-4 pt-4 border-t border-gray-100 text-center">
-                            <p class="text-[10px] text-gray-400">© 2026 Mandiangin Timur Hub. <br>Built with ❤️ for Banjar.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  @keyframes waterPollution {
+    0% { background-color: rgba(0, 119, 190, 0.6); }
+    100% { background-color: rgba(46, 139, 87, 0.8); }
+  }
+  .animate-pollute { animation: waterPollution 3s forwards; }
 
-            <div id="view-cart" class="page-section space-y-6 pt-4">
-                <h2 class="text-2xl font-bold text-brand-dark px-1">Keranjang Saya</h2>
-                
-                <div id="cart-items-container" class="space-y-4 min-h-[200px]">
-                    </div>
+  @keyframes shrimpJump {
+    0% { transform: translateY(0) scale(1) rotate(0); }
+    50% { transform: translateY(-150px) scale(1.5) rotate(180deg); }
+    100% { transform: translateY(0) scale(1) rotate(360deg); }
+  }
+  .animate-shrimp { animation: shrimpJump 2s ease-in-out; }
 
-                <div id="cart-summary" class="hidden bg-white p-6 rounded-[24px] shadow-ios">
-                    <div class="flex justify-between mb-2 text-sm text-gray-600">
-                        <span>Subtotal</span>
-                        <span id="summary-subtotal">Rp 0</span>
-                    </div>
-                    <div class="flex justify-between mb-4 text-sm text-gray-600">
-                        <span>Biaya Layanan</span>
-                        <span>Rp 1.000</span>
-                    </div>
-                    <div class="h-px bg-gray-100 my-4"></div>
-                    <div class="flex justify-between mb-6 text-lg font-bold text-brand-dark">
-                        <span>Total</span>
-                        <span id="summary-total">Rp 0</span>
-                    </div>
-                    <button onclick="navigateTo('checkout')" class="w-full bg-brand-dark text-white py-4 rounded-xl font-bold shadow-lg shadow-brand-dark/30 hover:scale-[1.02] transition-transform flex justify-center items-center gap-2">
-                        <span>Lanjut ke Pembayaran</span>
-                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                    </button>
-                </div>
-            </div>
+  @keyframes verticalWipe {
+    0% { clip-path: polygon(50% 0, 50% 0, 50% 100%, 50% 100%); }
+    100% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+  }
+  .animate-wipe { animation: verticalWipe 1.5s ease-out forwards; }
 
-            <div id="view-checkout" class="page-section space-y-6 pt-4">
-                <div class="flex items-center gap-2 mb-4">
-                    <button onclick="navigateTo('cart')" class="p-2 bg-white rounded-full shadow-sm hover:bg-gray-50"><i data-lucide="arrow-left" class="w-4 h-4 text-gray-600"></i></button>
-                    <h2 class="text-xl font-bold text-brand-dark">Pengiriman</h2>
-                </div>
+  @keyframes pulseGlow {
+    0%, 100% { text-shadow: 0 0 10px var(--eco-green), 0 0 20px var(--eco-green); }
+    50% { text-shadow: 0 0 30px var(--eco-green), 0 0 50px var(--corp-gold); }
+  }
+  .text-glow { animation: pulseGlow 2s infinite; }
 
-                <form id="checkout-form" onsubmit="handleCheckout(event)" class="space-y-6">
-                    <div class="bg-white p-5 rounded-[24px] shadow-sm space-y-4">
-                        <div class="flex items-center gap-2 text-brand-dark mb-2">
-                            <i data-lucide="map-pin" class="w-5 h-5"></i>
-                            <h3 class="font-bold">Alamat Pengiriman</h3>
-                        </div>
-                        <div class="space-y-3">
-                            <div>
-                                <label class="block text-xs font-semibold text-gray-500 mb-1">Nama Penerima</label>
-                                <input type="text" id="input-name" required placeholder="Contoh: Ahmad Nafis" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-leaf focus:ring-1 focus:ring-brand-leaf transition-all">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-gray-500 mb-1">Nomor WhatsApp</label>
-                                <input type="tel" id="input-wa" required placeholder="08xx-xxxx-xxxx" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-leaf focus:ring-1 focus:ring-brand-leaf transition-all">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-gray-500 mb-1">Alamat Lengkap</label>
-                                <textarea id="input-address" required rows="3" placeholder="Jalan, RT/RW, Patokan rumah..." class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-leaf focus:ring-1 focus:ring-brand-leaf transition-all"></textarea>
-                            </div>
-                        </div>
-                    </div>
+  /* 3D Box for PDCA */
+  .scene3d { width: 200px; height: 200px; perspective: 600px; }
+  .cube {
+    width: 100%; height: 100%; position: relative;
+    transform-style: preserve-3d;
+    transform: translateZ(-100px);
+    transition: transform 1s;
+    animation: rotateCube 15s infinite linear;
+  }
+  .cube__face {
+    position: absolute; width: 200px; height: 200px;
+    display: flex; justify-content: center; align-items: center;
+    font-size: 24px; font-weight: bold; color: white;
+    border: 2px solid rgba(255,255,255,0.2);
+    background: rgba(0, 119, 190, 0.8);
+    backdrop-filter: blur(5px);
+  }
+  .cube__face--front  { transform: rotateY(  0deg) translateZ(100px); }
+  .cube__face--right  { transform: rotateY( 90deg) translateZ(100px); }
+  .cube__face--back   { transform: rotateY(180deg) translateZ(100px); }
+  .cube__face--left   { transform: rotateY(-90deg) translateZ(100px); }
+  .cube__face--top    { transform: rotateX( 90deg) translateZ(100px); }
+  .cube__face--bottom { transform: rotateX(-90deg) translateZ(100px); }
 
-                    <div class="bg-white p-5 rounded-[24px] shadow-sm space-y-4">
-                        <div class="flex items-center gap-2 text-brand-dark mb-2">
-                            <i data-lucide="credit-card" class="w-5 h-5"></i>
-                            <h3 class="font-bold">Metode Pembayaran</h3>
-                        </div>
-                        <div class="grid grid-cols-2 gap-3">
-                            <label class="cursor-pointer">
-                                <input type="radio" name="payment" value="cod" class="peer hidden" checked>
-                                <div class="p-4 border border-gray-200 rounded-xl peer-checked:border-brand-leaf peer-checked:bg-brand-sage/30 transition-all text-center h-full flex flex-col justify-center items-center">
-                                    <i data-lucide="banknote" class="w-6 h-6 mb-2 text-gray-400 peer-checked:text-brand-dark"></i>
-                                    <span class="text-xs font-bold text-gray-600 peer-checked:text-brand-dark">COD (Bayar di Tempat)</span>
-                                </div>
-                            </label>
-                            <label class="cursor-pointer">
-                                <input type="radio" name="payment" value="qris" class="peer hidden">
-                                <div class="p-4 border border-gray-200 rounded-xl peer-checked:border-brand-leaf peer-checked:bg-brand-sage/30 transition-all text-center h-full flex flex-col justify-center items-center">
-                                    <i data-lucide="qr-code" class="w-6 h-6 mb-2 text-gray-400 peer-checked:text-brand-dark"></i>
-                                    <span class="text-xs font-bold text-gray-600 peer-checked:text-brand-dark">QRIS / Transfer</span>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
+  @keyframes rotateCube {
+    0% { transform: translateZ(-100px) rotateX(0deg) rotateY(0deg); }
+    100% { transform: translateZ(-100px) rotateX(360deg) rotateY(360deg); }
+  }
 
-                    <div class="bg-brand-dark text-white p-6 rounded-[24px] shadow-lg">
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="text-sm opacity-80">Total Pembayaran</span>
-                            <span id="checkout-total" class="text-2xl font-bold">Rp 0</span>
-                        </div>
-                        <button type="submit" class="w-full bg-white text-brand-dark py-4 rounded-xl font-bold hover:bg-gray-100 transition-colors flex justify-center items-center gap-2">
-                            <span>Kirim Pesanan ke WhatsApp</span>
-                            <i data-lucide="message-circle" class="w-4 h-4 fill-current"></i>
-                        </button>
-                    </div>
-                </form>
-            </div>
+  /* Kinetic Typography */
+  @keyframes kineticText {
+    0% { transform: scale(3) translateY(100px); opacity: 0; filter: blur(20px); }
+    100% { transform: scale(1) translateY(0); opacity: 1; filter: blur(0); }
+  }
+  .animate-kinetic { animation: kineticText 2s cubic-bezier(0.1, 0.8, 0.2, 1) forwards; }
 
-        </main>
+  /* Narrator Tag */
+  .narrator-tag {
+    background: rgba(0,0,0,0.7);
+    border-left: 4px solid var(--shrimp-pink);
+    backdrop-filter: blur(10px);
+  }
+`;
 
-        <nav class="absolute bottom-0 w-full bg-white/95 backdrop-blur-lg border-t border-gray-200 px-6 py-3 flex justify-between items-center z-50 rounded-t-[32px] shadow-[0_-5px_20px_rgba(0,0,0,0.05)]">
-            <button onclick="navigateTo('home')" class="nav-btn flex flex-col items-center gap-1 w-12 group active" data-target="home">
-                <i data-lucide="home" class="w-6 h-6 text-gray-400 group-[.active]:text-brand-leaf transition-colors"></i>
-                <span class="text-[10px] font-medium text-gray-400 group-[.active]:text-brand-leaf">Home</span>
-            </button>
-            <button onclick="navigateTo('harvest')" class="nav-btn flex flex-col items-center gap-1 w-12 group" data-target="harvest">
-                <i data-lucide="calendar" class="w-6 h-6 text-gray-400 group-[.active]:text-brand-leaf transition-colors"></i>
-                <span class="text-[10px] font-medium text-gray-400 group-[.active]:text-brand-leaf">Jadwal</span>
-            </button>
-            
-            <button onclick="navigateTo('cart')" class="relative -top-8 bg-brand-dark w-14 h-14 rounded-full flex items-center justify-center text-white shadow-lg shadow-brand-dark/40 hover:scale-105 transition-transform active:scale-95">
-                <i data-lucide="shopping-basket" class="w-6 h-6"></i>
-                <div id="nav-cart-badge" class="absolute top-0 right-0 w-5 h-5 bg-red-500 rounded-full text-[10px] font-bold flex items-center justify-center border-2 border-brand-bg hidden">0</div>
-            </button>
-
-            <button onclick="navigateTo('profile')" class="nav-btn flex flex-col items-center gap-1 w-12 group" data-target="profile">
-                <i data-lucide="user-circle" class="w-6 h-6 text-gray-400 group-[.active]:text-brand-leaf transition-colors"></i>
-                <span class="text-[10px] font-medium text-gray-400 group-[.active]:text-brand-leaf">Profil</span>
-            </button>
-        </nav>
-
-        <div id="toast" class="fixed top-8 left-1/2 transform -translate-x-1/2 bg-gray-900/90 backdrop-blur text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-3 transition-all duration-300 opacity-0 translate-y-[-20px] pointer-events-none z-[100] w-max">
-            <i data-lucide="check-circle" class="w-5 h-5 text-green-400"></i>
-            <span class="text-sm font-medium">Masuk keranjang!</span>
+// --- UI COMPONENTS ---
+const Modal = ({ isOpen, onClose, title, children, color }) => {
+  if (!isOpen) return null;
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm transition-all duration-300">
+      <div 
+        className="relative w-full max-w-lg p-8 rounded-2xl shadow-2xl transform scale-100 animate-wipe"
+        style={{ background: `linear-gradient(135deg, #111 0%, ${color}40 100%)`, border: `1px solid ${color}` }}
+      >
+        <button onClick={onClose} className="absolute top-4 right-4 text-white/70 hover:text-white">
+          <X size={24} />
+        </button>
+        <h3 className="text-2xl font-bold mb-4" style={{ color: color }}>{title}</h3>
+        <div className="text-gray-300 leading-relaxed">
+          {children}
         </div>
-
-        <div id="modal-success" class="fixed inset-0 z-[60] hidden flex items-center justify-center">
-            <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity"></div>
-            <div class="relative w-[90%] max-w-[400px] bg-white rounded-[32px] p-8 text-center shadow-2xl animate-bounce-slight">
-                <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 text-green-600">
-                    <i data-lucide="message-circle" class="w-10 h-10"></i>
-                </div>
-                <h3 class="text-2xl font-bold text-brand-dark mb-2">WhatsApp Terbuka!</h3>
-                <p class="text-gray-500 text-sm mb-6">Silakan kirim pesan yang sudah terisi otomatis di WhatsApp untuk menyelesaikan pesanan Anda.</p>
-                <button onclick="closeModal()" class="w-full bg-brand-dark text-white py-3 rounded-xl font-bold hover:bg-brand-leaf transition-colors">Kembali ke Beranda</button>
-            </div>
-        </div>
-
+      </div>
     </div>
+  );
+};
 
-    <script>
-        // --- 1. DATA MASTER ---
-        const products = [
-            { id: 1, name: "Jamur Tiram Segar", price: 15000, category: "jamur", unit: "1 kg", image: "https://images.unsplash.com/photo-1595304193557-0b16fc8c4600?auto=format&fit=crop&w=300&q=80", rating: 4.8 },
-            { id: 2, name: "Kopi Robusta Asli", price: 35000, category: "kopi", unit: "250 gr", image: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=300&q=80", rating: 5.0 },
-            { id: 3, name: "Bibit Cabai Rawit", price: 5000, category: "bibit", unit: "1 polybag", image: "https://images.unsplash.com/photo-1601648764658-ad77728f46eb?auto=format&fit=crop&w=300&q=80", rating: 4.5 },
-            { id: 4, name: "Keripik Singkong", price: 12000, category: "olahan", unit: "200 gr", image: "https://images.unsplash.com/photo-1566478919030-26176a21f19d?auto=format&fit=crop&w=300&q=80", rating: 4.7 },
-            { id: 5, name: "Madu Hutan", price: 75000, category: "olahan", unit: "250 ml", image: "https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=300&q=80", rating: 4.9 },
-            { id: 6, name: "Bibit Durian", price: 45000, category: "bibit", unit: "1 batang", image: "https://images.unsplash.com/photo-1591143890223-b1d5c568770d?auto=format&fit=crop&w=300&q=80", rating: 4.6 },
-        ];
+const Narrator = ({ name, role }) => (
+  <div className="absolute top-8 left-8 narrator-tag p-4 rounded-r-xl z-40 animate-float">
+    <p className="text-xs text-gray-400 uppercase tracking-wider">{role}</p>
+    <p className="text-xl font-bold text-white">{name}</p>
+  </div>
+);
 
-        const teamMembers = [
-            { name: "Mutmainnah", nim: "2510517120013", major: "Proteksi Tanaman" },
-            { name: "Very Apta Santana", nim: "2310514110007", major: "Agribisnis" },
-            { name: "Nadia Hazmi", nim: "2510517120012", major: "Proteksi Tanaman" },
-            { name: "Nur Hidayatullah", nim: "2410514210029", major: "Agribisnis" },
-            { name: "Asyifa Rahmah", nim: "2410514320011", major: "Agribisnis" },
-            { name: "Juwita Maharani", nim: "2410514320005", major: "Agribisnis" },
-            { name: "Ahmad Nafis Al Adieb", nim: "2510516110007", major: "TIP", special: true },
-            { name: "Naela Afkhariya", nim: "2510512220003", major: "Agroekoteknologi" },
-            { name: "Marsya Aulia Khusnul K.", nim: "2510512120001", major: "Agroekoteknologi" },
-            { name: "Maulana Baskara", nim: "2410516110014", major: "TIP" },
-            { name: "Muhammad Fariz Wildan", nim: "2410513310006", major: "Iltan" },
-            { name: "Muhamad Fathan Maulana", nim: "2510516310011", major: "TIP" },
-            { name: "Hayyan Luqman El Hakim", nim: "2310513210024", major: "Iltan" },
-            { name: "Muiza Azahra Setyakhsa", nim: "2510511220006", major: "Agronomi" },
-            { name: "Catur Indah Apriani", nim: "2510516220029", major: "TIP" },
-        ];
+// --- SCENES ---
 
-        // --- 2. STATE MANAGEMENT ---
-        let cart = [];
-        let currentCategory = 'all';
+// SCENE 1: Potensi & Tantangan
+const Scene1 = ({ onNext }) => {
+  const [waveDone, setWaveDone] = useState(false);
+  const [shrimpJumped, setShrimpJumped] = useState(false);
+  const [modalData, setModalData] = useState(null);
 
-        // --- 3. INIT ---
-        document.addEventListener('DOMContentLoaded', () => {
-            lucide.createIcons();
-            renderHeader('home');
-            renderProducts();
-            renderTeam();
-        });
+  useEffect(() => {
+    const timer = setTimeout(() => setWaveDone(true), 1500);
+    return () => clearTimeout(timer);
+  }, []);
 
-        // --- 4. NAVIGATION SYSTEM ---
-        function navigateTo(pageId) {
-            // Scroll to top
-            document.getElementById('app-content').scrollTo(0, 0);
+  const handleShrimpClick = () => {
+    setShrimpJumped(true);
+    setTimeout(() => setShrimpJumped(false), 2000);
+  };
 
-            // Toggle Page Visibility
-            document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
-            const target = document.getElementById(`view-${pageId}`);
-            if(target) target.classList.add('active');
+  return (
+    <div className="relative w-full h-screen cinematic-lighting flex flex-col items-center justify-center overflow-hidden">
+      <Narrator name="Nabil, Balya & Juan" role="Opening Presenters" />
+      
+      {/* Initial Wave Transition */}
+      {!waveDone && (
+        <div className="absolute inset-0 bg-[#0077be] z-50 animate-wave flex items-center justify-center">
+          <div className="w-full h-32 bg-white/20 blur-xl"></div>
+        </div>
+      )}
 
-            // Update Bottom Nav Styling
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                if (btn.dataset.target === pageId) {
-                    btn.classList.add('active');
-                    btn.querySelector('i').classList.remove('text-gray-400');
-                    btn.querySelector('i').classList.add('text-brand-leaf');
-                    btn.querySelector('span').classList.remove('text-gray-400');
-                    btn.querySelector('span').classList.add('text-brand-leaf');
-                } else {
-                    btn.classList.remove('active');
-                    btn.querySelector('i').classList.add('text-gray-400');
-                    btn.querySelector('i').classList.remove('text-brand-leaf');
-                    btn.querySelector('span').classList.add('text-gray-400');
-                    btn.querySelector('span').classList.remove('text-brand-leaf');
-                }
-            });
+      {/* 3D Isometric Map Area */}
+      <div className={`transition-opacity duration-1000 ${waveDone ? 'opacity-100' : 'opacity-0'}`}>
+        <div className="isometric-container w-[600px] h-[600px] relative">
+          {/* Base Map / Ocean */}
+          <div className="absolute inset-0 bg-blue-500/20 border border-blue-400/30 rounded-full animate-pollute shadow-[0_0_50px_rgba(0,119,190,0.5)]"></div>
+          
+          {/* Indonesia Map Abstraction */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-1/2 bg-gradient-to-br from-green-500/40 to-emerald-800/60 rounded-3xl blur-[2px] isometric-item"></div>
 
-            renderHeader(pageId);
-        }
+          {/* Flying Containers (Global Export) */}
+          <div className="absolute top-1/4 left-1/4 animate-float" style={{ animationDelay: '0s' }}>
+            <Ship className="text-[#f1c40f] w-12 h-12" />
+            <span className="text-xs font-bold text-[#f1c40f] block mt-2">To USA</span>
+          </div>
+          <div className="absolute top-1/3 right-1/4 animate-float" style={{ animationDelay: '1s' }}>
+            <Ship className="text-[#f1c40f] w-12 h-12" />
+            <span className="text-xs font-bold text-[#f1c40f] block mt-2">To EU</span>
+          </div>
+          <div className="absolute bottom-1/4 right-1/3 animate-float" style={{ animationDelay: '2s' }}>
+            <Ship className="text-[#f1c40f] w-12 h-12" />
+            <span className="text-xs font-bold text-[#f1c40f] block mt-2">To JPN</span>
+          </div>
 
-        function renderHeader(pageId) {
-            const header = document.getElementById('main-header');
-            if (pageId === 'home') {
-                header.className = 'fixed top-0 w-full max-w-[480px] z-40 glass px-6 pt-12 pb-4 transition-all duration-300';
-                header.innerHTML = `
-                    <div class="flex justify-between items-center mb-4">
-                        <div>
-                            <p class="text-xs font-semibold text-brand-leaf uppercase tracking-wider mb-0.5">Lokasi</p>
-                            <div class="flex items-center gap-1">
-                                <i data-lucide="map-pin" class="w-4 h-4 text-brand-dark fill-current"></i>
-                                <h1 class="text-lg font-bold text-brand-dark">Mandiangin Timur</h1>
-                            </div>
-                        </div>
-                        <div class="w-10 h-10 rounded-full bg-gray-200 overflow-hidden border-2 border-white shadow-sm cursor-pointer" onclick="navigateTo('profile')">
-                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80" alt="Profile" class="w-full h-full object-cover">
-                        </div>
-                    </div>
-                    <div class="relative group">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <i data-lucide="search" class="w-5 h-5 text-gray-400"></i>
-                        </div>
-                        <input type="text" class="block w-full pl-11 pr-4 py-3.5 bg-white border-none rounded-2xl text-sm shadow-sm focus:ring-2 focus:ring-brand-leaf/20 focus:outline-none transition-all placeholder-gray-400 font-medium" placeholder="Cari hasil panen...">
-                    </div>
-                `;
-            } else if (pageId === 'profile' || pageId === 'harvest') {
-                 header.className = 'fixed top-0 w-full max-w-[480px] z-40 bg-transparent px-6 pt-6 pb-2 pointer-events-none';
-                 header.innerHTML = ''; 
-            } else {
-                header.className = 'fixed top-0 w-full max-w-[480px] z-40 glass px-6 pt-12 pb-4';
-                header.innerHTML = `
-                    <div class="flex items-center justify-center relative">
-                        <h1 class="text-lg font-bold text-brand-dark capitalize">${pageId}</h1>
-                    </div>
-                `;
-            }
-            lucide.createIcons();
-        }
-
-        // --- 5. PRODUCT & FILTER LOGIC ---
-        function renderProducts() {
-            const container = document.getElementById('product-grid');
-            container.innerHTML = '';
+          {/* Interactive Shrimp & Waste */}
+          <div className="absolute bottom-1/3 left-1/3 isometric-item cursor-pointer group" onClick={handleShrimpClick}>
+            <div className={`w-24 h-24 bg-teal-900/80 rounded-full border-4 border-teal-500 flex items-center justify-center transition-all ${shrimpJumped ? 'bg-red-900/80 border-red-500' : ''}`}>
+               <Fish className={`text-[#ff7f50] w-12 h-12 transition-all ${shrimpJumped ? 'animate-shrimp' : ''}`} />
+            </div>
             
-            const filtered = currentCategory === 'all' 
-                ? products 
-                : products.filter(p => p.category === currentCategory);
+            {/* Waste Indicators appear after jump */}
+            <div className="absolute -top-16 -left-16 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+              <button onClick={(e) => { e.stopPropagation(); setModalData('amonia'); }} className="p-3 bg-yellow-500/20 border border-yellow-500 rounded-full hover:bg-yellow-500/40">
+                <AlertTriangle className="text-yellow-500 w-6 h-6" />
+              </button>
+              <button onClick={(e) => { e.stopPropagation(); setModalData('cangkang'); }} className="p-3 bg-orange-500/20 border border-orange-500 rounded-full hover:bg-orange-500/40">
+                <Settings className="text-orange-500 w-6 h-6" />
+              </button>
+              <button onClick={(e) => { e.stopPropagation(); setModalData('limbah'); }} className="p-3 bg-green-500/20 border border-green-500 rounded-full hover:bg-green-500/40">
+                <Droplets className="text-green-500 w-6 h-6" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
 
-            filtered.forEach(p => {
-                const card = document.createElement('div');
-                card.className = 'bg-white p-3 rounded-[24px] shadow-ios border border-gray-50 flex flex-col hover:shadow-float transition-all duration-300';
-                card.innerHTML = `
-                    <div class="relative w-full aspect-square rounded-2xl overflow-hidden mb-3 bg-gray-100">
-                        <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover">
-                        <div class="absolute top-2 right-2 bg-white/90 backdrop-blur px-2 py-1 rounded-lg flex items-center gap-1 shadow-sm">
-                            <i data-lucide="star" class="w-3 h-3 text-yellow-400 fill-current"></i>
-                            <span class="text-[10px] font-bold">${p.rating}</span>
-                        </div>
-                    </div>
-                    <h4 class="font-bold text-brand-dark text-sm truncate">${p.name}</h4>
-                    <p class="text-gray-400 text-xs mb-3">${p.unit}</p>
-                    <div class="mt-auto flex justify-between items-center">
-                        <span class="font-bold text-brand-leaf text-sm">Rp ${p.price/1000}rb</span>
-                        <button class="w-8 h-8 rounded-full bg-brand-dark flex items-center justify-center text-white shadow-lg hover:bg-brand-leaf transition-colors active:scale-90" onclick="addToCart(${p.id})">
-                            <i data-lucide="plus" class="w-4 h-4"></i>
-                        </button>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-            lucide.createIcons();
-        }
+      <div className="absolute bottom-10 flex flex-col items-center">
+        <p className="text-lg text-gray-300 mb-4 text-center max-w-2xl px-4">
+          Indonesia adalah raksasa eksportir udang global. Namun di balik kilau emasnya, terdapat tanggung jawab lingkungan yang besar. <br/> <span className="text-[#ff7f50] font-bold">Klik kolam udang & ikon peringatan untuk melihat dampaknya.</span>
+        </p>
+        <button onClick={onNext} className="flex items-center gap-2 px-8 py-3 bg-[#0077be] hover:bg-[#005a8f] rounded-full font-bold transition-all animate-pulse">
+          Lanjut ke Scene 2 <ArrowRight size={20} />
+        </button>
+      </div>
 
-        function filterCategory(cat) {
-            currentCategory = cat;
-            renderProducts();
-        }
+      {/* Modals for Waste */}
+      <Modal isOpen={modalData === 'amonia'} onClose={() => setModalData(null)} title="Bahaya Amonia" color="#f1c40f">
+        <p className="text-lg">Dampak akumulasi sisa pakan udang yang tidak termakan akan berubah menjadi Amonia beracun, merusak insang udang dan menurunkan tingkat kelangsungan hidup secara drastis.</p>
+      </Modal>
+      <Modal isOpen={modalData === 'cangkang'} onClose={() => setModalData(null)} title="Penumpukan Cangkang" color="#ff7f50">
+        <p className="text-lg">Penumpukan kitin dari molting udang yang membusuk di dasar kolam. Proses ini merusak pH tanah dan memicu pertumbuhan bakteri patogen berbahaya.</p>
+      </Modal>
+      <Modal isOpen={modalData === 'limbah'} onClose={() => setModalData(null)} title="Limbah Cair (Eutrofikasi)" color="#2ecc71">
+        <p className="text-lg">Kandungan organik tinggi yang dibuang ke laut memicu Eutrofikasi (ledakan alga), menghabiskan oksigen di perairan sekitar dan mematikan ekosistem pesisir.</p>
+      </Modal>
+    </div>
+  );
+};
 
-        // --- 6. CART SYSTEM ---
-        function addToCart(productId) {
-            const product = products.find(p => p.id === productId);
-            const existingItem = cart.find(item => item.id === productId);
+// SCENE 2: Apa itu ISO 14001?
+const Scene2 = ({ onNext }) => {
+  const [showBook, setShowBook] = useState(false);
 
-            if (existingItem) {
-                existingItem.qty++;
-            } else {
-                cart.push({ ...product, qty: 1 });
-            }
+  return (
+    <div className="relative w-full h-screen bg-black flex flex-col items-center justify-center animate-wipe">
+      <Narrator name="Risky & Iqbalgn" role="Concept Explainers" />
+      
+      {/* Hologram Logo */}
+      <div className="relative z-10 flex flex-col items-center justify-center">
+        <div className="w-64 h-64 border-4 border-[#2ecc71] rounded-full flex items-center justify-center animate-hologram bg-[#2ecc71]/10 backdrop-blur-md">
+          <Globe className="w-32 h-32 text-[#2ecc71]" />
+        </div>
+        <h1 className="mt-8 text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#2ecc71] to-[#0077be] text-glow uppercase tracking-widest text-center">
+          ISO 14001
+        </h1>
+        <h2 className="mt-4 text-2xl font-bold text-white tracking-wide">
+          Sistem Manajemen Lingkungan
+        </h2>
+      </div>
 
-            updateCartUI();
-            showToast();
-        }
+      {/* Flow Diagram & Interactions */}
+      <div className="mt-16 flex items-center justify-center gap-12 z-10 w-full max-w-4xl">
+        <div className="flex flex-col items-center text-center p-6 bg-white/5 rounded-2xl border border-white/10 hover:border-[#0077be] transition-colors">
+          <Cpu className="w-12 h-12 text-[#0077be] mb-4" />
+          <p className="font-semibold text-lg">Bukan Sekadar Hijau</p>
+          <p className="text-sm text-gray-400 mt-2">Sistem operasional yang terukur.</p>
+        </div>
+        
+        <div className="h-1 bg-gradient-to-r from-[#0077be] to-[#2ecc71] w-24"></div>
 
-        function removeFromCart(productId) {
-            cart = cart.filter(item => item.id !== productId);
-            updateCartUI();
-        }
+        {/* The "What" Interactive Element */}
+        <button 
+          onClick={() => setShowBook(true)}
+          className="relative group flex flex-col items-center text-center p-8 bg-[#2ecc71]/20 rounded-2xl border-2 border-[#2ecc71] hover:bg-[#2ecc71]/40 transition-all transform hover:scale-105"
+        >
+          <div className="absolute -top-6 -right-6 w-12 h-12 bg-[#f1c40f] rounded-full flex items-center justify-center text-black font-black text-xl animate-bounce">1</div>
+          <BookOpen className="w-16 h-16 text-[#2ecc71] mb-4" />
+          <p className="font-bold text-xl text-white">WHAT</p>
+          <p className="text-sm text-gray-200 mt-2">Klik untuk membuka Panduan</p>
+        </button>
 
-        function changeQty(productId, delta) {
-            const item = cart.find(item => item.id === productId);
-            if (item) {
-                item.qty += delta;
-                if (item.qty <= 0) removeFromCart(productId);
-            }
-            updateCartUI();
-        }
+        <div className="h-1 bg-gradient-to-r from-[#2ecc71] to-[#ff7f50] w-24"></div>
 
-        function updateCartUI() {
-            // Update Badge
-            const totalQty = cart.reduce((acc, item) => acc + item.qty, 0);
-            const badge = document.getElementById('nav-cart-badge');
-            if (totalQty > 0) {
-                badge.classList.remove('hidden');
-                badge.innerText = totalQty;
-            } else {
-                badge.classList.add('hidden');
-            }
+        <div className="flex flex-col items-center text-center p-6 bg-white/5 rounded-2xl border border-white/10 hover:border-[#ff7f50] transition-colors">
+          <Settings className="w-12 h-12 text-[#ff7f50] mb-4" />
+          <p className="font-semibold text-lg">Pencapaian Target</p>
+          <p className="text-sm text-gray-400 mt-2">Perbaikan mandiri terstruktur.</p>
+        </div>
+      </div>
 
-            // Render List
-            const container = document.getElementById('cart-items-container');
-            const summaryBox = document.getElementById('cart-summary');
-            
-            if (cart.length === 0) {
-                container.innerHTML = `
-                     <div class="flex flex-col items-center justify-center h-48 text-gray-400">
-                        <i data-lucide="shopping-basket" class="w-12 h-12 mb-2 opacity-50"></i>
-                        <p class="text-sm">Keranjang masih kosong</p>
-                        <button onclick="navigateTo('home')" class="mt-4 text-brand-leaf text-sm font-bold">Mulai Belanja</button>
-                    </div>
-                `;
-                summaryBox.classList.add('hidden');
-            } else {
-                container.innerHTML = '';
-                let subtotal = 0;
+      <div className="absolute bottom-10 z-10">
+        <button onClick={onNext} className="flex items-center gap-2 px-8 py-3 bg-[#2ecc71] hover:bg-[#27ae60] text-black rounded-full font-bold transition-all">
+          Lanjut ke Scene 3 <ArrowRight size={20} />
+        </button>
+      </div>
 
-                cart.forEach(item => {
-                    subtotal += item.price * item.qty;
-                    const el = document.createElement('div');
-                    el.className = 'flex gap-4 bg-white p-4 rounded-2xl shadow-sm border border-gray-50';
-                    el.innerHTML = `
-                        <div class="w-20 h-20 rounded-xl bg-gray-100 overflow-hidden shrink-0">
-                            <img src="${item.image}" class="w-full h-full object-cover">
-                        </div>
-                        <div class="flex-1 flex flex-col justify-between">
-                            <div>
-                                <h4 class="font-bold text-gray-800 text-sm">${item.name}</h4>
-                                <p class="text-xs text-brand-leaf font-medium">Rp ${item.price.toLocaleString('id-ID')}</p>
-                            </div>
-                            <div class="flex items-center justify-between mt-2">
-                                <div class="flex items-center bg-gray-50 rounded-lg p-1">
-                                    <button onclick="changeQty(${item.id}, -1)" class="w-6 h-6 flex items-center justify-center bg-white rounded shadow-sm text-xs font-bold text-gray-600 active:scale-95">-</button>
-                                    <span class="w-8 text-center text-xs font-bold text-gray-800">${item.qty}</span>
-                                    <button onclick="changeQty(${item.id}, 1)" class="w-6 h-6 flex items-center justify-center bg-white rounded shadow-sm text-xs font-bold text-gray-600 active:scale-95">+</button>
-                                </div>
-                                <button onclick="removeFromCart(${item.id})" class="text-red-400 hover:text-red-600"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
-                            </div>
-                        </div>
-                    `;
-                    container.appendChild(el);
-                });
+      {/* Interactive Digital Book Modal */}
+      <Modal isOpen={showBook} onClose={() => setShowBook(false)} title="Panduan Digital ISO 14001:2015" color="#2ecc71">
+        <div className="flex gap-6 items-start">
+          <FileText className="w-24 h-24 text-[#2ecc71] flex-shrink-0" />
+          <div>
+            <h4 className="text-xl font-bold text-white mb-2">Klausul Identifikasi Isu Lingkungan</h4>
+            <p className="text-gray-300">
+              Standar ini <strong>tidak</strong> memberikan kriteria kinerja lingkungan yang absolut (seperti batas emisi 0%). 
+              Sebaliknya, standar ini mensyaratkan perusahaan udang untuk secara sistematis mengidentifikasi aspek lingkungan dari kegiatannya, 
+              menentukan dampaknya, dan membangun kerangka kerja (framework) untuk mencapai target lingkungan mereka sendiri secara berkelanjutan.
+            </p>
+          </div>
+        </div>
+      </Modal>
 
-                // Update Summary
-                summaryBox.classList.remove('hidden');
-                document.getElementById('summary-subtotal').innerText = 'Rp ' + subtotal.toLocaleString('id-ID');
-                document.getElementById('summary-total').innerText = 'Rp ' + (subtotal + 1000).toLocaleString('id-ID');
-                document.getElementById('checkout-total').innerText = 'Rp ' + (subtotal + 1000).toLocaleString('id-ID');
-            }
-            lucide.createIcons();
-        }
+      {/* Background Particles */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        {[...Array(20)].map((_, i) => (
+          <div 
+            key={i} 
+            className="absolute bg-white/10 rounded-full"
+            style={{
+              width: Math.random() * 10 + 2 + 'px',
+              height: Math.random() * 10 + 2 + 'px',
+              top: Math.random() * 100 + '%',
+              left: Math.random() * 100 + '%',
+              animation: `float ${Math.random() * 5 + 3}s linear infinite`
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
 
-        // --- 7. WHATSAPP CHECKOUT LOGIC ---
-        function handleCheckout(e) {
-            e.preventDefault();
-            
-            // 1. Ambil Data
-            const name = document.getElementById('input-name').value;
-            const wa = document.getElementById('input-wa').value;
-            const address = document.getElementById('input-address').value;
-            const payment = document.querySelector('input[name="payment"]:checked').value.toUpperCase();
+// SCENE 3: Who, Why & When
+const Scene3 = ({ onNext }) => {
+  const [showDiscount, setShowDiscount] = useState(false);
+  const [clockStopped, setClockStopped] = useState(false);
 
-            // 2. Loading State
-            const btn = e.target.querySelector('button[type="submit"]');
-            const originalContent = btn.innerHTML;
-            
-            btn.innerHTML = '<span class="loader"></span> Memproses...';
-            btn.disabled = true;
+  useEffect(() => {
+    const timer = setTimeout(() => setClockStopped(true), 3000);
+    return () => clearTimeout(timer);
+  }, []);
 
-            // 3. Susun Pesan
-            let itemsList = "";
-            let subTotal = 0;
-            
-            cart.forEach((item) => {
-                const itemTotal = item.price * item.qty;
-                subTotal += itemTotal;
-                itemsList += `- ${item.name} (${item.qty}x) : Rp ${itemTotal.toLocaleString('id-ID')}%0A`;
-            });
+  return (
+    <div className="relative w-full h-screen bg-[#0a0a0a] flex flex-col items-center justify-center p-8 overflow-hidden">
+      <Narrator name="Luqman, Iqbalgn & Balya" role="The Strategists" />
+      
+      {/* Background Dolly Out Effect (simulated via CSS scale) */}
+      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1518623489648-a173ef7824f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')] bg-cover bg-center opacity-10 animate-[scaleOut_10s_ease-out_forwards]" style={{ transform: 'scale(1.5)' }}></div>
+      <style>{`@keyframes scaleOut { to { transform: scale(1); } }`}</style>
 
-            const serviceFee = 1000;
-            const finalTotal = subTotal + serviceFee;
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-6xl z-10">
+        
+        {/* WHO Section */}
+        <div className="bg-gradient-to-b from-blue-900/50 to-black/80 p-8 rounded-3xl border border-blue-500/30 flex flex-col items-center transform hover:-translate-y-4 transition-transform">
+          <h3 className="text-3xl font-black text-[#0077be] mb-8">WHO</h3>
+          <div className="flex gap-8 items-end justify-center w-full">
+            <div className="flex flex-col items-center">
+              <Building2 className="w-20 h-20 text-gray-400 mb-4" />
+              <p className="font-bold">Multinasional</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <Home className="w-12 h-12 text-green-400 mb-4" />
+              <p className="font-bold text-sm">UMKM Tambak</p>
+            </div>
+          </div>
+          <div className="mt-8 flex items-center justify-center gap-2 bg-[#f1c40f]/20 px-6 py-2 rounded-full border border-[#f1c40f]">
+            <Award className="text-[#f1c40f] w-5 h-5" />
+            <span className="text-[#f1c40f] font-bold text-sm">Sertifikat Generik untuk Semua</span>
+          </div>
+        </div>
 
-            const message = `Halo Admin Mandiangin Timur Hub! 👋%0A` +
-                            `Saya ingin konfirmasi pesanan:%0A%0A` +
-                            `🛒 *DAFTAR BELANJA:*%0A` +
-                            itemsList +
-                            `%0A📦 *Biaya Layanan:* Rp ${serviceFee.toLocaleString('id-ID')}%0A` +
-                            `💰 *TOTAL TAGIHAN:* Rp ${finalTotal.toLocaleString('id-ID')}%0A` +
-                            `%0A--------------------------------%0A` +
-                            `📍 *DATA PENGIRIMAN:*%0A` +
-                            `👤 Nama: ${name}%0A` +
-                            `📱 No WA: ${wa}%0A` +
-                            `🏠 Alamat: ${address}%0A` +
-                            `💳 Pembayaran: ${payment}%0A` +
-                            `%0AMohon segera diproses ya, terima kasih!`;
+        {/* WHY Section */}
+        <div className="bg-gradient-to-b from-yellow-900/50 to-black/80 p-8 rounded-3xl border border-yellow-500/30 flex flex-col items-center transform hover:-translate-y-4 transition-transform">
+          <h3 className="text-3xl font-black text-[#f1c40f] mb-8">WHY</h3>
+          <div className="flex flex-col gap-6 w-full">
+            <div className="flex items-center gap-4 bg-white/5 p-4 rounded-xl border border-white/10 hover:bg-white/10 transition-colors">
+              <Scale className="w-8 h-8 text-[#f1c40f]" />
+              <span className="font-bold text-lg">Hukum & Kepatuhan</span>
+            </div>
+            <button onClick={() => setShowDiscount(true)} className="flex items-center gap-4 bg-[#2ecc71]/20 p-4 rounded-xl border border-[#2ecc71] hover:bg-[#2ecc71]/40 transition-colors group cursor-pointer">
+              <TrendingUp className="w-8 h-8 text-[#2ecc71] group-hover:animate-bounce" />
+              <span className="font-bold text-lg text-white">Efisiensi Biaya (Klik!)</span>
+            </button>
+            <div className="flex items-center gap-4 bg-white/5 p-4 rounded-xl border border-white/10 hover:bg-white/10 transition-colors">
+              <Globe className="w-8 h-8 text-[#0077be]" />
+              <span className="font-bold text-lg">Pasar Global Terbuka</span>
+            </div>
+          </div>
+        </div>
 
-            // 4. Delay & Redirect
-            setTimeout(() => {
-                const adminNumber = "6285751417378"; 
-                const waLink = `https://wa.me/${adminNumber}?text=${message}`;
-                
-                window.open(waLink, '_blank');
-                
-                // Reset & Success UI
-                btn.innerHTML = originalContent;
-                btn.disabled = false;
-                document.getElementById('modal-success').classList.remove('hidden');
-                cart = [];
-                updateCartUI();
-            }, 1500);
-        }
+        {/* WHEN Section */}
+        <div className="bg-gradient-to-b from-red-900/50 to-black/80 p-8 rounded-3xl border border-red-500/30 flex flex-col items-center justify-center transform hover:-translate-y-4 transition-transform">
+          <h3 className="text-3xl font-black text-[#ff7f50] mb-8">WHEN</h3>
+          <div className="relative w-40 h-40 flex items-center justify-center mb-6">
+            <Clock className={`w-full h-full text-white/20 absolute ${clockStopped ? '' : 'animate-spin'}`} style={{ animationDuration: '0.5s' }} />
+            <div className={`text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#ff7f50] to-red-600 transition-all duration-1000 ${clockStopped ? 'opacity-100 scale-125' : 'opacity-0 scale-50'}`}>
+              SEKARANG
+            </div>
+          </div>
+          <p className="text-center text-sm text-gray-300">Tuntutan investor dan pembeli internasional tidak bisa menunggu. Stempel "Eco-Friendly" adalah syarat mutlak masa kini.</p>
+        </div>
 
-        function closeModal() {
-            document.getElementById('modal-success').classList.add('hidden');
-            navigateTo('home');
-        }
+      </div>
 
-        // --- 8. RENDER TEAM CREDITS ---
-        function renderTeam() {
-            const container = document.getElementById('team-list-container');
-            teamMembers.forEach(member => {
-                const el = document.createElement('div');
-                el.className = 'flex justify-between items-center text-xs border-b border-gray-50 pb-2 last:border-0';
-                
-                const nameClass = member.special ? "font-bold text-brand-dark" : "font-semibold text-gray-800";
-                const badgeClass = member.special ? "bg-brand-dark text-white font-bold" : "bg-gray-100 text-gray-600 font-medium";
+      <div className="absolute bottom-10 z-10">
+        <button onClick={onNext} className="flex items-center gap-2 px-8 py-3 bg-[#f1c40f] hover:bg-[#d4ac0d] text-black rounded-full font-bold transition-all">
+          Lanjut ke Scene 4 <ArrowRight size={20} />
+        </button>
+      </div>
 
-                el.innerHTML = `
-                    <div>
-                        <p class="${nameClass}">${member.name}</p>
-                        <p class="text-gray-400 text-[10px]">${member.nim}</p>
-                    </div>
-                    <span class="${badgeClass} px-2 py-1 rounded-lg text-[10px]">${member.major}</span>
-                `;
-                container.appendChild(el);
-            });
-        }
+      <Modal isOpen={showDiscount} onClose={() => setShowDiscount(false)} title="Simulasi Efisiensi" color="#2ecc71">
+        <div className="flex items-center justify-center py-6">
+          <div className="text-center">
+            <Zap className="w-20 h-20 text-[#2ecc71] mx-auto mb-4 animate-pulse" />
+            <h2 className="text-6xl font-black text-white">-15%</h2>
+            <p className="text-xl text-gray-300 mt-2 font-bold">Biaya Listrik Bulanan</p>
+            <p className="mt-4 text-sm text-gray-400 max-w-sm mx-auto">Melalui optimalisasi sistem aerator tambak yang diatur dalam SOP manajemen energi ISO 14001, perusahaan dapat memotong biaya operasional secara signifikan sambil mengurangi jejak karbon.</p>
+          </div>
+        </div>
+      </Modal>
+    </div>
+  );
+};
 
-        // --- 9. UTILS ---
-        function showToast() {
-            const toast = document.getElementById('toast');
-            toast.classList.remove('opacity-0', 'translate-y-[-20px]');
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'translate-y-[-20px]');
-            }, 2000);
-        }
-    </script>
-</body>
-</html>
+// SCENE 4: Where & How - Siklus PDCA
+const Scene4 = ({ onNext }) => {
+  const [activeTab, setActiveTab] = useState('PLAN');
+
+  const content = {
+    PLAN: {
+      icon: <FileText className="w-16 h-16 text-[#0077be]" />,
+      title: "PLAN (Perencanaan)",
+      desc: "Menandai titik kritis: Air cucian udang, limbah plastik kemasan, dan penggunaan energi mesin pembeku. Pemetaan digital kawasan pabrik dan mangrove di sekitarnya.",
+      color: "#0077be"
+    },
+    DO: {
+      icon: <Settings className="w-16 h-16 text-[#f1c40f]" />,
+      title: "DO (Pelaksanaan)",
+      desc: "Instalasi IPAL (Pengolahan Air Limbah) menyaring air keruh menjadi jernih. Inovasi sirkular ekonomi: cangkang udang diolah menjadi bubuk emas Kitosan bernilai tinggi.",
+      color: "#f1c40f"
+    },
+    CHECK: {
+      icon: <Microscope className="w-16 h-16 text-[#ff7f50]" />,
+      title: "CHECK (Pemeriksaan)",
+      desc: "Pemeriksaan mikroskopis dan uji laboratorium harian pada air buangan. Memastikan parameter baku mutu limbah cair sesuai standar pemerintah dan internasional.",
+      color: "#ff7f50"
+    },
+    ACT: {
+      icon: <CheckCircle className="w-16 h-16 text-[#2ecc71]" />,
+      title: "ACT (Tindakan/Perbaikan)",
+      desc: "Evaluasi manajemen berkelanjutan. Jika berhasil, sertifikat ISO 14001 terbit (berlaku 3 tahun dengan audit surveillance tahunan). Terus tingkatkan standar!",
+      color: "#2ecc71"
+    }
+  };
+
+  return (
+    <div className="relative w-full h-screen bg-slate-900 flex flex-col md:flex-row items-center justify-center p-8 overflow-hidden">
+      <Narrator name="Naufal" role="Operations Lead" />
+
+      {/* 3D Rotating Cube Representation of PDCA */}
+      <div className="w-full md:w-1/2 flex items-center justify-center mb-12 md:mb-0">
+         <div className="scene3d">
+          <div className="cube">
+            <div className={`cube__face cube__face--front ${activeTab === 'PLAN' ? 'bg-[#0077be]' : ''}`}>PLAN</div>
+            <div className={`cube__face cube__face--right ${activeTab === 'DO' ? 'bg-[#f1c40f] text-black' : ''}`}>DO</div>
+            <div className={`cube__face cube__face--back ${activeTab === 'CHECK' ? 'bg-[#ff7f50]' : ''}`}>CHECK</div>
+            <div className={`cube__face cube__face--left ${activeTab === 'ACT' ? 'bg-[#2ecc71] text-black' : ''}`}>ACT</div>
+            <div className="cube__face cube__face--top bg-gray-800">ISO</div>
+            <div className="cube__face cube__face--bottom bg-gray-800">14001</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Interactive Detail Panel */}
+      <div className="w-full md:w-1/2 flex flex-col z-10">
+        <h2 className="text-4xl font-black mb-8 text-white uppercase tracking-wider text-center md:text-left">Siklus P-D-C-A</h2>
+        
+        <div className="flex gap-4 mb-8 justify-center md:justify-start">
+          {Object.keys(content).map((key) => (
+            <button
+              key={key}
+              onClick={() => setActiveTab(key)}
+              className={`px-6 py-3 rounded-xl font-bold transition-all ${activeTab === key ? 'scale-110 shadow-lg' : 'opacity-50 hover:opacity-100'}`}
+              style={{ backgroundColor: activeTab === key ? content[key].color : '#333', color: (activeTab === key && (key==='DO' || key==='ACT')) ? '#000' : '#fff' }}
+            >
+              {key}
+            </button>
+          ))}
+        </div>
+
+        <div 
+          className="p-8 rounded-3xl backdrop-blur-md border shadow-2xl transition-all duration-500 min-h-[250px]"
+          style={{ borderColor: content[activeTab].color, backgroundColor: `${content[activeTab].color}20` }}
+        >
+          <div className="flex items-center gap-6 mb-6">
+            <div className="p-4 bg-white/10 rounded-2xl animate-pulse">
+              {content[activeTab].icon}
+            </div>
+            <h3 className="text-3xl font-bold" style={{ color: content[activeTab].color }}>{content[activeTab].title}</h3>
+          </div>
+          <p className="text-xl text-gray-200 leading-relaxed">
+            {content[activeTab].desc}
+          </p>
+        </div>
+      </div>
+
+      <div className="absolute bottom-10 z-10 w-full flex justify-center">
+        <button onClick={onNext} className="flex items-center gap-2 px-8 py-3 bg-[#ff7f50] hover:bg-[#e0663a] text-white rounded-full font-bold transition-all">
+          Lanjut ke Scene Terakhir <ArrowRight size={20} />
+        </button>
+      </div>
+    </div>
+  );
+};
+
+// SCENE 5: Manfaat & Penutup
+const Scene5 = ({ onReset }) => {
+  const [showText, setShowText] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowText(true), 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <div className="relative w-full h-screen sunset-lighting flex flex-col items-center justify-center p-8 overflow-hidden">
+      <Narrator name="Juan & Nafis" role="Visionaries" />
+      
+      {/* Background Water Reflection */}
+      <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-[#0077be] to-transparent opacity-50 blur-sm"></div>
+      
+      {/* Floating Checklists */}
+      <div className="absolute top-1/4 flex gap-8 z-10 w-full justify-center px-4">
+        <div className="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-2xl flex flex-col items-center animate-float" style={{ animationDelay: '0s' }}>
+          <CheckCircle className="text-[#2ecc71] w-12 h-12 mb-2" />
+          <span className="font-bold text-lg text-white">Efisiensi Biaya</span>
+        </div>
+        <div className="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-2xl flex flex-col items-center animate-float" style={{ animationDelay: '1s' }}>
+          <Globe className="text-[#0077be] w-12 h-12 mb-2" />
+          <span className="font-bold text-lg text-white">Akses Pasar Global</span>
+        </div>
+        <div className="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-2xl flex flex-col items-center animate-float" style={{ animationDelay: '2s' }}>
+          <Award className="text-[#f1c40f] w-12 h-12 mb-2" />
+          <span className="font-bold text-lg text-white">Citra Positif</span>
+        </div>
+      </div>
+
+      {/* Kinetic Typography */}
+      {showText && (
+        <div className="z-20 mt-32 text-center animate-kinetic">
+          <h1 className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-blue-200 drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)] max-w-4xl mx-auto leading-tight">
+            "Karena laut yang sehat,<br/> adalah masa depan kita semua."
+          </h1>
+          <div className="mt-16 flex flex-col items-center animate-pulseGlow">
+             <div className="text-[#ff7f50] font-black text-5xl uppercase tracking-widest text-glow">Siap Eksekusi!</div>
+          </div>
+        </div>
+      )}
+
+      {/* Replay Button */}
+      <div className="absolute bottom-10 z-30">
+        <button onClick={onReset} className="flex items-center gap-2 px-8 py-4 bg-white text-black hover:bg-gray-200 rounded-full font-black text-lg transition-all transform hover:scale-105 shadow-[0_0_30px_rgba(255,255,255,0.5)]">
+          <Play size={24} className="fill-current" /> Putar Ulang Animasi
+        </button>
+      </div>
+
+       {/* Sunset Sun */}
+       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-yellow-300 to-[#ff7f50] rounded-full blur-[100px] opacity-40 z-0 pointer-events-none"></div>
+    </div>
+  );
+};
+
+// --- MAIN APP CONTAINER ---
+export default function App() {
+  const [currentScene, setCurrentScene] = useState(1);
+
+  // Inject custom styles
+  useEffect(() => {
+    const styleSheet = document.createElement("style");
+    styleSheet.type = "text/css";
+    styleSheet.innerText = customStyles;
+    document.head.appendChild(styleSheet);
+    return () => document.head.removeChild(styleSheet);
+  }, []);
+
+  const nextScene = () => {
+    if (currentScene < 5) setCurrentScene(prev => prev + 1);
+  };
+
+  const resetAnimation = () => {
+    setCurrentScene(1);
+  };
+
+  return (
+    <div className="w-full h-screen bg-black overflow-hidden relative">
+      {/* Scene Progress Bar */}
+      <div className="absolute top-0 left-0 w-full h-1 bg-gray-800 z-50">
+        <div 
+          className="h-full bg-gradient-to-r from-[#0077be] via-[#2ecc71] to-[#ff7f50] transition-all duration-700 ease-out"
+          style={{ width: `${(currentScene / 5) * 100}%` }}
+        ></div>
+      </div>
+
+      {/* Scene Renderer */}
+      <div className="w-full h-full relative transition-opacity duration-500">
+        {currentScene === 1 && <Scene1 onNext={nextScene} />}
+        {currentScene === 2 && <Scene2 onNext={nextScene} />}
+        {currentScene === 3 && <Scene3 onNext={nextScene} />}
+        {currentScene === 4 && <Scene4 onNext={nextScene} />}
+        {currentScene === 5 && <Scene5 onReset={resetAnimation} />}
+      </div>
+
+      {/* Persistent Watermark/Logo */}
+      <div className="absolute bottom-4 right-8 z-50 text-white/30 font-bold text-sm uppercase tracking-widest pointer-events-none">
+        ISO 14001: Shrimp Industry Interactive
+      </div>
+    </div>
+  );
+}
