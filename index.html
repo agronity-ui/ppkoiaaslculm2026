@@ -8,7 +8,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -34,10 +34,12 @@
             
             --font-heading: 'Montserrat', sans-serif;
             --font-body: 'Poppins', sans-serif;
+            --font-mono: 'Share Tech Mono', monospace;
             
             --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
             --radius-lg: 24px;
             --radius-md: 16px;
+            --radius-sm: 8px;
             
             --transition-smooth: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -56,12 +58,11 @@
             font-family: var(--font-body);
             background: linear-gradient(135deg, var(--color-bg-deep) 0%, #0F172A 100%);
             color: var(--color-text-main);
-            overflow: hidden; /* Mencegah scroll body keseluruhan */
+            overflow: hidden;
             width: 100vw;
-            height: 100dvh; /* dvh untuk browser mobile modern */
+            height: 100dvh;
         }
 
-        /* Custom Scrollbar untuk Slide */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
         ::-webkit-scrollbar-thumb { background: rgba(16, 185, 129, 0.4); border-radius: 10px; }
@@ -96,7 +97,7 @@
 
         .slide {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            padding: 30px 20px 120px 20px; /* Padding bawah ekstra untuk kontrol navigasi */
+            padding: 30px 20px 120px 20px; 
             opacity: 0; visibility: hidden;
             transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             transform: scale(0.95) translateY(20px);
@@ -104,7 +105,6 @@
             overflow-y: auto; overflow-x: hidden;
         }
 
-        /* Desktop Padding */
         @media (min-width: 1024px) {
             .slide { padding: 60px 80px 100px 80px; justify-content: center; }
             .orb-1 { width: 600px; height: 600px; filter: blur(120px); }
@@ -144,7 +144,6 @@
         }
         @media (min-width: 768px) { .badge { font-size: 14px; padding: 8px 16px; margin-bottom: 20px;} }
 
-        /* Layout Grids Responsive */
         .grid-2 { display: flex; flex-direction: column; gap: 30px; height: auto; }
         .grid-3 { display: flex; flex-direction: column; gap: 20px; }
         @media (min-width: 1024px) {
@@ -152,98 +151,127 @@
             .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
         }
 
-        /* Slide Header */
         .slide-header { margin-bottom: 30px; }
         .slide-header h2 { font-size: clamp(28px, 4vw + 10px, 50px); margin-bottom: 10px; }
         .slide-header p { font-size: clamp(16px, 2vw + 5px, 22px); color: var(--color-text-muted); }
         .text-center { text-align: center; }
 
+        /* Tombol Aksi Universal */
+        .start-btn, .btn-action {
+            background: linear-gradient(135deg, var(--color-accent-main), #059669); color: white; border: none; 
+            padding: 15px 30px; font-size: clamp(14px, 1.5vw, 18px); font-weight: 700; border-radius: 50px; cursor: pointer; 
+            transition: var(--transition-smooth); box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3); font-family: var(--font-heading);
+            display: flex; align-items: center; gap: 10px; margin: 0 auto; justify-content: center;
+        }
+        .start-btn:hover, .btn-action:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 15px 30px rgba(16, 185, 129, 0.5); }
+        
+        .btn-action.active-state { background: linear-gradient(135deg, #06B6D4, #0284c7); box-shadow: 0 10px 20px rgba(6, 182, 212, 0.3); }
+        .btn-action.danger-state { background: linear-gradient(135deg, #ef4444, #b91c1c); box-shadow: 0 10px 20px rgba(239, 68, 68, 0.3); }
+
         /* ==========================================================================
            5. SPECIFIC SLIDE STYLES
            ========================================================================== */
            
-        /* SLIDE 1: Hero */
+        /* SLIDE 1, 2, 3... (Styles Umum yang dipertahankan) */
         #slide-hero { justify-content: center; align-items: center; text-align: center; height: 100%; }
         .hero-title { font-size: clamp(36px, 8vw, 80px); margin: 20px 0; text-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .hero-subtitle { font-size: clamp(16px, 3vw, 24px); color: var(--color-text-muted); font-weight: 300; max-width: 1000px; line-height: 1.6; margin-bottom: 40px;}
-        .start-btn {
-            background: linear-gradient(135deg, var(--color-accent-main), #059669); color: white; border: none; 
-            padding: 15px 30px; font-size: clamp(16px, 2vw, 22px); font-weight: 700; border-radius: 50px; cursor: pointer; 
-            transition: var(--transition-smooth); box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3); font-family: var(--font-heading);
-            display: flex; align-items: center; gap: 10px; margin: 0 auto;
-        }
-        .start-btn:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 15px 30px rgba(16, 185, 129, 0.5); }
-
-        /* SLIDE 2: Timeline */
+        
         .timeline { position: relative; padding: 20px 0; }
-        .timeline::before {
-            content: ''; position: absolute; top: 0; left: 20px; width: 3px; height: 100%;
-            background: linear-gradient(to bottom, var(--color-accent-main), var(--color-accent-secondary));
-        }
+        .timeline::before { content: ''; position: absolute; top: 0; left: 20px; width: 3px; height: 100%; background: linear-gradient(to bottom, var(--color-accent-main), var(--color-accent-secondary)); }
         .timeline-item { position: relative; padding-left: 60px; margin-bottom: 40px; }
-        .timeline-icon {
-            position: absolute; left: 0; top: 0; width: 44px; height: 44px;
-            background: var(--color-bg-deep); border: 3px solid var(--color-accent-main);
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 16px; color: white; z-index: 2; box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
-        }
+        .timeline-icon { position: absolute; left: 0; top: 0; width: 44px; height: 44px; background: var(--color-bg-deep); border: 3px solid var(--color-accent-main); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; color: white; z-index: 2; box-shadow: 0 0 15px rgba(16, 185, 129, 0.4); }
         .timeline-content h3 { font-size: clamp(20px, 2.5vw, 26px); margin-bottom: 10px; color: var(--color-accent-secondary); }
         .timeline-content p { font-size: clamp(14px, 1.8vw, 18px); color: var(--color-text-muted); line-height: 1.6; }
-        @media(min-width: 768px){
-            .timeline::before { left: 40px; width: 4px; }
-            .timeline-item { padding-left: 100px; }
-            .timeline-icon { left: 10px; width: 60px; height: 60px; font-size: 24px; border-width: 4px;}
-        }
+        @media(min-width: 768px){ .timeline::before { left: 40px; width: 4px; } .timeline-item { padding-left: 100px; } .timeline-icon { left: 10px; width: 60px; height: 60px; font-size: 24px; border-width: 4px;} }
 
-        /* SLIDE 3: Masalah */
         .problem-card { border-top: 4px solid var(--color-danger); text-align: center; display: flex; flex-direction: column; align-items: center; }
-        .problem-icon-wrapper {
-            width: 80px; height: 80px; background: rgba(239, 68, 68, 0.1); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; margin-bottom: 20px; border: 2px solid rgba(239, 68, 68, 0.3);
-        }
+        .problem-icon-wrapper { width: 80px; height: 80px; background: rgba(239, 68, 68, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; border: 2px solid rgba(239, 68, 68, 0.3); }
         .problem-icon { font-size: 35px; color: var(--color-danger); }
         .problem-card h3 { font-size: clamp(20px, 2.5vw, 26px); margin-bottom: 15px; }
         .problem-card p { font-size: clamp(14px, 1.8vw, 18px); color: var(--color-text-muted); line-height: 1.6; }
-        @media(min-width: 768px){
-            .problem-icon-wrapper { width: 100px; height: 100px; margin-bottom: 25px;}
-            .problem-icon { font-size: 45px; }
-        }
+        @media(min-width: 768px){ .problem-icon-wrapper { width: 100px; height: 100px; margin-bottom: 25px;} .problem-icon { font-size: 45px; } }
 
-        /* SLIDE 4 & 6: Diagrams */
-        .diagram-container {
-            width: 100%; height: 350px; background: rgba(0,0,0,0.2);
-            border-radius: var(--radius-lg); border: 1px solid rgba(255,255,255,0.05);
-            display: flex; align-items: center; justify-content: center; position: relative;
-        }
+        .diagram-container { width: 100%; height: 350px; background: rgba(0,0,0,0.2); border-radius: var(--radius-lg); border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; position: relative; }
         @media(min-width: 768px){ .diagram-container { height: 500px; } }
         @media(min-width: 1024px){ .diagram-container { height: 650px; } }
-        
         .svg-diagram { width: 100%; height: 100%; max-height: 100%; }
         
-        /* Interactive Hotspots */
         .hotspot-circle { cursor: pointer; transition: all 0.3s; transform-origin: center; }
         .hotspot-circle:hover, .hotspot-circle:active { fill: var(--color-accent-secondary); r: 25; }
         
-        /* Box Informasi Diagram yang diperbarui agar ramah HP */
-        #interactive-info-box {
-            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
-            background: var(--color-bg-panel); backdrop-filter: blur(15px); border: 1px solid var(--color-glass-border);
-            padding: 20px; border-radius: var(--radius-md); box-shadow: var(--shadow-glass);
-            width: 90%; max-width: 400px; text-align: center;
-            opacity: 0; pointer-events: none; transition: all 0.3s ease; z-index: 100;
-        }
+        #interactive-info-box { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--color-bg-panel); backdrop-filter: blur(15px); border: 1px solid var(--color-glass-border); padding: 20px; border-radius: var(--radius-md); box-shadow: var(--shadow-glass); width: 90%; max-width: 400px; text-align: center; opacity: 0; pointer-events: none; transition: all 0.3s ease; z-index: 100; }
         #interactive-info-box.show { opacity: 1; pointer-events: auto; bottom: 30px; }
-        .close-info-btn { 
-            background: rgba(255,255,255,0.1); border: none; color: white; margin-top: 15px; 
-            padding: 8px 20px; border-radius: 20px; cursor: pointer; font-size: 14px;
-        }
+        .close-info-btn { background: rgba(255,255,255,0.1); border: none; color: white; margin-top: 15px; padding: 8px 20px; border-radius: 20px; cursor: pointer; font-size: 14px; }
 
-        /* SLIDE 5: Rocket Stove List */
         .innovation-list { list-style: none; display: flex; flex-direction: column; gap: 20px; font-size: clamp(15px, 2vw, 20px); line-height: 1.6; }
         .innovation-list li { display: flex; gap: 15px; }
         .innovation-list .icon-wrap { color: var(--color-accent-secondary); font-size: clamp(20px, 3vw, 28px); flex-shrink: 0;}
 
-        /* SLIDE 7: Table */
+        /* ==========================================================================
+           🌟 STYLES KHUSUS SLIDE 6 (PROTOTYPE INTERAKTIF V2)
+           ========================================================================== */
+        .simulation-container {
+            display: flex; flex-direction: column; gap: 20px; height: 100%; width: 100%;
+        }
+        @media (min-width: 1024px) {
+            .simulation-container { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; align-items: stretch; height: auto; }
+        }
+
+        .svg-canvas-wrapper {
+            background: linear-gradient(to bottom, #1e293b, #0f172a); border-radius: var(--radius-md); border: 1px solid var(--color-glass-border);
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.5); position: relative; width: 100%; height: 40vh; min-height: 300px; 
+            display: flex; align-items: center; justify-content: center; overflow: hidden; flex-grow: 1;
+        }
+        @media (min-width: 1024px) { .svg-canvas-wrapper { height: 100%; min-height: 500px; } }
+
+        .svg-prototype { width: 100%; height: 100%; max-height: 800px; }
+
+        .control-dashboard { display: flex; flex-direction: column; gap: 15px; }
+        .dashboard-card { background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.05); border-radius: var(--radius-sm); padding: 15px; }
+        
+        .meter-container { margin-bottom: 15px; }
+        .meter-header { display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; margin-bottom: 5px; color: var(--color-text-muted); text-transform: uppercase;}
+        .meter-value { font-family: var(--font-mono); font-size: 20px; font-weight: 700; color: white; display: flex; align-items: baseline; gap: 5px;}
+        .meter-unit { font-size: 12px; color: var(--color-accent-secondary); }
+        .meter-bar { width: 100%; height: 6px; background: #1e293b; border-radius: 4px; overflow: hidden; margin-top: 5px; border: 1px solid rgba(255,255,255,0.1);}
+        .meter-fill { height: 100%; width: 0%; border-radius: 4px; transition: width 0.5s ease-out, background-color 0.5s; }
+        
+        #temp-fill { background: linear-gradient(90deg, #f59e0b, #ef4444); }
+        #water-fill { background: linear-gradient(90deg, #38bdf8, #0284c7); }
+        #oil-fill { background: linear-gradient(90deg, #fcd34d, #fbbf24); }
+
+        .terminal-log {
+            background: #020617; border: 1px solid #1e293b; border-radius: 8px; padding: 10px; font-family: var(--font-mono); 
+            font-size: 11px; color: #34d399; height: 100px; overflow-y: auto; display: flex; flex-direction: column; gap: 5px;
+        }
+        .log-entry { opacity: 0; animation: fadeInLog 0.3s forwards; }
+        .log-time { color: #64748b; margin-right: 5px; }
+        .log-warn { color: #fbbf24; }
+        .log-crit { color: #ef4444; }
+        @keyframes fadeInLog { to { opacity: 1; } }
+
+        /* KEYFRAMES ANIMASI SVG PROTOTYPE */
+        .fire-path { transform-origin: bottom center; animation: flicker 0.1s infinite alternate; }
+        .fire-inner { animation: flickerInner 0.08s infinite alternate; }
+        @keyframes flicker { 0% { transform: scaleY(0.9) skewX(-2deg); opacity: 0.8; } 100% { transform: scaleY(1.1) skewX(2deg); opacity: 1; } }
+        @keyframes flickerInner { 0% { transform: scale(0.85); opacity: 0.7; } 100% { transform: scale(1.05); opacity: 1; } }
+        
+        .steam-flow { stroke-dasharray: 10 15; animation: flow 1s linear infinite; opacity: 0; transition: opacity 0.5s; }
+        .steam-flow.active { opacity: 1; }
+        @keyframes flow { to { stroke-dashoffset: -25; } }
+        
+        .oil-drop { opacity: 0; }
+        .oil-drop.dropping { animation: dropFall 1.5s infinite; }
+        @keyframes dropFall { 0% { transform: translateY(0) scale(0.5); opacity: 0; } 20% { transform: translateY(10px) scale(1); opacity: 1; } 80% { transform: translateY(80px) scale(1); opacity: 1; } 100% { transform: translateY(90px) scale(0.5); opacity: 0; } }
+        
+        .liquid-level { transition: transform 0.5s ease-out; transform-origin: bottom; }
+        .bubble { opacity: 0; transform-origin: center; }
+        .bubble.boiling { animation: rise 2s infinite ease-in; }
+        @keyframes rise { 0% { transform: translateY(0) scale(0.5); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateY(-80px) scale(1.5); opacity: 0; } }
+
+
+        /* SLIDE LAINNYA */
         .table-responsive { width: 100%; overflow-x: auto; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.05); }
         .comparison-table { width: 100%; min-width: 600px; border-collapse: collapse; font-size: clamp(14px, 1.5vw, 18px); }
         .comparison-table th, .comparison-table td { padding: 15px 20px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.05); }
@@ -251,9 +279,7 @@
         .comparison-table tr:hover td { background: rgba(255,255,255,0.03); }
         .status-bad { color: var(--color-danger); font-weight: 600; display: flex; align-items: center; gap: 8px; }
         .status-good { color: var(--color-accent-main); font-weight: 600; display: flex; align-items: center; gap: 8px; }
-        @media(min-width: 1024px){ .comparison-table th, .comparison-table td { padding: 25px 30px; } }
 
-        /* SLIDE 8: Charts */
         .chart-wrapper { display: flex; flex-direction: column; justify-content: center; gap: 30px; }
         .bar-group { width: 100%; }
         .bar-label { display: flex; justify-content: space-between; font-size: clamp(16px, 2vw, 22px); font-weight: 600; margin-bottom: 10px; }
@@ -265,30 +291,14 @@
         .slide.active .bar-fill.w-15 { width: 15%; }
         .slide.active .bar-fill.w-40 { width: 40%; }
         .slide.active .bar-fill.w-100 { width: 100%; }
-        @media(min-width: 768px){ .bar-track { height: 30px; } }
 
-        /* SLIDE 9: Team */
-        .team-grid {
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 20px;
-        }
-        .team-card {
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
-            border-radius: var(--radius-md); padding: 20px 10px; text-align: center;
-        }
-        .team-avatar {
-            width: 60px; height: 60px; background: linear-gradient(135deg, #334155, #1E293B);
-            border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center;
-            font-size: 24px; color: var(--color-accent-main); border: 2px solid rgba(255,255,255,0.1);
-        }
+        .team-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 20px; }
+        .team-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-md); padding: 20px 10px; text-align: center; }
+        .team-avatar { width: 60px; height: 60px; background: linear-gradient(135deg, #334155, #1E293B); border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--color-accent-main); border: 2px solid rgba(255,255,255,0.1); }
         .team-name { font-size: 16px; font-weight: 700; margin-bottom: 5px;}
         .team-role { font-size: 12px; color: var(--color-accent-secondary); text-transform: uppercase; }
         @media(min-width: 640px){ .team-grid { grid-template-columns: repeat(3, 1fr); } }
-        @media(min-width: 1024px){ 
-            .team-grid { grid-template-columns: repeat(6, 1fr); gap: 20px; } 
-            .team-card { padding: 30px 20px; }
-            .team-avatar { width: 80px; height: 80px; font-size: 32px; }
-            .team-name { font-size: 18px; }
-        }
+        @media(min-width: 1024px){ .team-grid { grid-template-columns: repeat(6, 1fr); gap: 20px; } .team-card { padding: 30px 20px; } .team-avatar { width: 80px; height: 80px; font-size: 32px; } .team-name { font-size: 18px; } }
 
         /* ==========================================================================
            6. NAVIGATION CONTROLS (FIXED BOTTOM)
@@ -330,16 +340,13 @@
 </head>
 <body>
 
-    <!-- WRAPPER PRESENTASI: 100vw x 100dvh Responsif -->
     <div id="presentation-wrapper">
         <div class="progress-bar" id="progress-bar"></div>
         
-        <!-- Background Elements -->
         <canvas id="particle-canvas"></canvas>
         <div class="glow-orb orb-1"></div>
         <div class="glow-orb orb-2"></div>
 
-        <!-- CONTAINER SLIDE -->
         <div class="slides-container" id="slides-container">
             
             <!-- SLIDE 1: HERO/COVER -->
@@ -356,7 +363,7 @@
                 </div>
             </div>
 
-            <!-- SLIDE 2: TIMELINE / LATAR BELAKANG -->
+            <!-- SLIDE 2: TIMELINE -->
             <div class="slide" id="slide-2">
                 <div class="slide-header">
                     <div class="badge">Bab I: Pendahuluan</div>
@@ -440,13 +447,12 @@
             <div class="slide" id="slide-4">
                 <div class="slide-header text-center">
                     <div class="badge">Analisis Termodinamika</div>
-                    <h2>Skema Kegagalan Sistem</h2>
+                    <h2>Skema Kegagalan Sistem Lama</h2>
                     <p>Tap/Klik titik merah untuk detail</p>
                 </div>
                 
                 <div class="glass-panel" style="padding: 10px; display: flex; flex-direction: column; align-items: center;">
                     <div class="diagram-container">
-                        <!-- INLINE SVG -->
                         <svg class="svg-diagram" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
                             <defs>
                                 <linearGradient id="metal" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -459,8 +465,6 @@
                                     <stop offset="0%" stop-color="rgba(239, 68, 68, 0.8)" /> <stop offset="100%" stop-color="rgba(239, 68, 68, 0)" />
                                 </linearGradient>
                             </defs>
-
-                            <!-- Gambar Mesin Lama -->
                             <rect x="200" y="250" width="200" height="250" rx="20" fill="url(#metal)" stroke="#475569" stroke-width="4"/>
                             <path d="M 180 250 Q 300 180 420 250 Z" fill="url(#metal)" stroke="#475569" stroke-width="4"/>
                             <rect x="220" y="520" width="160" height="30" rx="5" fill="#334155" stroke="#1E293B" stroke-width="4"/>
@@ -469,28 +473,22 @@
                             <rect x="100" y="380" width="30" height="25" fill="#CBD5E1"/>
                             <path d="M 115 380 Q 150 280 250 535" fill="none" stroke="#F59E0B" stroke-width="6" stroke-dasharray="10 5"/>
                             <path d="M 300 210 L 300 150 L 600 150 L 600 250" fill="none" stroke="url(#metal)" stroke-width="20" stroke-linejoin="round"/>
-                            
                             <rect x="500" y="250" width="200" height="250" fill="url(#metal)" stroke="#475569" stroke-width="4" opacity="0.7"/>
                             <rect x="505" y="300" width="190" height="195" fill="rgba(239, 68, 68, 0.4)"/>
                             <text x="540" y="400" fill="#7F1D1D" font-size="20" font-weight="bold">Air Ikut Panas!</text>
                             <path d="M 600 250 C 550 300, 650 320, 600 350 C 550 380, 650 400, 600 430 C 550 460, 650 480, 600 500" fill="none" stroke="#E2E8F0" stroke-width="12"/>
-                            
                             <path d="M 150 300 Q 100 250 150 200" fill="none" stroke="url(#heatLoss)" stroke-width="15" opacity="0.6"/>
                             <path d="M 450 350 Q 500 300 450 250" fill="none" stroke="url(#heatLoss)" stroke-width="15" opacity="0.6"/>
                             <text x="80" y="250" fill="#EF4444" font-size="22" font-weight="bold">Heat Loss!</text>
 
-                            <!-- Interactive Hotspots (Memanggil fungsi JS) -->
                             <circle cx="115" cy="475" r="30" fill="rgba(239, 68, 68, 0.6)" stroke="#FFF" stroke-width="3" class="hotspot-circle" onclick="showInteractiveInfo('hs1')"/>
                             <text x="115" y="482" fill="white" font-size="20" font-weight="bold" text-anchor="middle" pointer-events="none">1</text>
-                            
                             <circle cx="200" cy="350" r="30" fill="rgba(245, 158, 11, 0.6)" stroke="#FFF" stroke-width="3" class="hotspot-circle" onclick="showInteractiveInfo('hs2')"/>
                             <text x="200" y="357" fill="white" font-size="20" font-weight="bold" text-anchor="middle" pointer-events="none">2</text>
-                            
                             <circle cx="600" cy="350" r="30" fill="rgba(239, 68, 68, 0.6)" stroke="#FFF" stroke-width="3" class="hotspot-circle" onclick="showInteractiveInfo('hs3')"/>
                             <text x="600" y="357" fill="white" font-size="20" font-weight="bold" text-anchor="middle" pointer-events="none">3</text>
                         </svg>
 
-                        <!-- Tooltip Info Box untuk Mobile & PC -->
                         <div id="interactive-info-box">
                             <h4 id="info-title" style="margin-bottom: 5px; font-size: 18px;"></h4>
                             <p id="info-desc" style="font-size: 14px; color: #E2E8F0;"></p>
@@ -558,63 +556,183 @@
                 </div>
             </div>
 
-            <!-- SLIDE 6: SKEMA INTEGRASI -->
+            <!-- ========================================================================================= -->
+            <!-- SLIDE 6: SIMULASI INTERAKTIF PROTOTYPE (YANG TELAH DIPERBAIKUS & DIGABUNGKAN)             -->
+            <!-- ========================================================================================= -->
             <div class="slide" id="slide-6">
                 <div class="slide-header">
-                    <div class="badge">Arsitektur Modifikasi</div>
-                    <h2>Desain Sistem Baru</h2>
-                    <p>Reaktor insulasi + Kondensor Terpisah.</p>
+                    <div class="badge"><i class="fa-solid fa-microscope"></i> Interactive Prototype</div>
+                    <h2>Desain Sistem Baru (Simulasi)</h2>
+                    <p>Tekan tombol pada panel kontrol untuk menguji termodinamika prototipe.</p>
                 </div>
                 
-                <div class="glass-panel" style="padding: 10px;">
-                    <div class="diagram-container" style="border:none; background: transparent;">
-                        <svg class="svg-diagram" viewBox="0 0 1200 650" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-                            <defs>
-                                <linearGradient id="metalNew" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" stop-color="#E2E8F0" /> <stop offset="50%" stop-color="#FFFFFF" /> <stop offset="100%" stop-color="#94A3B8" />
-                                </linearGradient>
-                                <linearGradient id="glassCool" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" stop-color="rgba(56, 189, 248, 0.1)" /> <stop offset="100%" stop-color="rgba(56, 189, 248, 0.3)" />
-                                </linearGradient>
-                                <pattern id="dots" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
-                                    <circle cx="2" cy="2" r="1.5" fill="rgba(255,255,255,0.2)"/>
-                                </pattern>
-                            </defs>
+                <div class="glass-panel" style="padding: 15px; flex-grow: 1; display: flex; flex-direction: column;">
+                    <div class="simulation-container">
+                        
+                        <!-- PANEL KIRI: GAMBAR ANIMASI SVG -->
+                        <div class="svg-canvas-wrapper">
+                            <svg class="svg-prototype" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <linearGradient id="metalCylinder" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stop-color="#475569" /><stop offset="20%" stop-color="#94a3b8" /><stop offset="50%" stop-color="#f8fafc" /><stop offset="80%" stop-color="#94a3b8" /><stop offset="100%" stop-color="#334155" />
+                                    </linearGradient>
+                                    <linearGradient id="metalDark" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stop-color="#1e293b" /><stop offset="50%" stop-color="#475569" /><stop offset="100%" stop-color="#0f172a" />
+                                    </linearGradient>
+                                    <linearGradient id="copperPipe" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#b45309" /><stop offset="50%" stop-color="#f59e0b" /><stop offset="100%" stop-color="#78350f" />
+                                    </linearGradient>
+                                    <linearGradient id="waterGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" stop-color="rgba(56, 189, 248, 0.4)" /><stop offset="100%" stop-color="rgba(2, 132, 199, 0.8)" />
+                                    </linearGradient>
+                                    <linearGradient id="oilGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" stop-color="rgba(252, 211, 77, 0.9)" /><stop offset="100%" stop-color="rgba(217, 119, 6, 0.9)" />
+                                    </linearGradient>
+                                    <linearGradient id="fireBase" x1="0%" y1="100%" x2="0%" y2="0%">
+                                        <stop offset="0%" stop-color="#7f1d1d" /><stop offset="20%" stop-color="#dc2626" /><stop offset="60%" stop-color="#f59e0b" /><stop offset="100%" stop-color="rgba(253, 224, 71, 0)" />
+                                    </linearGradient>
+                                    <radialGradient id="glowFire" cx="50%" cy="50%" r="50%">
+                                        <stop offset="0%" stop-color="rgba(245, 158, 11, 0.4)" /><stop offset="100%" stop-color="rgba(245, 158, 11, 0)" />
+                                    </radialGradient>
+                                    <pattern id="insulationPattern" x="0" y="0" width="15" height="15" patternUnits="userSpaceOnUse">
+                                        <path d="M 0 15 L 15 0 M -5 5 L 5 -5 M 10 20 L 20 10" stroke="#fcd34d" stroke-width="1" opacity="0.3"/>
+                                        <circle cx="7.5" cy="7.5" r="1" fill="#fcd34d" opacity="0.5"/>
+                                    </pattern>
+                                    <filter id="glowDrop" x="-50%" y="-50%" width="200%" height="200%">
+                                        <feGaussianBlur stdDeviation="3" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" />
+                                    </filter>
+                                </defs>
 
-                            <g transform="translate(150, 400) scale(0.6)">
-                                <rect x="250" y="150" width="300" height="350" rx="10" fill="#1E293B" stroke="#0F172A" stroke-width="8"/>
-                                <rect x="270" y="170" width="260" height="310" fill="url(#insulation)"/>
-                                <path d="M 330 170 L 470 170 L 470 380 L 580 380 L 580 460 L 330 460 Z" fill="url(#brick)"/>
-                                <path d="M 360 170 L 440 170 L 440 410 L 580 410 L 580 440 L 360 440 Z" fill="#000"/>
-                                <path d="M 370 420 Q 400 300 380 140 Q 400 100 420 140 Q 400 300 430 420 Z" fill="url(#superfire)"/>
-                            </g>
+                                <!-- ROCKET STOVE -->
+                                <g id="rocket-stove" transform="translate(150, 450)">
+                                    <ellipse cx="150" cy="300" rx="120" ry="15" fill="rgba(0,0,0,0.6)" filter="blur(5px)"/>
+                                    <path d="M 100 0 L 200 0 L 200 250 L 50 250 L 50 150 L 100 150 Z" fill="url(#metalDark)" stroke="#020617" stroke-width="4" stroke-linejoin="round"/>
+                                    <path d="M -80 100 L 50 150 L 100 150 L -30 100 Z" fill="url(#metalDark)" stroke="#020617" stroke-width="4" stroke-linejoin="round"/>
+                                    <rect x="70" y="210" width="110" height="30" rx="3" fill="#334155" stroke="#0f172a" stroke-width="2"/>
+                                    <rect x="120" y="215" width="10" height="20" fill="#0f172a" rx="2"/>
+                                    <path d="M 115 15 L 185 15 L 185 235 L 65 235 L 65 160 L 115 160 Z" fill="#475569"/>
+                                    <path d="M 115 15 L 185 15 L 185 235 L 65 235 L 65 160 L 115 160 Z" fill="url(#insulationPattern)"/>
+                                    <path d="M 130 15 L 170 15 L 170 215 L -20 120 L 20 120 L 130 160 Z" fill="#020617" stroke="#1e293b" stroke-width="2"/>
+                                    
+                                    <g id="wood-logs" opacity="0">
+                                        <rect x="-60" y="115" width="120" height="15" rx="5" fill="#78350f" transform="rotate(25 0 115)"/>
+                                        <rect x="-70" y="105" width="130" height="18" rx="5" fill="#451a03" transform="rotate(22 0 105)"/>
+                                        <rect x="-50" y="125" width="100" height="12" rx="4" fill="#92400e" transform="rotate(28 0 125)"/>
+                                    </g>
 
-                            <rect x="250" y="150" width="200" height="300" rx="20" fill="url(#metalNew)" stroke="#475569" stroke-width="4"/>
-                            <rect x="240" y="180" width="220" height="240" rx="10" fill="url(#dots)" stroke="#10B981" stroke-width="3" stroke-dasharray="6 6"/>
-                            <text x="350" y="300" fill="#1E293B" font-size="28" font-weight="bold" text-anchor="middle">REAKTOR</text>
+                                    <circle cx="150" cy="180" r="80" fill="url(#glowFire)" id="fire-glow" opacity="0"/>
+                                    <g id="fire-flames" opacity="0">
+                                        <path class="fire-path" d="M 130 215 Q 150 120 140 80 Q 150 160 170 215 Z" fill="url(#fireBase)"/>
+                                        <path class="fire-path" d="M 140 180 Q 130 50 150 0 Q 170 50 160 180 Z" fill="url(#fireBase)" style="animation-delay: 0.1s;"/>
+                                        <path class="fire-inner fire-path" d="M 145 180 Q 140 100 150 40 Q 160 100 155 180 Z" fill="#fcd34d" style="animation-delay: 0.2s;"/>
+                                    </g>
+                                </g>
+
+                                <!-- REAKTOR BOILER -->
+                                <g id="reaktor" transform="translate(100, 150)">
+                                    <rect x="0" y="50" width="300" height="260" rx="15" fill="url(#metalDark)" stroke="#334155" stroke-width="4"/>
+                                    <rect x="20" y="60" width="260" height="240" rx="10" fill="url(#metalCylinder)"/>
+                                    <path d="M 10 55 L 20 60 L 20 300 L 10 305 Z" fill="#fcd34d" opacity="0.8"/>
+                                    <path d="M 290 55 L 280 60 L 280 300 L 290 305 Z" fill="#fcd34d" opacity="0.8"/>
+                                    <path d="M 10 305 L 20 300 L 280 300 L 290 305 Z" fill="#fcd34d" opacity="0.8"/>
+                                    <rect x="25" y="150" width="250" height="140" fill="#a3e635" opacity="0.5" rx="5"/>
+                                    <rect x="25" y="270" width="250" height="20" fill="url(#waterGrad)" rx="3"/>
+                                    
+                                    <g id="boil-bubbles">
+                                        <circle cx="50" cy="280" r="4" fill="#fff" class="bubble" style="animation-delay: 0s"/>
+                                        <circle cx="100" cy="280" r="6" fill="#fff" class="bubble" style="animation-delay: 0.5s"/>
+                                        <circle cx="150" cy="280" r="3" fill="#fff" class="bubble" style="animation-delay: 1.2s"/>
+                                        <circle cx="200" cy="280" r="5" fill="#fff" class="bubble" style="animation-delay: 0.8s"/>
+                                        <circle cx="250" cy="280" r="4" fill="#fff" class="bubble" style="animation-delay: 1.5s"/>
+                                    </g>
+                                    <path d="M 10 50 Q 150 -30 290 50 Z" fill="url(#metalCylinder)" stroke="#334155" stroke-width="4"/>
+                                    <path d="M 30 50 Q 150 -10 270 50 Z" fill="#f8fafc" opacity="0.3"/>
+                                </g>
+
+                                <!-- PIPA UAP -->
+                                <g id="pipa-utama">
+                                    <path d="M 250 160 L 250 80 Q 250 50 280 50 L 500 50 Q 530 50 530 80 L 530 250 Q 530 280 560 280 L 600 280" fill="none" stroke="url(#metalCylinder)" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M 250 160 L 250 80 Q 250 50 280 50 L 500 50 Q 530 50 530 80 L 530 250 Q 530 280 560 280 L 600 280" fill="none" stroke="#1e293b" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/>
+                                    <path id="steam-path" d="M 250 160 L 250 80 Q 250 50 280 50 L 500 50 Q 530 50 530 80 L 530 250 Q 530 280 560 280 L 600 280" fill="none" stroke="#fef08a" stroke-width="6" class="steam-flow"/>
+                                </g>
+
+                                <!-- KONDENSOR -->
+                                <g id="kondensor" transform="translate(600, 150)">
+                                    <rect x="0" y="0" width="300" height="200" rx="40" fill="rgba(15, 23, 42, 0.6)" stroke="#38bdf8" stroke-width="4"/>
+                                    <rect x="10" y="10" width="280" height="180" rx="30" fill="rgba(56, 189, 248, 0.1)"/>
+                                    
+                                    <clipPath id="condenserClip"><rect x="10" y="10" width="280" height="180" rx="30" /></clipPath>
+                                    <g clip-path="url(#condenserClip)">
+                                        <rect id="condenser-water" x="0" y="190" width="300" height="180" fill="url(#waterGrad)" class="liquid-level"/>
+                                    </g>
+
+                                    <path d="M 0 130 L 30 130 Q 50 130 50 110 L 50 50 Q 50 30 70 30 L 230 30 Q 250 30 250 50 L 250 70 Q 250 90 230 90 L 90 90 Q 70 90 70 110 L 70 130 Q 70 150 90 150 L 250 150 Q 270 150 270 170 L 270 200" fill="none" stroke="url(#copperPipe)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path id="oil-path" d="M 0 130 L 30 130 Q 50 130 50 110 L 50 50 Q 50 30 70 30 L 230 30 Q 250 30 250 50 L 250 70 Q 250 90 230 90 L 90 90 Q 70 90 70 110 L 70 130 Q 70 150 90 150 L 250 150 Q 270 150 270 170 L 270 200" fill="none" stroke="#fcd34d" stroke-width="4" class="steam-flow" style="stroke-dasharray: 5 15;"/>
+
+                                    <path d="M 300 40 L 340 40" fill="none" stroke="#38bdf8" stroke-width="10"/>
+                                    <path d="M 340 40 L 320 30 L 320 50 Z" fill="#38bdf8"/>
+                                    <path d="M 300 160 L 340 160" fill="none" stroke="#ef4444" stroke-width="10"/>
+                                    <path d="M 300 160 L 320 150 L 320 170 Z" fill="#ef4444"/>
+
+                                    <path d="M 270 200 L 270 260 L 320 260 L 320 300" fill="none" stroke="url(#copperPipe)" stroke-width="14" stroke-linejoin="round"/>
+                                    <circle id="oil-droplet" cx="320" cy="300" r="5" fill="#fcd34d" filter="url(#glowDrop)" class="oil-drop"/>
+                                </g>
+
+                                <!-- SEPARATOR -->
+                                <g id="separator" transform="translate(860, 470)">
+                                    <path d="M 40 0 L 80 0 L 80 40 L 120 70 L 120 200 Q 60 220 0 200 L 0 70 L 40 40 Z" fill="rgba(255,255,255,0.1)" stroke="#94a3b8" stroke-width="4" stroke-linejoin="round"/>
+                                    <clipPath id="flaskClip"><path d="M 40 0 L 80 0 L 80 40 L 120 70 L 120 200 Q 60 220 0 200 L 0 70 L 40 40 Z" /></clipPath>
+                                    <g clip-path="url(#flaskClip)">
+                                        <rect id="sep-water" x="0" y="200" width="120" height="200" fill="url(#waterGrad)" class="liquid-level"/>
+                                        <rect id="sep-oil" x="0" y="200" width="120" height="30" fill="url(#oilGrad)" class="liquid-level"/>
+                                    </g>
+                                    <path d="M 120 120 L 170 120" fill="none" stroke="url(#metalCylinder)" stroke-width="8"/>
+                                    <path d="M 170 120 L 150 110 L 150 130 Z" fill="#f59e0b"/>
+                                    <path d="M 60 210 L 60 250 L 120 250" fill="none" stroke="url(#metalCylinder)" stroke-width="8" stroke-linejoin="round"/>
+                                    <path d="M 120 250 L 100 240 L 100 260 Z" fill="#0ea5e9"/>
+                                </g>
+                            </svg>
+                        </div>
+
+                        <!-- PANEL KANAN: DASHBOARD KONTROL -->
+                        <div class="control-dashboard">
+                            <h3 style="color: var(--color-accent-secondary); border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 5px; font-size: 16px;"><i class="fa-solid fa-microchip"></i> Telemetri Sistem</h3>
                             
-                            <path d="M 230 150 Q 350 80 470 150 Z" fill="url(#metalNew)" stroke="#475569" stroke-width="4"/>
-                            <path d="M 350 110 L 350 50 L 800 50 L 800 150" fill="none" stroke="url(#metalNew)" stroke-width="20" stroke-linejoin="round"/>
-                            <path d="M 350 110 L 350 50 L 800 50 L 800 150" fill="none" stroke="#FDE047" stroke-width="4" stroke-dasharray="15 15">
-                                <animate attributeName="stroke-dashoffset" from="100" to="0" dur="2s" repeatCount="indefinite"/>
-                            </path>
+                            <div class="dashboard-card meter-container">
+                                <div class="meter-header"><span>Suhu Reaktor</span> <i class="fa-solid fa-temperature-three-quarters" style="color: #ef4444;"></i></div>
+                                <div class="meter-value"><span id="val-temp">28</span> <span class="meter-unit">°C</span></div>
+                                <div class="meter-bar"><div class="meter-fill" id="temp-fill" style="width: 5%;"></div></div>
+                            </div>
 
-                            <rect x="700" y="150" width="200" height="400" rx="10" fill="url(#glassCool)" stroke="#38BDF8" stroke-width="4"/>
-                            <path d="M 700 180 Q 750 170 800 180 Q 850 190 900 180 L 900 550 L 700 550 Z" fill="rgba(56, 189, 248, 0.4)">
-                                <animate attributeName="d" dur="3s" repeatCount="indefinite" values="M 700 180 Q 750 170 800 180 Q 850 190 900 180 L 900 550 L 700 550 Z; M 700 180 Q 750 190 800 180 Q 850 170 900 180 L 900 550 L 700 550 Z; M 700 180 Q 750 170 800 180 Q 850 190 900 180 L 900 550 L 700 550 Z"/>
-                            </path>
-                            <path d="M 800 150 C 730 200, 870 230, 800 280 C 730 330, 870 360, 800 410 C 730 460, 870 490, 800 540" fill="none" stroke="url(#metalNew)" stroke-width="16"/>
-                            <path d="M 800 150 C 730 200, 870 230, 800 280 C 730 330, 870 360, 800 410 C 730 460, 870 490, 800 540" fill="none" stroke="#10B981" stroke-width="4" stroke-dasharray="10 10">
-                                <animate attributeName="stroke-dashoffset" from="100" to="0" dur="3s" repeatCount="indefinite"/>
-                            </path>
+                            <div class="dashboard-card meter-container">
+                                <div class="meter-header"><span>Air Kondensor</span> <i class="fa-solid fa-water" style="color: #38bdf8;"></i></div>
+                                <div class="meter-value"><span id="val-water">0</span> <span class="meter-unit">%</span></div>
+                                <div class="meter-bar"><div class="meter-fill" id="water-fill" style="width: 0%;"></div></div>
+                            </div>
 
-                            <rect x="790" y="540" width="20" height="40" fill="url(#metalNew)"/>
-                            <rect x="730" y="610" width="140" height="40" fill="rgba(255,255,255,0.9)" rx="5"/>
-                            <text x="800" y="635" fill="#064E3B" font-size="20" font-weight="bold" text-anchor="middle">Minyak Atsiri</text>
-                            
-                            <path d="M 470 300 L 690 300" stroke="#F59E0B" stroke-width="3" stroke-dasharray="10 5"/>
-                            <text x="580" y="280" fill="#F59E0B" font-size="22" font-weight="bold" text-anchor="middle">TERPISAH</text>
-                        </svg>
+                            <div class="dashboard-card meter-container" style="border-color: rgba(245, 158, 11, 0.3);">
+                                <div class="meter-header"><span style="color: #fcd34d;">Minyak Atsiri</span> <i class="fa-solid fa-flask" style="color: #f59e0b;"></i></div>
+                                <div class="meter-value"><span id="val-oil" style="color: #fcd34d;">0.00</span> <span class="meter-unit">mL</span></div>
+                                <div class="meter-bar"><div class="meter-fill" id="oil-fill" style="width: 0%;"></div></div>
+                            </div>
+
+                            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: auto; margin-bottom: 10px;">
+                                <button class="btn-action" id="btn-wood" onclick="simAddWood()">
+                                    <i class="fa-solid fa-fire"></i> Tambah Biomassa
+                                </button>
+                                <button class="btn-action" id="btn-water" onclick="simToggleWater()">
+                                    <i class="fa-solid fa-power-off"></i> Pompa Pendingin
+                                </button>
+                                <button class="btn-action danger-state" id="btn-reset" onclick="simReset()">
+                                    <i class="fa-solid fa-rotate-right"></i> Reset
+                                </button>
+                            </div>
+
+                            <div class="terminal-log" id="term-log">
+                                <div><span class="log-time">[SYS]</span> Sistem Termodinamika siap...</div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -746,7 +864,6 @@
         let currentSlide = 0;
         const totalSlides = slides.length;
 
-        // Generate Dots
         for (let i = 0; i < totalSlides; i++) {
             const dot = document.createElement('div');
             dot.classList.add('dot');
@@ -775,7 +892,6 @@
             });
             currentSlide = index;
             slides[currentSlide].classList.add('active');
-            // Reset scroll to top
             slides[currentSlide].scrollTop = 0;
             updateUI();
         }
@@ -783,7 +899,6 @@
         function nextSlide() { goToSlide(currentSlide + 1); }
         function prevSlide() { goToSlide(currentSlide - 1); }
 
-        // Keyboard Navigation
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowRight' || e.key === 'Space') nextSlide();
             if (e.key === 'ArrowLeft') prevSlide();
@@ -794,22 +909,14 @@
         let touchendX = 0;
         const sliderContainer = document.getElementById('slides-container');
 
-        sliderContainer.addEventListener('touchstart', e => {
-            touchstartX = e.changedTouches[0].screenX;
-        }, {passive: true});
-
+        sliderContainer.addEventListener('touchstart', e => { touchstartX = e.changedTouches[0].screenX; }, {passive: true});
         sliderContainer.addEventListener('touchend', e => {
             touchendX = e.changedTouches[0].screenX;
-            handleGesture();
-        }, {passive: true});
-
-        function handleGesture() {
-            // Deteksi usapan minimal 60px agar tidak sensitif dengan scroll
             if (touchendX < touchstartX - 60) nextSlide();
             if (touchendX > touchstartX + 60) prevSlide();
-        }
+        }, {passive: true});
 
-        // --- 3. INTERACTIVE HOTSPOTS ENGINE ---
+        // --- 3. INTERACTIVE HOTSPOTS ENGINE (SLIDE 4) ---
         const hotspotData = {
             hs1: { title: "1. Biaya LPG Tinggi", desc: "Gas LPG komersial terus menyala 4-6 jam. Margin keuntungan habis untuk beli bahan bakar.", color: "var(--color-danger)" },
             hs2: { title: "2. Tanpa Isolasi Termal", desc: "Dinding logam langsung terpapar udara luar. Energi panas terbuang percuma (Heat Loss).", color: "var(--color-warning)" },
@@ -828,25 +935,145 @@
             document.getElementById('interactive-info-box').classList.remove('show');
         }
 
-        // --- 4. PARTICLE BACKGROUND ENGINE ---
+        // --- 4. ENGINE SIMULASI TERMODINAMIKA (SLIDE 6) ---
+        let simState = { woodLevel: 0, temp: 28, waterPumpOn: false, waterLevel: 0, oilYield: 0, isBoiling: false, isCondensing: false };
+        let simInterval;
+
+        const elWood = document.getElementById('wood-logs');
+        const elFireGlow = document.getElementById('fire-glow');
+        const elFireFlames = document.getElementById('fire-flames');
+        const elCondWater = document.getElementById('condenser-water');
+        const elSepWater = document.getElementById('sep-water');
+        const elSepOil = document.getElementById('sep-oil');
+        const elSteamPath = document.getElementById('steam-path');
+        const elOilPath = document.getElementById('oil-path');
+        const elOilDrop = document.getElementById('oil-droplet');
+        const elBubbles = document.querySelectorAll('.bubble');
+        
+        const uiTemp = document.getElementById('val-temp');
+        const uiTempFill = document.getElementById('temp-fill');
+        const uiWater = document.getElementById('val-water');
+        const uiWaterFill = document.getElementById('water-fill');
+        const uiOil = document.getElementById('val-oil');
+        const uiOilFill = document.getElementById('oil-fill');
+        const btnWater = document.getElementById('btn-water');
+        const logBox = document.getElementById('term-log');
+
+        function addLog(msg, type='info') {
+            const time = new Date().toLocaleTimeString('id-ID', {hour12:false});
+            const div = document.createElement('div');
+            div.className = 'log-entry';
+            let colorClass = type === 'warn' ? 'log-warn' : (type === 'crit' ? 'log-crit' : '');
+            div.innerHTML = `<span class="log-time">[${time}]</span> <span class="${colorClass}">${msg}</span>`;
+            logBox.appendChild(div);
+            logBox.scrollTop = logBox.scrollHeight;
+        }
+
+        function simAddWood() {
+            if (simState.woodLevel < 100) {
+                simState.woodLevel += 30;
+                if (simState.woodLevel > 100) simState.woodLevel = 100;
+                addLog('Biomassa ditambahkan. Api membesar.', 'info');
+                elWood.style.opacity = (simState.woodLevel / 100).toString();
+                elFireFlames.style.opacity = Math.min(1, (simState.woodLevel / 50)).toString();
+                elFireGlow.style.opacity = Math.min(0.6, (simState.woodLevel / 100)).toString();
+                if(!simInterval) startEngine();
+            } else { addLog('Ruang bakar penuh!', 'warn'); }
+        }
+
+        function simToggleWater() {
+            simState.waterPumpOn = !simState.waterPumpOn;
+            if (simState.waterPumpOn) {
+                btnWater.classList.add('active-state');
+                btnWater.innerHTML = '<i class="fa-solid fa-water"></i> Pompa Pendingin ON';
+                addLog('Sistem sirkulasi pendingin AKTIF.');
+            } else {
+                btnWater.classList.remove('active-state');
+                btnWater.innerHTML = '<i class="fa-solid fa-power-off"></i> Pompa Pendingin OFF';
+                addLog('Sistem sirkulasi pendingin MATI.', 'warn');
+            }
+            if(!simInterval) startEngine();
+        }
+
+        function simReset() {
+            clearInterval(simInterval); simInterval = null;
+            simState = { woodLevel: 0, temp: 28, waterPumpOn: false, waterLevel: 0, oilYield: 0, isBoiling: false, isCondensing: false };
+            elWood.style.opacity = "0"; elFireFlames.style.opacity = "0"; elFireGlow.style.opacity = "0";
+            elCondWater.style.transform = "translateY(0px)"; elSepWater.style.transform = "translateY(0px)"; elSepOil.style.transform = "translateY(0px)";
+            elSteamPath.classList.remove('active'); elOilPath.classList.remove('active'); elOilDrop.classList.remove('dropping');
+            elBubbles.forEach(b => b.classList.remove('boiling'));
+            btnWater.classList.remove('active-state'); btnWater.innerHTML = '<i class="fa-solid fa-power-off"></i> Pompa Pendingin';
+            logBox.innerHTML = ''; addLog('Sistem di-reset ke kondisi awal.');
+            updateDashboard();
+        }
+
+        function startEngine() { simInterval = setInterval(gameLoop, 500); }
+
+        function gameLoop() {
+            // Suhu
+            if (simState.woodLevel > 0) {
+                simState.temp += (simState.woodLevel * 0.05); simState.woodLevel -= 0.5;
+                elWood.style.opacity = (simState.woodLevel / 100).toString();
+                elFireFlames.style.opacity = Math.min(1, (simState.woodLevel / 50)).toString();
+            } else { simState.temp -= 1; }
+            if (simState.temp < 28) simState.temp = 28;
+            if (simState.temp > 150) simState.temp = 150;
+
+            // Air Kondensor
+            if (simState.waterPumpOn) { simState.waterLevel += 5; if (simState.waterLevel > 100) simState.waterLevel = 100; } 
+            else { simState.waterLevel -= 2; if (simState.waterLevel < 0) simState.waterLevel = 0; }
+            elCondWater.style.transform = `translateY(${ (190 - ((simState.waterLevel / 100) * 180)) - 190 }px)`;
+
+            // Distilasi
+            if (simState.temp >= 100) {
+                if (!simState.isBoiling) {
+                    simState.isBoiling = true; addLog('Mencapai Titik Didih. Uap mulai mengalir!', 'crit');
+                    elSteamPath.classList.add('active'); elBubbles.forEach(b => b.classList.add('boiling'));
+                }
+                if (simState.waterLevel > 50) {
+                    if (!simState.isCondensing) {
+                        simState.isCondensing = true; elOilPath.classList.add('active'); elOilDrop.classList.add('dropping');
+                        addLog('Kondensasi sukses. Minyak menetes.', 'info');
+                    }
+                    simState.oilYield += 0.2;
+                    const waterSepY = 200 - Math.min(100, simState.oilYield * 5);
+                    elSepWater.style.transform = `translateY(${waterSepY - 200}px)`;
+                    elSepOil.setAttribute('y', waterSepY - 30);
+                } else {
+                    if (simState.isCondensing) {
+                        simState.isCondensing = false; elOilPath.classList.remove('active'); elOilDrop.classList.remove('dropping');
+                        addLog('WARNING: Kondensor kering! Uap gagal mengembun (Loss).', 'crit');
+                    }
+                }
+            } else {
+                if (simState.isBoiling) {
+                    simState.isBoiling = false; simState.isCondensing = false;
+                    elSteamPath.classList.remove('active'); elOilPath.classList.remove('active'); elOilDrop.classList.remove('dropping');
+                    elBubbles.forEach(b => b.classList.remove('boiling')); addLog('Suhu turun. Distilasi terhenti.', 'warn');
+                }
+            }
+            if (simState.woodLevel <= 0 && simState.temp <= 28 && !simState.waterPumpOn) { clearInterval(simInterval); simInterval = null; }
+            updateDashboard();
+        }
+
+        function updateDashboard() {
+            uiTemp.innerText = simState.temp.toFixed(1); uiWater.innerText = simState.waterLevel.toFixed(0); uiOil.innerText = simState.oilYield.toFixed(2);
+            uiTempFill.style.width = `${Math.min(100, (simState.temp/150)*100)}%`; uiWaterFill.style.width = `${simState.waterLevel}%`; uiOilFill.style.width = `${Math.min(100, (simState.oilYield/20)*100)}%`;
+            if(simState.temp > 120) uiTemp.style.color = '#ef4444'; else if(simState.temp >= 100) uiTemp.style.color = '#10b981'; else uiTemp.style.color = '#f8fafc';
+        }
+
+        // --- 5. PARTICLE BACKGROUND ENGINE ---
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
 
         function initParticles() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            particles = [];
-            // Kurangi partikel di HP agar lebih ringan
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight; particles = [];
             const pCount = window.innerWidth < 768 ? 40 : 80; 
             for (let i = 0; i < pCount; i++) {
                 particles.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    radius: Math.random() * 2 + 1,
-                    vx: (Math.random() - 0.5) * 0.5,
-                    vy: (Math.random() - 0.5) * 0.5,
-                    opacity: Math.random() * 0.5 + 0.1
+                    x: Math.random() * canvas.width, y: Math.random() * canvas.height, radius: Math.random() * 2 + 1,
+                    vx: (Math.random() - 0.5) * 0.5, vy: (Math.random() - 0.5) * 0.5, opacity: Math.random() * 0.5 + 0.1
                 });
             }
         }
@@ -857,24 +1084,14 @@
                 p.x += p.vx; p.y += p.vy;
                 if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
                 if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(16, 185, 129, ${p.opacity})`;
-                ctx.fill();
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2); ctx.fillStyle = `rgba(16, 185, 129, ${p.opacity})`; ctx.fill();
             });
-
             for (let i = 0; i < particles.length; i++) {
                 for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 80) {
-                        ctx.beginPath();
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.strokeStyle = `rgba(16, 185, 129, ${0.1 - dist/800})`;
-                        ctx.lineWidth = 0.5; ctx.stroke();
+                    const dx = particles[i].x - particles[j].x; const dy = particles[i].y - particles[j].y;
+                    if (Math.sqrt(dx * dx + dy * dy) < 80) {
+                        ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(16, 185, 129, ${0.1 - Math.sqrt(dx * dx + dy * dy)/800})`; ctx.lineWidth = 0.5; ctx.stroke();
                     }
                 }
             }
@@ -882,8 +1099,7 @@
         }
 
         window.addEventListener('resize', initParticles);
-        initParticles();
-        drawParticles();
+        initParticles(); drawParticles();
         
     </script>
 </body>
