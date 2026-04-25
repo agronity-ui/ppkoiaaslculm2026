@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sistem Integrasi Penyulingan Minyak Atsiri</title>
+    <title>Presentasi Inovasi: Alat Penyulingan Minyak Atsiri</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -18,38 +18,32 @@
            1. CSS VARIABLES & THEME TOKENS
            ========================================================================== */
         :root {
-            --color-bg-deep: #0f172a; /* Slate 900 */
-            --color-bg-panel: rgba(30, 41, 59, 0.75);
+            --color-bg-deep: #0B1120;
+            --color-bg-panel: rgba(30, 41, 59, 0.7);
             --color-glass-border: rgba(255, 255, 255, 0.1);
             
-            --color-accent-main: #10B981; /* Emerald */
+            --color-accent-main: #10B981;
             --color-accent-glow: rgba(16, 185, 129, 0.5);
-            --color-accent-secondary: #38bdf8; /* Light Blue */
+            --color-accent-secondary: #06B6D4;
             
-            --color-fire-1: #ef4444;
-            --color-fire-2: #f59e0b;
-            --color-fire-3: #fcd34d;
+            --color-text-main: #F8FAFC;
+            --color-text-muted: #94A3B8;
             
-            --color-text-main: #f8fafc;
-            --color-text-muted: #94a3b8;
-            
-            --color-danger: #ef4444;
-            --color-warning: #f59e0b;
-            --color-info: #0ea5e9;
+            --color-danger: #EF4444;
+            --color-warning: #F59E0B;
             
             --font-heading: 'Montserrat', sans-serif;
             --font-body: 'Poppins', sans-serif;
-            --font-mono: 'Share Tech Mono', monospace;
             
-            --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
             --radius-lg: 24px;
             --radius-md: 16px;
             
-            --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         /* ==========================================================================
-           2. BASE RESET & BODY STYLES
+           2. RESET & BASE
            ========================================================================== */
         * {
             margin: 0;
@@ -60,21 +54,21 @@
 
         body {
             font-family: var(--font-body);
-            background: radial-gradient(circle at 50% 50%, #1e293b 0%, #020617 100%);
+            background: linear-gradient(135deg, var(--color-bg-deep) 0%, #0F172A 100%);
             color: var(--color-text-main);
-            overflow: hidden;
+            overflow: hidden; /* Mencegah scroll body keseluruhan */
             width: 100vw;
-            height: 100dvh;
+            height: 100dvh; /* dvh untuk browser mobile modern */
         }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb { background: var(--color-accent-main); border-radius: 4px; border: 2px solid transparent; background-clip: content-box; }
-        ::-webkit-scrollbar-thumb:hover { background-color: #059669; }
+        /* Custom Scrollbar untuk Slide */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+        ::-webkit-scrollbar-thumb { background: rgba(16, 185, 129, 0.4); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(16, 185, 129, 0.8); }
 
         /* ==========================================================================
-           3. PRESENTATION ENGINE (FRAMEWORK)
+           3. PRESENTATION ENGINE (FULLY RESPONSIVE)
            ========================================================================== */
         #presentation-wrapper {
             position: relative;
@@ -84,8 +78,17 @@
         }
 
         #particle-canvas {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; pointer-events: none;
         }
+
+        .glow-orb {
+            position: absolute; border-radius: 50%; filter: blur(80px);
+            z-index: 0; opacity: 0.4; pointer-events: none;
+        }
+        .orb-1 { top: -50px; left: -50px; width: 300px; height: 300px; background: rgba(16, 185, 129, 0.3); }
+        .orb-2 { bottom: -100px; right: -50px; width: 400px; height: 400px; background: rgba(6, 182, 212, 0.2); }
 
         .slides-container {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10;
@@ -93,575 +96,638 @@
 
         .slide {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            padding: 20px 15px 100px 15px; /* Mobile default padding */
+            padding: 30px 20px 120px 20px; /* Padding bawah ekstra untuk kontrol navigasi */
             opacity: 0; visibility: hidden;
-            transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
-            transform: scale(0.9) translateY(40px);
+            transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: scale(0.95) translateY(20px);
             display: flex; flex-direction: column;
             overflow-y: auto; overflow-x: hidden;
         }
 
+        /* Desktop Padding */
         @media (min-width: 1024px) {
-            .slide { padding: 40px 60px 80px 60px; justify-content: center; }
+            .slide { padding: 60px 80px 100px 80px; justify-content: center; }
+            .orb-1 { width: 600px; height: 600px; filter: blur(120px); }
+            .orb-2 { width: 800px; height: 800px; filter: blur(120px); }
         }
 
-        .slide.active { opacity: 1; visibility: visible; transform: scale(1) translateY(0); z-index: 20; }
-        .slide.prev-slide { transform: scale(1.05) translateY(-40px); }
+        .slide.active { opacity: 1; visibility: visible; transform: scale(1) translateY(0); z-index: 20;}
+        .slide.prev-slide { transform: scale(1.05) translateY(-20px); }
 
         /* ==========================================================================
-           4. GLOBAL UI COMPONENTS (GLASSMORPHISM)
+           4. TYPOGRAPHY & COMPONENTS
            ========================================================================== */
         h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: 800; line-height: 1.2; }
 
         .glass-panel {
             background: var(--color-bg-panel);
-            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--color-glass-border);
-            border-top: 1px solid rgba(255,255,255,0.15); border-left: 1px solid rgba(255,255,255,0.15);
-            border-radius: var(--radius-lg); box-shadow: var(--shadow-glass);
-            padding: 25px; position: relative; overflow: hidden;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            border-left: 1px solid rgba(255,255,255,0.2);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-glass);
+            padding: 25px; position: relative;
         }
         @media (min-width: 768px) { .glass-panel { padding: 40px; } }
 
         .text-gradient {
-            background: linear-gradient(135deg, var(--color-accent-main), var(--color-accent-secondary));
+            background: linear-gradient(to right, var(--color-accent-main), var(--color-accent-secondary));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;
         }
 
         .badge {
-            background: rgba(16, 185, 129, 0.15); color: var(--color-accent-main);
-            padding: 8px 16px; border-radius: 30px; font-size: 13px; font-weight: 700;
-            letter-spacing: 1.5px; text-transform: uppercase; border: 1px solid rgba(16, 185, 129, 0.4);
-            display: inline-block; margin-bottom: 20px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
+            background: rgba(16, 185, 129, 0.1); color: var(--color-accent-main);
+            padding: 6px 12px; border-radius: 30px; font-size: 12px; font-weight: 600;
+            letter-spacing: 1px; text-transform: uppercase; border: 1px solid rgba(16, 185, 129, 0.3);
+            display: inline-block; margin-bottom: 15px;
         }
+        @media (min-width: 768px) { .badge { font-size: 14px; padding: 8px 16px; margin-bottom: 20px;} }
 
-        /* Layout Utilities */
-        .grid-2 { display: flex; flex-direction: column; gap: 20px; height: auto; }
+        /* Layout Grids Responsive */
+        .grid-2 { display: flex; flex-direction: column; gap: 30px; height: auto; }
         .grid-3 { display: flex; flex-direction: column; gap: 20px; }
         @media (min-width: 1024px) {
-            .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; height: 100%; align-items: stretch; }
+            .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; height: 100%; align-items: center; }
             .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
         }
 
-        .slide-header { margin-bottom: 30px; text-align: center; }
-        .slide-header h2 { font-size: clamp(28px, 5vw, 48px); margin-bottom: 10px; }
-        .slide-header p { font-size: clamp(16px, 2vw, 20px); color: var(--color-text-muted); max-width: 800px; margin: 0 auto;}
-
-        /* Interactive Buttons */
-        .btn-action {
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            color: white; border: 1px solid rgba(255,255,255,0.2);
-            padding: 12px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; font-family: var(--font-body);
-            cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3); position: relative; overflow: hidden;
-        }
-        .btn-action::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); transition: 0.5s;
-        }
-        .btn-action:hover::before { left: 100%; }
-        .btn-action:hover { border-color: var(--color-accent-main); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(16, 185, 129, 0.2); }
-        .btn-action:active { transform: translateY(1px); }
-        .btn-action.active-state { background: linear-gradient(135deg, var(--color-accent-main), #059669); border-color: #34d399; }
-        .btn-action.danger-state { background: linear-gradient(135deg, #ef4444, #b91c1c); border-color: #fca5a5; }
+        /* Slide Header */
+        .slide-header { margin-bottom: 30px; }
+        .slide-header h2 { font-size: clamp(28px, 4vw + 10px, 50px); margin-bottom: 10px; }
+        .slide-header p { font-size: clamp(16px, 2vw + 5px, 22px); color: var(--color-text-muted); }
+        .text-center { text-align: center; }
 
         /* ==========================================================================
-           5. SLIDE 6: INTERACTIVE SIMULATION (THE CORE FEATURE)
+           5. SPECIFIC SLIDE STYLES
            ========================================================================== */
-        #slide-simulation { padding: 10px; display: flex; flex-direction: column;}
-        @media (min-width: 1024px) { #slide-simulation { padding: 30px; } }
-
-        .simulation-container {
-            display: flex; flex-direction: column; gap: 20px; height: 100%;
+           
+        /* SLIDE 1: Hero */
+        #slide-hero { justify-content: center; align-items: center; text-align: center; height: 100%; }
+        .hero-title { font-size: clamp(36px, 8vw, 80px); margin: 20px 0; text-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .hero-subtitle { font-size: clamp(16px, 3vw, 24px); color: var(--color-text-muted); font-weight: 300; max-width: 1000px; line-height: 1.6; margin-bottom: 40px;}
+        .start-btn {
+            background: linear-gradient(135deg, var(--color-accent-main), #059669); color: white; border: none; 
+            padding: 15px 30px; font-size: clamp(16px, 2vw, 22px); font-weight: 700; border-radius: 50px; cursor: pointer; 
+            transition: var(--transition-smooth); box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3); font-family: var(--font-heading);
+            display: flex; align-items: center; gap: 10px; margin: 0 auto;
         }
-        @media (min-width: 1200px) {
-            .simulation-container { display: grid; grid-template-columns: 3fr 1fr; gap: 30px; height: 100%; }
+        .start-btn:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 15px 30px rgba(16, 185, 129, 0.5); }
+
+        /* SLIDE 2: Timeline */
+        .timeline { position: relative; padding: 20px 0; }
+        .timeline::before {
+            content: ''; position: absolute; top: 0; left: 20px; width: 3px; height: 100%;
+            background: linear-gradient(to bottom, var(--color-accent-main), var(--color-accent-secondary));
+        }
+        .timeline-item { position: relative; padding-left: 60px; margin-bottom: 40px; }
+        .timeline-icon {
+            position: absolute; left: 0; top: 0; width: 44px; height: 44px;
+            background: var(--color-bg-deep); border: 3px solid var(--color-accent-main);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 16px; color: white; z-index: 2; box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+        }
+        .timeline-content h3 { font-size: clamp(20px, 2.5vw, 26px); margin-bottom: 10px; color: var(--color-accent-secondary); }
+        .timeline-content p { font-size: clamp(14px, 1.8vw, 18px); color: var(--color-text-muted); line-height: 1.6; }
+        @media(min-width: 768px){
+            .timeline::before { left: 40px; width: 4px; }
+            .timeline-item { padding-left: 100px; }
+            .timeline-icon { left: 10px; width: 60px; height: 60px; font-size: 24px; border-width: 4px;}
         }
 
-        /* SVG Canvas Container */
-        .svg-canvas-wrapper {
-            background: linear-gradient(to bottom, #1e293b, #0f172a);
-            border-radius: var(--radius-lg); border: 1px solid var(--color-glass-border);
-            box-shadow: inset 0 0 50px rgba(0,0,0,0.8), 0 10px 30px rgba(0,0,0,0.5);
-            position: relative; width: 100%; height: 50vh; min-height: 400px; display: flex; align-items: center; justify-content: center;
-            overflow: hidden;
+        /* SLIDE 3: Masalah */
+        .problem-card { border-top: 4px solid var(--color-danger); text-align: center; display: flex; flex-direction: column; align-items: center; }
+        .problem-icon-wrapper {
+            width: 80px; height: 80px; background: rgba(239, 68, 68, 0.1); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; margin-bottom: 20px; border: 2px solid rgba(239, 68, 68, 0.3);
         }
-        @media (min-width: 1200px) { .svg-canvas-wrapper { height: 100%; min-height: 600px; } }
-
-        .svg-prototype { width: 100%; height: 100%; max-height: 800px;}
-
-        /* Control Panel Dashboard */
-        .control-dashboard {
-            display: flex; flex-direction: column; gap: 15px; height: 100%;
+        .problem-icon { font-size: 35px; color: var(--color-danger); }
+        .problem-card h3 { font-size: clamp(20px, 2.5vw, 26px); margin-bottom: 15px; }
+        .problem-card p { font-size: clamp(14px, 1.8vw, 18px); color: var(--color-text-muted); line-height: 1.6; }
+        @media(min-width: 768px){
+            .problem-icon-wrapper { width: 100px; height: 100px; margin-bottom: 25px;}
+            .problem-icon { font-size: 45px; }
         }
+
+        /* SLIDE 4 & 6: Diagrams */
+        .diagram-container {
+            width: 100%; height: 350px; background: rgba(0,0,0,0.2);
+            border-radius: var(--radius-lg); border: 1px solid rgba(255,255,255,0.05);
+            display: flex; align-items: center; justify-content: center; position: relative;
+        }
+        @media(min-width: 768px){ .diagram-container { height: 500px; } }
+        @media(min-width: 1024px){ .diagram-container { height: 650px; } }
         
-        .dashboard-card {
-            background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.05);
-            border-radius: var(--radius-md); padding: 20px;
-        }
-
-        .meter-container { margin-bottom: 20px; }
-        .meter-header { display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--color-text-muted); text-transform: uppercase;}
-        .meter-value { font-family: var(--font-mono); font-size: 24px; font-weight: 700; color: white; display: flex; align-items: baseline; gap: 5px;}
-        .meter-unit { font-size: 14px; color: var(--color-accent-secondary); }
+        .svg-diagram { width: 100%; height: 100%; max-height: 100%; }
         
-        .meter-bar { width: 100%; height: 8px; background: #1e293b; border-radius: 4px; overflow: hidden; margin-top: 5px; border: 1px solid rgba(255,255,255,0.1);}
-        .meter-fill { height: 100%; width: 0%; border-radius: 4px; transition: width 0.5s ease-out, background-color 0.5s; }
+        /* Interactive Hotspots */
+        .hotspot-circle { cursor: pointer; transition: all 0.3s; transform-origin: center; }
+        .hotspot-circle:hover, .hotspot-circle:active { fill: var(--color-accent-secondary); r: 25; }
         
-        /* Specific Meter Colors */
-        #temp-fill { background: linear-gradient(90deg, #f59e0b, #ef4444); }
-        #water-fill { background: linear-gradient(90deg, #38bdf8, #0284c7); }
-        #oil-fill { background: linear-gradient(90deg, #fcd34d, #fbbf24); }
-
-        /* Status Log Terminal */
-        .terminal-log {
-            background: #020617; border: 1px solid #1e293b; border-radius: 8px;
-            padding: 15px; font-family: var(--font-mono); font-size: 12px; color: #34d399;
-            height: 120px; overflow-y: auto; display: flex; flex-direction: column; gap: 5px;
+        /* Box Informasi Diagram yang diperbarui agar ramah HP */
+        #interactive-info-box {
+            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: var(--color-bg-panel); backdrop-filter: blur(15px); border: 1px solid var(--color-glass-border);
+            padding: 20px; border-radius: var(--radius-md); box-shadow: var(--shadow-glass);
+            width: 90%; max-width: 400px; text-align: center;
+            opacity: 0; pointer-events: none; transition: all 0.3s ease; z-index: 100;
         }
-        .log-entry { opacity: 0; animation: fadeInLog 0.3s forwards; }
-        .log-time { color: #64748b; margin-right: 8px; }
-        .log-warn { color: #fbbf24; }
-        .log-crit { color: #ef4444; }
-        @keyframes fadeInLog { to { opacity: 1; } }
-
-        /* ==========================================================================
-           6. SVG ANIMATION CLASSES & KEYFRAMES (THE MAGIC)
-           ========================================================================== */
-        
-        /* Api Berkobar (Fire Flicker) */
-        .fire-path { transform-origin: bottom center; animation: flicker 0.1s infinite alternate; }
-        .fire-inner { animation: flickerInner 0.08s infinite alternate; }
-        @keyframes flicker {
-            0% { transform: scaleY(0.9) skewX(-2deg); opacity: 0.8; }
-            100% { transform: scaleY(1.1) skewX(2deg); opacity: 1; }
-        }
-        @keyframes flickerInner {
-            0% { transform: scale(0.85); opacity: 0.7; }
-            100% { transform: scale(1.05); opacity: 1; }
+        #interactive-info-box.show { opacity: 1; pointer-events: auto; bottom: 30px; }
+        .close-info-btn { 
+            background: rgba(255,255,255,0.1); border: none; color: white; margin-top: 15px; 
+            padding: 8px 20px; border-radius: 20px; cursor: pointer; font-size: 14px;
         }
 
-        /* Uap Mengalir di Pipa (Dashoffset Animation) */
-        .steam-flow {
-            stroke-dasharray: 10 15;
-            animation: flow 1s linear infinite;
-            opacity: 0; /* Hidden initially */
-            transition: opacity 0.5s;
-        }
-        .steam-flow.active { opacity: 1; }
-        @keyframes flow { to { stroke-dashoffset: -25; } }
+        /* SLIDE 5: Rocket Stove List */
+        .innovation-list { list-style: none; display: flex; flex-direction: column; gap: 20px; font-size: clamp(15px, 2vw, 20px); line-height: 1.6; }
+        .innovation-list li { display: flex; gap: 15px; }
+        .innovation-list .icon-wrap { color: var(--color-accent-secondary); font-size: clamp(20px, 3vw, 28px); flex-shrink: 0;}
 
-        /* Air Pendingin Mengalir */
-        .water-flow-path { stroke-dasharray: 20 20; animation: flowReverse 2s linear infinite; opacity: 0.3;}
-        .water-flow-path.active { animation: flowReverse 0.5s linear infinite; opacity: 0.8; stroke: #38bdf8;}
-        @keyframes flowReverse { to { stroke-dashoffset: 40; } }
-
-        /* Tetesan Minyak (Drop) */
-        .oil-drop { opacity: 0; }
-        .oil-drop.dropping { animation: dropFall 1.5s infinite; }
-        @keyframes dropFall {
-            0% { transform: translateY(0) scale(0.5); opacity: 0; }
-            20% { transform: translateY(10px) scale(1); opacity: 1; }
-            80% { transform: translateY(80px) scale(1); opacity: 1; }
-            100% { transform: translateY(90px) scale(0.5); opacity: 0; }
-        }
-
-        /* Level Cairan Naik (Separator) */
-        .liquid-level { transition: transform 0.5s ease-out; transform-origin: bottom; }
-
-        /* Gelembung Mendidih (Boiling Bubbles) */
-        .bubble { opacity: 0; transform-origin: center; }
-        .bubble.boiling { animation: rise 2s infinite ease-in; }
-        @keyframes rise {
-            0% { transform: translateY(0) scale(0.5); opacity: 0; }
-            20% { opacity: 1; }
-            100% { transform: translateY(-80px) scale(1.5); opacity: 0; }
-        }
-
-        /* ==========================================================================
-           7. OTHER SLIDES (BRIEF STYLING)
-           ========================================================================== */
-        .comparison-table { width: 100%; border-collapse: collapse; font-size: clamp(12px, 1.5vw, 16px); }
-        .comparison-table th, .comparison-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .comparison-table th { background: rgba(0,0,0,0.4); color: var(--color-accent-secondary); border-bottom: 2px solid rgba(255,255,255,0.1); text-transform: uppercase;}
+        /* SLIDE 7: Table */
+        .table-responsive { width: 100%; overflow-x: auto; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.05); }
+        .comparison-table { width: 100%; min-width: 600px; border-collapse: collapse; font-size: clamp(14px, 1.5vw, 18px); }
+        .comparison-table th, .comparison-table td { padding: 15px 20px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .comparison-table th { background: rgba(0,0,0,0.4); color: var(--color-accent-secondary); font-size: clamp(16px, 1.8vw, 20px); border-bottom: 2px solid rgba(255,255,255,0.1); }
+        .comparison-table tr:hover td { background: rgba(255,255,255,0.03); }
         .status-bad { color: var(--color-danger); font-weight: 600; display: flex; align-items: center; gap: 8px; }
         .status-good { color: var(--color-accent-main); font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        @media(min-width: 1024px){ .comparison-table th, .comparison-table td { padding: 25px 30px; } }
 
-        /* Navigation Controls */
+        /* SLIDE 8: Charts */
+        .chart-wrapper { display: flex; flex-direction: column; justify-content: center; gap: 30px; }
+        .bar-group { width: 100%; }
+        .bar-label { display: flex; justify-content: space-between; font-size: clamp(16px, 2vw, 22px); font-weight: 600; margin-bottom: 10px; }
+        .bar-track { width: 100%; height: 20px; background: rgba(255,255,255,0.05); border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
+        .bar-fill { height: 100%; border-radius: 10px; width: 0; transition: width 1.5s ease-out; }
+        .fill-old { background: linear-gradient(90deg, #7F1D1D, var(--color-danger)); }
+        .fill-new { background: linear-gradient(90deg, #064E3B, var(--color-accent-main)); }
+        .slide.active .bar-fill.w-95 { width: 95%; }
+        .slide.active .bar-fill.w-15 { width: 15%; }
+        .slide.active .bar-fill.w-40 { width: 40%; }
+        .slide.active .bar-fill.w-100 { width: 100%; }
+        @media(min-width: 768px){ .bar-track { height: 30px; } }
+
+        /* SLIDE 9: Team */
+        .team-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 20px;
+        }
+        .team-card {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: var(--radius-md); padding: 20px 10px; text-align: center;
+        }
+        .team-avatar {
+            width: 60px; height: 60px; background: linear-gradient(135deg, #334155, #1E293B);
+            border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center;
+            font-size: 24px; color: var(--color-accent-main); border: 2px solid rgba(255,255,255,0.1);
+        }
+        .team-name { font-size: 16px; font-weight: 700; margin-bottom: 5px;}
+        .team-role { font-size: 12px; color: var(--color-accent-secondary); text-transform: uppercase; }
+        @media(min-width: 640px){ .team-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media(min-width: 1024px){ 
+            .team-grid { grid-template-columns: repeat(6, 1fr); gap: 20px; } 
+            .team-card { padding: 30px 20px; }
+            .team-avatar { width: 80px; height: 80px; font-size: 32px; }
+            .team-name { font-size: 18px; }
+        }
+
+        /* ==========================================================================
+           6. NAVIGATION CONTROLS (FIXED BOTTOM)
+           ========================================================================== */
         .controls-container {
             position: fixed; bottom: 0; left: 0; width: 100%;
             display: flex; justify-content: space-between; align-items: center;
             padding: 15px 20px; z-index: 50;
-            background: linear-gradient(to top, rgba(2, 6, 23, 0.95) 0%, rgba(2, 6, 23, 0) 100%);
+            background: linear-gradient(to top, rgba(11, 17, 32, 0.9) 0%, rgba(11, 17, 32, 0) 100%);
             backdrop-filter: blur(5px);
         }
-        @media(min-width: 768px){ .controls-container { padding: 20px 50px; background: transparent; backdrop-filter: none;} }
+        @media(min-width: 768px){ .controls-container { padding: 20px 50px; } }
+        @media(min-width: 1024px){ .controls-container { padding: 30px 80px; background: transparent; backdrop-filter: none; } }
 
         .nav-btn {
             background: var(--color-bg-panel); border: 1px solid var(--color-glass-border);
-            color: white; width: 45px; height: 45px; border-radius: 50%; font-size: 18px; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: var(--transition-smooth);
+            color: white; width: 45px; height: 45px; border-radius: 50%;
+            font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: var(--transition-smooth);
         }
-        .nav-btn:hover:not(:disabled) { background: rgba(255,255,255,0.1); color: var(--color-accent-main); border-color: var(--color-accent-main); transform: scale(1.1);}
+        @media(min-width: 768px){ .nav-btn { width: 60px; height: 60px; font-size: 24px; } }
+        .nav-btn:active { transform: scale(0.9); }
+        .nav-btn:hover:not(:disabled) { background: rgba(255,255,255,0.1); color: var(--color-accent-main); border-color: var(--color-accent-main); }
         .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 
-        .slide-dots { display: flex; gap: 10px; }
-        .dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.2); cursor: pointer; transition: all 0.3s; }
+        .slide-dots { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; max-width: 50%; }
+        @media(min-width: 768px){ .slide-dots { gap: 15px; max-width: none; } }
+        
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); cursor: pointer; transition: all 0.3s; }
+        @media(min-width: 768px){ .dot { width: 12px; height: 12px; } }
         .dot.active { background: var(--color-accent-main); transform: scale(1.5); box-shadow: 0 0 10px var(--color-accent-glow); }
 
-        .progress-bar { position: fixed; top: 0; left: 0; height: 4px; background: var(--color-accent-main); width: 0%; transition: width 0.3s; z-index: 100; box-shadow: 0 0 15px var(--color-accent-main); }
+        .progress-bar {
+            position: fixed; top: 0; left: 0; height: 4px; background: var(--color-accent-main);
+            width: 0%; transition: width 0.3s; z-index: 100; box-shadow: 0 0 10px var(--color-accent-main);
+        }
+        
     </style>
 </head>
 <body>
 
+    <!-- WRAPPER PRESENTASI: 100vw x 100dvh Responsif -->
     <div id="presentation-wrapper">
         <div class="progress-bar" id="progress-bar"></div>
+        
+        <!-- Background Elements -->
         <canvas id="particle-canvas"></canvas>
         <div class="glow-orb orb-1"></div>
         <div class="glow-orb orb-2"></div>
 
+        <!-- CONTAINER SLIDE -->
         <div class="slides-container" id="slides-container">
             
-            <!-- SLIDE 1: Intro -->
+            <!-- SLIDE 1: HERO/COVER -->
             <div class="slide active" id="slide-1">
-                <div class="glass-panel" style="background: transparent; border: none; box-shadow: none; text-align: center; display: flex; flex-direction: column; justify-content: center; height: 100%;">
-                    <div class="badge"><i class="fa-solid fa-microscope"></i> Intervensi Rekayasa</div>
-                    <h1 style="font-size: clamp(32px, 6vw, 70px); margin-bottom: 20px;">Solusi Penyulingan Minyak Atsiri <br><span class="text-gradient">Integrasi Biomassa & Kondensor Kompak</span></h1>
-                    <p style="font-size: clamp(16px, 2vw, 22px); color: var(--color-text-muted); max-width: 900px; margin: 0 auto 40px; line-height: 1.6;">
-                        Simulasi interaktif prototipe sistem penyulingan terbaru berdasarkan analisis kegagalan sistem eksisting. Memanfaatkan teknologi <i>Rocket Stove</i> dan kondensor horizontal terpisah.
-                    </p>
-                    <button class="btn-action" style="max-width: 250px; margin: 0 auto; padding: 15px; font-size: 18px;" onclick="nextSlide()">
-                        Buka Simulasi <i class="fa-solid fa-arrow-right"></i>
+                <div class="glass-panel" id="slide-hero" style="background: transparent; border: none; box-shadow: none;">
+                    <div class="badge"><i class="fa-solid fa-flask"></i> Laporan Observasi Rekayasa</div>
+                    <h1 class="hero-title">Evaluasi & Inovasi <br><span class="text-gradient">Alat Penyulingan Minyak Atsiri</span></h1>
+                    <p class="hero-subtitle">Analisis kegagalan termodinamika pada sistem eksisting dan implementasi teknologi <i>Rocket Stove Biomassa</i> sebagai solusi efisiensi energi berkelanjutan.</p>
+                    
+                    <button class="start-btn" onclick="nextSlide()">
+                        Mulai Presentasi <i class="fa-solid fa-arrow-right"></i>
                     </button>
+                    <p style="margin-top: 20px; font-size: 14px; color: var(--color-text-muted);"><i class="fa-solid fa-hand-pointer"></i> Usap layar ke kiri/kanan untuk navigasi</p>
                 </div>
             </div>
 
-            <!-- SLIDE 2: THE INTERACTIVE SIMULATION (PROTOTYPE) -->
+            <!-- SLIDE 2: TIMELINE / LATAR BELAKANG -->
             <div class="slide" id="slide-2">
                 <div class="slide-header">
-                    <div class="badge"><i class="fa-solid fa-flask-vial"></i> Interactive Prototype</div>
-                    <h2>Sistem Integrasi (Usulan Jalan Tengah)</h2>
-                    <p>Tekan tombol pada panel kontrol di sebelah kanan untuk memulai simulasi termodinamika.</p>
+                    <div class="badge">Bab I: Pendahuluan</div>
+                    <h2>Latar Belakang & Observasi</h2>
+                    <p>Kronologi identifikasi permasalahan di lapangan</p>
                 </div>
                 
-                <div class="glass-panel" id="slide-simulation" style="flex-grow: 1;">
-                    <div class="simulation-container">
-                        
-                        <!-- LEFT PANEL: MASSIVE SVG GRAPHIC -->
-                        <div class="svg-canvas-wrapper">
-                            <svg class="svg-prototype" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-                                <defs>
-                                    <!-- Gradients for realistic 3D volume mapping -->
-                                    <linearGradient id="metalCylinder" x1="0%" y1="0%" x2="100%" y2="0%">
-                                        <stop offset="0%" stop-color="#475569" />
-                                        <stop offset="20%" stop-color="#94a3b8" />
-                                        <stop offset="50%" stop-color="#f8fafc" />
-                                        <stop offset="80%" stop-color="#94a3b8" />
-                                        <stop offset="100%" stop-color="#334155" />
-                                    </linearGradient>
-                                    <linearGradient id="metalDark" x1="0%" y1="0%" x2="100%" y2="0%">
-                                        <stop offset="0%" stop-color="#1e293b" />
-                                        <stop offset="50%" stop-color="#475569" />
-                                        <stop offset="100%" stop-color="#0f172a" />
-                                    </linearGradient>
-                                    <linearGradient id="copperPipe" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" stop-color="#b45309" />
-                                        <stop offset="50%" stop-color="#f59e0b" />
-                                        <stop offset="100%" stop-color="#78350f" />
-                                    </linearGradient>
-                                    <linearGradient id="waterGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                                        <stop offset="0%" stop-color="rgba(56, 189, 248, 0.4)" />
-                                        <stop offset="100%" stop-color="rgba(2, 132, 199, 0.8)" />
-                                    </linearGradient>
-                                    <linearGradient id="oilGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                                        <stop offset="0%" stop-color="rgba(252, 211, 77, 0.9)" />
-                                        <stop offset="100%" stop-color="rgba(217, 119, 6, 0.9)" />
-                                    </linearGradient>
-                                    <linearGradient id="fireBase" x1="0%" y1="100%" x2="0%" y2="0%">
-                                        <stop offset="0%" stop-color="#7f1d1d" />
-                                        <stop offset="20%" stop-color="#dc2626" />
-                                        <stop offset="60%" stop-color="#f59e0b" />
-                                        <stop offset="100%" stop-color="rgba(253, 224, 71, 0)" />
-                                    </linearGradient>
-                                    <radialGradient id="glowFire" cx="50%" cy="50%" r="50%">
-                                        <stop offset="0%" stop-color="rgba(245, 158, 11, 0.4)" />
-                                        <stop offset="100%" stop-color="rgba(245, 158, 11, 0)" />
-                                    </radialGradient>
-                                    <pattern id="insulationPattern" x="0" y="0" width="15" height="15" patternUnits="userSpaceOnUse">
-                                        <path d="M 0 15 L 15 0 M -5 5 L 5 -5 M 10 20 L 20 10" stroke="#fcd34d" stroke-width="1" opacity="0.3"/>
-                                        <circle cx="7.5" cy="7.5" r="1" fill="#fcd34d" opacity="0.5"/>
-                                    </pattern>
-
-                                    <!-- Filters for glow effects -->
-                                    <filter id="glowDrop" x="-50%" y="-50%" width="200%" height="200%">
-                                        <feGaussianBlur stdDeviation="3" result="blur" />
-                                        <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                                    </filter>
-                                </defs>
-
-                                <!-- ==================== SECTION 1: ROCKET STOVE ==================== -->
-                                <g id="rocket-stove" transform="translate(150, 450)">
-                                    <!-- Base Shadow -->
-                                    <ellipse cx="150" cy="300" rx="120" ry="15" fill="rgba(0,0,0,0.6)" filter="blur(5px)"/>
-                                    
-                                    <!-- Stove Casing Outer Structure (L shape) -->
-                                    <path d="M 100 0 L 200 0 L 200 250 L 50 250 L 50 150 L 100 150 Z" fill="url(#metalDark)" stroke="#020617" stroke-width="4" stroke-linejoin="round"/>
-                                    
-                                    <!-- Angled Feeding Tube (Umpan Udara/Kayu) -->
-                                    <path d="M -80 100 L 50 150 L 100 150 L -30 100 Z" fill="url(#metalDark)" stroke="#020617" stroke-width="4" stroke-linejoin="round"/>
-                                    <!-- Ash Pit Door -->
-                                    <rect x="70" y="210" width="110" height="30" rx="3" fill="#334155" stroke="#0f172a" stroke-width="2"/>
-                                    <rect x="120" y="215" width="10" height="20" fill="#0f172a" rx="2"/> <!-- Handle -->
-                                    
-                                    <!-- Insulation Layer (Inside the L shape) -->
-                                    <path d="M 115 15 L 185 15 L 185 235 L 65 235 L 65 160 L 115 160 Z" fill="#475569"/>
-                                    <path d="M 115 15 L 185 15 L 185 235 L 65 235 L 65 160 L 115 160 Z" fill="url(#insulationPattern)"/>
-                                    
-                                    <!-- Internal Combustion Chamber (J-Tube) -->
-                                    <path d="M 130 15 L 170 15 L 170 215 L -20 120 L 20 120 L 130 160 Z" fill="#020617" stroke="#1e293b" stroke-width="2"/>
-                                    
-                                    <!-- Kayu Bakar (Wood inside feeding tube) -->
-                                    <g id="wood-logs" opacity="0.3"> <!-- Opacity controlled by JS -->
-                                        <rect x="-60" y="115" width="120" height="15" rx="5" fill="#78350f" transform="rotate(25 0 115)"/>
-                                        <rect x="-70" y="105" width="130" height="18" rx="5" fill="#451a03" transform="rotate(22 0 105)"/>
-                                        <rect x="-50" y="125" width="100" height="12" rx="4" fill="#92400e" transform="rotate(28 0 125)"/>
-                                    </g>
-
-                                    <!-- THE FIRE (Dynamic) -->
-                                    <!-- Fire Base Glow -->
-                                    <circle cx="150" cy="180" r="80" fill="url(#glowFire)" id="fire-glow" opacity="0.1"/>
-                                    
-                                    <g id="fire-flames" opacity="0.2"> <!-- Opacity controlled by JS -->
-                                        <!-- Primary combustion at bottom of J-tube -->
-                                        <path class="fire-path" d="M 130 215 Q 150 120 140 80 Q 150 160 170 215 Z" fill="url(#fireBase)"/>
-                                        <!-- Secondary combustion rising up -->
-                                        <path class="fire-path" d="M 140 180 Q 130 50 150 0 Q 170 50 160 180 Z" fill="url(#fireBase)" style="animation-delay: 0.1s;"/>
-                                        <!-- Core hot flame -->
-                                        <path class="fire-inner fire-path" d="M 145 180 Q 140 100 150 40 Q 160 100 155 180 Z" fill="#fcd34d" style="animation-delay: 0.2s;"/>
-                                    </g>
-
-                                    <!-- Arrows indicating airflow (Sekunder & Primer) -->
-                                    <path d="M -90 140 L -60 155" fill="none" stroke="#38bdf8" stroke-width="3" marker-end="url(#arrowBlue)"/>
-                                    <path d="M 30 230 L 60 230" fill="none" stroke="#38bdf8" stroke-width="3" marker-end="url(#arrowBlue)"/>
-                                </g>
-
-                                <!-- ==================== SECTION 2: REAKTOR PENYULINGAN (BOILER) ==================== -->
-                                <g id="reaktor" transform="translate(100, 150)">
-                                    <!-- Outer Insulated Shell -->
-                                    <rect x="0" y="50" width="300" height="260" rx="15" fill="url(#metalDark)" stroke="#334155" stroke-width="4"/>
-                                    
-                                    <!-- Inner Metal Tank (Cutaway view) -->
-                                    <rect x="20" y="60" width="260" height="240" rx="10" fill="url(#metalCylinder)"/>
-                                    
-                                    <!-- Insulation Padding (Yellowish) between inner and outer shell -->
-                                    <path d="M 10 55 L 20 60 L 20 300 L 10 305 Z" fill="#fcd34d" opacity="0.8"/>
-                                    <path d="M 290 55 L 280 60 L 280 300 L 290 305 Z" fill="#fcd34d" opacity="0.8"/>
-                                    <path d="M 10 305 L 20 300 L 280 300 L 290 305 Z" fill="#fcd34d" opacity="0.8"/>
-                                    
-                                    <!-- Biomass/Raw Material inside Reaktor -->
-                                    <rect x="25" y="150" width="250" height="140" fill="#a3e635" opacity="0.5" rx="5"/>
-                                    <!-- Water Level at bottom -->
-                                    <rect x="25" y="270" width="250" height="20" fill="url(#waterGrad)" rx="3"/>
-                                    
-                                    <!-- Boiling Animation Bubbles (Managed by JS) -->
-                                    <g id="boil-bubbles">
-                                        <circle cx="50" cy="280" r="4" fill="#fff" class="bubble" style="animation-delay: 0s"/>
-                                        <circle cx="100" cy="280" r="6" fill="#fff" class="bubble" style="animation-delay: 0.5s"/>
-                                        <circle cx="150" cy="280" r="3" fill="#fff" class="bubble" style="animation-delay: 1.2s"/>
-                                        <circle cx="200" cy="280" r="5" fill="#fff" class="bubble" style="animation-delay: 0.8s"/>
-                                        <circle cx="250" cy="280" r="4" fill="#fff" class="bubble" style="animation-delay: 1.5s"/>
-                                    </g>
-
-                                    <!-- Reaktor Dome Lid -->
-                                    <path d="M 10 50 Q 150 -30 290 50 Z" fill="url(#metalCylinder)" stroke="#334155" stroke-width="4"/>
-                                    
-                                    <!-- Steam gathering in dome -->
-                                    <path d="M 30 50 Q 150 -10 270 50 Z" fill="#f8fafc" opacity="0.3"/>
-                                </g>
-
-                                <!-- ==================== SECTION 3: PIPA UAP UTAMA (MAIN STEAM PIPE) ==================== -->
-                                <g id="pipa-utama">
-                                    <!-- Pipe Structure -->
-                                    <path d="M 250 160 L 250 80 Q 250 50 280 50 L 500 50 Q 530 50 530 80 L 530 250 Q 530 280 560 280 L 600 280" 
-                                          fill="none" stroke="url(#metalCylinder)" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <!-- Pipe Outline -->
-                                    <path d="M 250 160 L 250 80 Q 250 50 280 50 L 500 50 Q 530 50 530 80 L 530 250 Q 530 280 560 280 L 600 280" 
-                                          fill="none" stroke="#1e293b" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/>
-                                    
-                                    <!-- Animated Steam Particles inside Pipe -->
-                                    <path id="steam-path" d="M 250 160 L 250 80 Q 250 50 280 50 L 500 50 Q 530 50 530 80 L 530 250 Q 530 280 560 280 L 600 280" 
-                                          fill="none" stroke="#fef08a" stroke-width="6" class="steam-flow"/>
-                                </g>
-
-                                <!-- ==================== SECTION 4: KONDENSOR KOMPAK (HORIZONTAL) ==================== -->
-                                <g id="kondensor" transform="translate(600, 150)">
-                                    <!-- Condenser Outer Shell (Glass/Acrylic look) -->
-                                    <rect x="0" y="0" width="300" height="200" rx="40" fill="rgba(15, 23, 42, 0.6)" stroke="#38bdf8" stroke-width="4"/>
-                                    <rect x="10" y="10" width="280" height="180" rx="30" fill="rgba(56, 189, 248, 0.1)"/>
-                                    
-                                    <!-- Water Body (Animates level when valve opens) -->
-                                    <clipPath id="condenserClip">
-                                        <rect x="10" y="10" width="280" height="180" rx="30" />
-                                    </clipPath>
-                                    <g clip-path="url(#condenserClip)">
-                                        <rect id="condenser-water" x="0" y="190" width="300" height="180" fill="url(#waterGrad)" class="liquid-level"/>
-                                    </g>
-
-                                    <!-- Serpentine Coil Pipe (Inner Pipe) -->
-                                    <path d="M 0 130 L 30 130 Q 50 130 50 110 L 50 50 Q 50 30 70 30 L 230 30 Q 250 30 250 50 L 250 70 Q 250 90 230 90 L 90 90 Q 70 90 70 110 L 70 130 Q 70 150 90 150 L 250 150 Q 270 150 270 170 L 270 200" 
-                                          fill="none" stroke="url(#copperPipe)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
-                                    
-                                    <!-- Animated Steam to Oil transition in Coil -->
-                                    <path id="oil-path" d="M 0 130 L 30 130 Q 50 130 50 110 L 50 50 Q 50 30 70 30 L 230 30 Q 250 30 250 50 L 250 70 Q 250 90 230 90 L 90 90 Q 70 90 70 110 L 70 130 Q 70 150 90 150 L 250 150 Q 270 150 270 170 L 270 200" 
-                                          fill="none" stroke="#fcd34d" stroke-width="4" class="steam-flow" style="stroke-dasharray: 5 15;"/>
-
-                                    <!-- Water Inlets/Outlets -->
-                                    <!-- Cold Water In -->
-                                    <path d="M 300 40 L 340 40" fill="none" stroke="#38bdf8" stroke-width="10"/>
-                                    <path d="M 340 40 L 320 30 L 320 50 Z" fill="#38bdf8"/> <!-- Arrow In -->
-                                    <text x="350" y="45" fill="#38bdf8" font-size="14" font-weight="bold">Air Dingin IN</text>
-                                    
-                                    <!-- Warm Water Out -->
-                                    <path d="M 300 160 L 340 160" fill="none" stroke="#ef4444" stroke-width="10"/>
-                                    <path d="M 300 160 L 320 150 L 320 170 Z" fill="#ef4444"/> <!-- Arrow Out -->
-                                    <text x="350" y="165" fill="#ef4444" font-size="14" font-weight="bold">Air Hangat OUT</text>
-
-                                    <!-- Pipa Keluar menuju Separator -->
-                                    <path d="M 270 200 L 270 260 L 320 260 L 320 300" fill="none" stroke="url(#copperPipe)" stroke-width="14" stroke-linejoin="round"/>
-                                    
-                                    <!-- Dripping Oil Animation -->
-                                    <circle id="oil-droplet" cx="320" cy="300" r="5" fill="#fcd34d" filter="url(#glowDrop)" class="oil-drop"/>
-                                </g>
-
-                                <!-- ==================== SECTION 5: SEPARATOR MINYAK & AIR ==================== -->
-                                <g id="separator" transform="translate(860, 470)">
-                                    <!-- Glass Flask -->
-                                    <path d="M 40 0 L 80 0 L 80 40 L 120 70 L 120 200 Q 60 220 0 200 L 0 70 L 40 40 Z" fill="rgba(255,255,255,0.1)" stroke="#94a3b8" stroke-width="4" stroke-linejoin="round"/>
-                                    <path d="M 40 0 L 80 0 L 80 40 L 120 70 L 120 200 Q 60 220 0 200 L 0 70 L 40 40 Z" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" transform="scale(0.95) translate(3,3)"/>
-                                    
-                                    <!-- Hydrosol (Water) Layer Bottom -->
-                                    <clipPath id="flaskClip">
-                                        <path d="M 40 0 L 80 0 L 80 40 L 120 70 L 120 200 Q 60 220 0 200 L 0 70 L 40 40 Z" />
-                                    </clipPath>
-                                    <g clip-path="url(#flaskClip)">
-                                        <!-- Water Level (Animated) -->
-                                        <rect id="sep-water" x="0" y="200" width="120" height="200" fill="url(#waterGrad)" class="liquid-level"/>
-                                        <!-- Essential Oil Layer (Animated, floats on top) -->
-                                        <rect id="sep-oil" x="0" y="200" width="120" height="30" fill="url(#oilGrad)" class="liquid-level"/>
-                                    </g>
-
-                                    <!-- Essential Oil Output Pipe (Middle) -->
-                                    <path d="M 120 120 L 170 120" fill="none" stroke="url(#metalCylinder)" stroke-width="8"/>
-                                    <path d="M 170 120 L 150 110 L 150 130 Z" fill="#f59e0b"/>
-                                    <text x="180" y="125" fill="#fcd34d" font-size="16" font-weight="bold">Minyak Atsiri Murni</text>
-
-                                    <!-- Waste Water Output Pipe (Bottom) -->
-                                    <path d="M 60 210 L 60 250 L 120 250" fill="none" stroke="url(#metalCylinder)" stroke-width="8" stroke-linejoin="round"/>
-                                    <path d="M 120 250 L 100 240 L 100 260 Z" fill="#0ea5e9"/>
-                                    <text x="130" y="255" fill="#38bdf8" font-size="14" font-weight="bold">Air Limbah (Hidrosol)</text>
-                                </g>
-                                
-                                <!-- Decorative Flow Arrows Definitions -->
-                                <defs>
-                                    <marker id="arrowBlue" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#38bdf8" />
-                                    </marker>
-                                </defs>
-                            </svg>
-                        </div>
-
-                        <!-- RIGHT PANEL: CONTROL DASHBOARD -->
-                        <div class="control-dashboard">
-                            <h3 style="color: var(--color-accent-secondary); border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 10px;"><i class="fa-solid fa-microchip"></i> Telemetri Sistem</h3>
-                            
-                            <!-- Meters -->
-                            <div class="dashboard-card meter-container">
-                                <div class="meter-header"><span>Suhu Reaktor</span> <i class="fa-solid fa-temperature-three-quarters" style="color: #ef4444;"></i></div>
-                                <div class="meter-value"><span id="val-temp">28</span> <span class="meter-unit">°C</span></div>
-                                <div class="meter-bar"><div class="meter-fill" id="temp-fill" style="width: 5%;"></div></div>
+                <div class="grid-2">
+                    <div class="glass-panel" style="padding: 15px; border:none; background:transparent; box-shadow:none;">
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-icon"><i class="fa-solid fa-magnifying-glass-location"></i></div>
+                                <div class="timeline-content glass-panel">
+                                    <h3>Kunjungan Lapangan</h3>
+                                    <p>Survei ke fasilitas penyulingan untuk memantau siklus produksi secara real-time.</p>
+                                </div>
                             </div>
-
-                            <div class="dashboard-card meter-container">
-                                <div class="meter-header"><span>Air Kondensor</span> <i class="fa-solid fa-water" style="color: #38bdf8;"></i></div>
-                                <div class="meter-value"><span id="val-water">0</span> <span class="meter-unit">%</span></div>
-                                <div class="meter-bar"><div class="meter-fill" id="water-fill" style="width: 0%;"></div></div>
+                            <div class="timeline-item">
+                                <div class="timeline-icon"><i class="fa-solid fa-stopwatch"></i></div>
+                                <div class="timeline-content glass-panel">
+                                    <h3>Pemantauan Siklus</h3>
+                                    <p>Mencatat fluktuasi suhu. Terdeteksi lonjakan suhu tak terkendali pada menit ke-90.</p>
+                                </div>
                             </div>
-
-                            <div class="dashboard-card meter-container" style="border-color: rgba(245, 158, 11, 0.3);">
-                                <div class="meter-header"><span style="color: #fcd34d;">Yield Minyak Atsiri</span> <i class="fa-solid fa-flask" style="color: #f59e0b;"></i></div>
-                                <div class="meter-value"><span id="val-oil" style="color: #fcd34d;">0.00</span> <span class="meter-unit">mL</span></div>
-                                <div class="meter-bar"><div class="meter-fill" id="oil-fill" style="width: 0%;"></div></div>
-                            </div>
-
-                            <!-- Interactive Buttons -->
-                            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: auto;">
-                                <button class="btn-action" id="btn-wood" onclick="simAddWood()">
-                                    <i class="fa-solid fa-fire"></i> Tambah Biomassa (Kayu)
-                                </button>
-                                <button class="btn-action" id="btn-water" onclick="simToggleWater()">
-                                    <i class="fa-solid fa-power-off"></i> Pompa Air Pendingin
-                                </button>
-                                <button class="btn-action danger-state" id="btn-reset" onclick="simReset()">
-                                    <i class="fa-solid fa-rotate-right"></i> Reset Simulasi
-                                </button>
-                            </div>
-
-                            <!-- Mini Terminal Log -->
-                            <div class="terminal-log" id="term-log">
-                                <div><span class="log-time">[SYS]</span> Memulai inisialisasi sistem...</div>
-                                <div><span class="log-time">[SYS]</span> Sensor termal siap.</div>
-                                <div><span class="log-time">[SYS]</span> Menunggu input operator.</div>
+                            <div class="timeline-item" style="margin-bottom: 0;">
+                                <div class="timeline-icon"><i class="fa-solid fa-file-contract"></i></div>
+                                <div class="timeline-content glass-panel">
+                                    <h3>Wawancara Operator</h3>
+                                    <p>Keluhan utama: biaya operasional membengkak akibat konsumsi Gas LPG komersial masif.</p>
+                                </div>
                             </div>
                         </div>
-
+                    </div>
+                    
+                    <div class="glass-panel" style="text-align: center; border-color: var(--color-accent-main);">
+                        <i class="fa-solid fa-bullseye" style="font-size: clamp(40px, 6vw, 80px); color: var(--color-accent-main); margin-bottom: 20px;"></i>
+                        <h3 style="font-size: clamp(22px, 3vw, 36px); margin-bottom: 15px;">Tujuan Observasi</h3>
+                        <p style="font-size: clamp(14px, 2vw, 20px); color: var(--color-text-muted); line-height: 1.6; font-style: italic;">
+                            "Mengidentifikasi letak inefisiensi teknis, dan merancang intervensi rekayasa yang dapat menekan biaya produksi tanpa mengorbankan rendemen minyak."
+                        </p>
                     </div>
                 </div>
             </div>
 
-            <!-- SLIDE 3: TABEL KOMPARASI (Sebagai pelengkap) -->
+            <!-- SLIDE 3: MASALAH EKSISTING -->
             <div class="slide" id="slide-3">
-                <div class="slide-header">
-                    <div class="badge">Kesimpulan Analisis</div>
-                    <h2>Kenapa Sistem Integrasi Ini Lebih Baik?</h2>
+                <div class="slide-header text-center">
+                    <div class="badge" style="background: rgba(239, 68, 68, 0.1); color: var(--color-danger); border-color: var(--color-danger);">Identifikasi Masalah</div>
+                    <h2>Tiga Permasalahan Fundamental</h2>
+                    <p>Berdasarkan analisis termal dan finansial</p>
                 </div>
-                <div class="glass-panel" style="max-width: 1000px; margin: 0 auto; overflow-x: auto;">
-                    <table class="comparison-table">
-                        <thead>
-                            <tr>
-                                <th>Parameter Pembakaran</th>
-                                <th>Tungku Tradisional Eksisting</th>
-                                <th>Teknologi Rocket Stove (Baru)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Aliran Udara (Draft)</td>
-                                <td class="status-bad"><i class="fa-solid fa-xmark"></i> Pasif & Tidak beraturan</td>
-                                <td class="status-good"><i class="fa-solid fa-check"></i> Kuat & Searah (Efek Lorong J)</td>
-                            </tr>
-                            <tr>
-                                <td>Pembakaran Asap</td>
-                                <td class="status-bad"><i class="fa-solid fa-cloud"></i> Asap tebal, pembakaran tidak sempurna</td>
-                                <td class="status-good"><i class="fa-solid fa-leaf"></i> Secondary combustion membakar habis asap</td>
-                            </tr>
-                            <tr>
-                                <td>Fokus Panas</td>
-                                <td class="status-bad"><i class="fa-solid fa-arrows-left-right"></i> Menyebar ke segala arah (Heat loss)</td>
-                                <td class="status-good"><i class="fa-solid fa-arrow-up"></i> Terkonsentrasi langsung ke dasar reaktor</td>
-                            </tr>
-                            <tr>
-                                <td>Isolasi Kondensor</td>
-                                <td class="status-bad"><i class="fa-solid fa-temperature-arrow-up"></i> Terpadu (Air cepat mendidih)</td>
-                                <td class="status-good"><i class="fa-solid fa-snowflake"></i> Terpisah Jauh (Pendinginan maksimal)</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                
+                <div class="grid-3">
+                    <div class="glass-panel problem-card">
+                        <div class="problem-icon-wrapper">
+                            <i class="fa-solid fa-box-open problem-icon"></i>
+                        </div>
+                        <h3>Kondensor Terpadu</h3>
+                        <p>Kondensor berada di dalam wadah yang sama dengan reaktor. Menyebabkan transfer panas silang yang merusak proses pendinginan.</p>
+                    </div>
+                    
+                    <div class="glass-panel problem-card" style="border-top-color: #F97316;">
+                        <div class="problem-icon-wrapper" style="background: rgba(249, 115, 22, 0.1); border-color: rgba(249, 115, 22, 0.3);">
+                            <i class="fa-solid fa-temperature-arrow-up problem-icon" style="color: #F97316;"></i>
+                        </div>
+                        <h3>Overheating Sistem</h3>
+                        <p>Air pendingin cepat mendidih. Uap minyak atsiri gagal terkondensasi kembali menjadi cair, melainkan terbuang ke udara.</p>
+                    </div>
+                    
+                    <div class="glass-panel problem-card">
+                        <div class="problem-icon-wrapper">
+                            <i class="fa-solid fa-gas-pump problem-icon"></i>
+                        </div>
+                        <h3>Konsumsi Boros</h3>
+                        <p>Mengandalkan gas LPG (energi fosil berbayar) untuk memanaskan reaktor berjam-jam mematikan margin keuntungan.</p>
+                    </div>
                 </div>
             </div>
+
+            <!-- SLIDE 4: ANALISIS ALAT LAMA (SVG) -->
+            <div class="slide" id="slide-4">
+                <div class="slide-header text-center">
+                    <div class="badge">Analisis Termodinamika</div>
+                    <h2>Skema Kegagalan Sistem</h2>
+                    <p>Tap/Klik titik merah untuk detail</p>
+                </div>
+                
+                <div class="glass-panel" style="padding: 10px; display: flex; flex-direction: column; align-items: center;">
+                    <div class="diagram-container">
+                        <!-- INLINE SVG -->
+                        <svg class="svg-diagram" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="metal" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#94A3B8" /> <stop offset="50%" stop-color="#E2E8F0" /> <stop offset="100%" stop-color="#64748B" />
+                                </linearGradient>
+                                <linearGradient id="fire" x1="0%" y1="100%" x2="0%" y2="0%">
+                                    <stop offset="0%" stop-color="#EF4444" /> <stop offset="50%" stop-color="#F59E0B" /> <stop offset="100%" stop-color="rgba(245, 158, 11, 0)" />
+                                </linearGradient>
+                                <linearGradient id="heatLoss" x1="0%" y1="100%" x2="0%" y2="0%">
+                                    <stop offset="0%" stop-color="rgba(239, 68, 68, 0.8)" /> <stop offset="100%" stop-color="rgba(239, 68, 68, 0)" />
+                                </linearGradient>
+                            </defs>
+
+                            <!-- Gambar Mesin Lama -->
+                            <rect x="200" y="250" width="200" height="250" rx="20" fill="url(#metal)" stroke="#475569" stroke-width="4"/>
+                            <path d="M 180 250 Q 300 180 420 250 Z" fill="url(#metal)" stroke="#475569" stroke-width="4"/>
+                            <rect x="220" y="520" width="160" height="30" rx="5" fill="#334155" stroke="#1E293B" stroke-width="4"/>
+                            <path d="M 230 520 Q 250 450 270 520 Q 300 420 330 520 Q 350 460 370 520 Z" fill="url(#fire)"/>
+                            <rect x="80" y="400" width="70" height="150" rx="35" fill="#10B981" stroke="#047857" stroke-width="4"/>
+                            <rect x="100" y="380" width="30" height="25" fill="#CBD5E1"/>
+                            <path d="M 115 380 Q 150 280 250 535" fill="none" stroke="#F59E0B" stroke-width="6" stroke-dasharray="10 5"/>
+                            <path d="M 300 210 L 300 150 L 600 150 L 600 250" fill="none" stroke="url(#metal)" stroke-width="20" stroke-linejoin="round"/>
+                            
+                            <rect x="500" y="250" width="200" height="250" fill="url(#metal)" stroke="#475569" stroke-width="4" opacity="0.7"/>
+                            <rect x="505" y="300" width="190" height="195" fill="rgba(239, 68, 68, 0.4)"/>
+                            <text x="540" y="400" fill="#7F1D1D" font-size="20" font-weight="bold">Air Ikut Panas!</text>
+                            <path d="M 600 250 C 550 300, 650 320, 600 350 C 550 380, 650 400, 600 430 C 550 460, 650 480, 600 500" fill="none" stroke="#E2E8F0" stroke-width="12"/>
+                            
+                            <path d="M 150 300 Q 100 250 150 200" fill="none" stroke="url(#heatLoss)" stroke-width="15" opacity="0.6"/>
+                            <path d="M 450 350 Q 500 300 450 250" fill="none" stroke="url(#heatLoss)" stroke-width="15" opacity="0.6"/>
+                            <text x="80" y="250" fill="#EF4444" font-size="22" font-weight="bold">Heat Loss!</text>
+
+                            <!-- Interactive Hotspots (Memanggil fungsi JS) -->
+                            <circle cx="115" cy="475" r="30" fill="rgba(239, 68, 68, 0.6)" stroke="#FFF" stroke-width="3" class="hotspot-circle" onclick="showInteractiveInfo('hs1')"/>
+                            <text x="115" y="482" fill="white" font-size="20" font-weight="bold" text-anchor="middle" pointer-events="none">1</text>
+                            
+                            <circle cx="200" cy="350" r="30" fill="rgba(245, 158, 11, 0.6)" stroke="#FFF" stroke-width="3" class="hotspot-circle" onclick="showInteractiveInfo('hs2')"/>
+                            <text x="200" y="357" fill="white" font-size="20" font-weight="bold" text-anchor="middle" pointer-events="none">2</text>
+                            
+                            <circle cx="600" cy="350" r="30" fill="rgba(239, 68, 68, 0.6)" stroke="#FFF" stroke-width="3" class="hotspot-circle" onclick="showInteractiveInfo('hs3')"/>
+                            <text x="600" y="357" fill="white" font-size="20" font-weight="bold" text-anchor="middle" pointer-events="none">3</text>
+                        </svg>
+
+                        <!-- Tooltip Info Box untuk Mobile & PC -->
+                        <div id="interactive-info-box">
+                            <h4 id="info-title" style="margin-bottom: 5px; font-size: 18px;"></h4>
+                            <p id="info-desc" style="font-size: 14px; color: #E2E8F0;"></p>
+                            <button class="close-info-btn" onclick="hideInteractiveInfo()">Tutup</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 5: SOLUSI ROCKET STOVE -->
+            <div class="slide" id="slide-5">
+                <div class="slide-header">
+                    <div class="badge" style="background: rgba(16, 185, 129, 0.1); color: var(--color-accent-main); border-color: var(--color-accent-main);">Inovasi Utama</div>
+                    <h2>Teknologi <i>Rocket Stove</i> Biomassa</h2>
+                    <p>Pembakaran sempurna tanpa gas LPG.</p>
+                </div>
+                
+                <div class="grid-2">
+                    <div class="glass-panel" style="border-color: var(--color-accent-main);">
+                        <h3 style="font-size: clamp(20px, 3vw, 28px); color: var(--color-accent-main); margin-bottom: 20px;"><i class="fa-solid fa-fire-flame-curved"></i> Mengapa Rocket Stove?</h3>
+                        <ul class="innovation-list">
+                            <li>
+                                <div class="icon-wrap"><i class="fa-solid fa-check-circle"></i></div>
+                                <div><strong>Bahan Bakar Gratis:</strong> Menggunakan limbah kayu/ranting. Biaya energi Rp 0.</div>
+                            </li>
+                            <li>
+                                <div class="icon-wrap"><i class="fa-solid fa-wind"></i></div>
+                                <div><strong>Tarikan Alami:</strong> Lorong bakar 'J' menciptakan hisapan udara kuat. Suhu >800°C.</div>
+                            </li>
+                            <li>
+                                <div class="icon-wrap"><i class="fa-solid fa-leaf"></i></div>
+                                <div><strong>Ramah Lingkungan:</strong> Asap sisa terbakar habis karena insulasi yang menahan panas ruang bakar.</div>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="diagram-container" style="background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, rgba(0,0,0,0.5) 100%);">
+                        <svg class="svg-diagram" viewBox="0 0 800 800" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="brick" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#78350F" /> <stop offset="50%" stop-color="#92400E" /> <stop offset="100%" stop-color="#78350F" />
+                                </linearGradient>
+                                <linearGradient id="insulation" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#D6D3D1" /> <stop offset="100%" stop-color="#A8A29E" />
+                                </linearGradient>
+                                <linearGradient id="superfire" x1="0%" y1="100%" x2="0%" y2="0%">
+                                    <stop offset="0%" stop-color="#EF4444" /> <stop offset="30%" stop-color="#F59E0B" /> <stop offset="100%" stop-color="#67E8F9" /> 
+                                </linearGradient>
+                            </defs>
+                            <rect x="250" y="150" width="300" height="500" rx="20" fill="#334155" stroke="#1E293B" stroke-width="8"/>
+                            <rect x="270" y="170" width="260" height="460" fill="url(#insulation)"/>
+                            <path d="M 330 170 L 470 170 L 470 500 L 580 500 L 580 600 L 330 600 Z" fill="url(#brick)" stroke="#451A03" stroke-width="6"/>
+                            <path d="M 360 170 L 440 170 L 440 530 L 580 530 L 580 570 L 360 570 Z" fill="#111827"/>
+                            <rect x="490" y="540" width="120" height="20" rx="5" fill="#78350F" transform="rotate(-15 550 550)"/>
+                            <path d="M 370 550 Q 400 350 380 160 Q 400 120 420 160 Q 400 350 430 550 Z" fill="url(#superfire)"/>
+                            <path d="M 650 560 L 600 560 M 610 540 L 590 560 L 610 580" fill="none" stroke="#60A5FA" stroke-width="6" stroke-linecap="round"/>
+                            <text x="660" y="565" fill="#60A5FA" font-size="25" font-weight="bold">Intake</text>
+                            <path d="M 400 100 L 400 40 M 370 60 L 400 30 L 430 60" fill="none" stroke="#F87171" stroke-width="8" stroke-linecap="round"/>
+                            <text x="460" y="65" fill="#F87171" font-size="25" font-weight="bold">>800°C</text>
+                            <rect x="100" y="300" width="150" height="40" rx="5" fill="var(--color-bg-panel)"/>
+                            <text x="175" y="325" fill="white" font-size="18" text-anchor="middle">Insulasi Abu</text>
+                            <path d="M 250 320 L 300 320" stroke="white" stroke-width="2" stroke-dasharray="5 5"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 6: SKEMA INTEGRASI -->
+            <div class="slide" id="slide-6">
+                <div class="slide-header">
+                    <div class="badge">Arsitektur Modifikasi</div>
+                    <h2>Desain Sistem Baru</h2>
+                    <p>Reaktor insulasi + Kondensor Terpisah.</p>
+                </div>
+                
+                <div class="glass-panel" style="padding: 10px;">
+                    <div class="diagram-container" style="border:none; background: transparent;">
+                        <svg class="svg-diagram" viewBox="0 0 1200 650" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="metalNew" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#E2E8F0" /> <stop offset="50%" stop-color="#FFFFFF" /> <stop offset="100%" stop-color="#94A3B8" />
+                                </linearGradient>
+                                <linearGradient id="glassCool" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="rgba(56, 189, 248, 0.1)" /> <stop offset="100%" stop-color="rgba(56, 189, 248, 0.3)" />
+                                </linearGradient>
+                                <pattern id="dots" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
+                                    <circle cx="2" cy="2" r="1.5" fill="rgba(255,255,255,0.2)"/>
+                                </pattern>
+                            </defs>
+
+                            <g transform="translate(150, 400) scale(0.6)">
+                                <rect x="250" y="150" width="300" height="350" rx="10" fill="#1E293B" stroke="#0F172A" stroke-width="8"/>
+                                <rect x="270" y="170" width="260" height="310" fill="url(#insulation)"/>
+                                <path d="M 330 170 L 470 170 L 470 380 L 580 380 L 580 460 L 330 460 Z" fill="url(#brick)"/>
+                                <path d="M 360 170 L 440 170 L 440 410 L 580 410 L 580 440 L 360 440 Z" fill="#000"/>
+                                <path d="M 370 420 Q 400 300 380 140 Q 400 100 420 140 Q 400 300 430 420 Z" fill="url(#superfire)"/>
+                            </g>
+
+                            <rect x="250" y="150" width="200" height="300" rx="20" fill="url(#metalNew)" stroke="#475569" stroke-width="4"/>
+                            <rect x="240" y="180" width="220" height="240" rx="10" fill="url(#dots)" stroke="#10B981" stroke-width="3" stroke-dasharray="6 6"/>
+                            <text x="350" y="300" fill="#1E293B" font-size="28" font-weight="bold" text-anchor="middle">REAKTOR</text>
+                            
+                            <path d="M 230 150 Q 350 80 470 150 Z" fill="url(#metalNew)" stroke="#475569" stroke-width="4"/>
+                            <path d="M 350 110 L 350 50 L 800 50 L 800 150" fill="none" stroke="url(#metalNew)" stroke-width="20" stroke-linejoin="round"/>
+                            <path d="M 350 110 L 350 50 L 800 50 L 800 150" fill="none" stroke="#FDE047" stroke-width="4" stroke-dasharray="15 15">
+                                <animate attributeName="stroke-dashoffset" from="100" to="0" dur="2s" repeatCount="indefinite"/>
+                            </path>
+
+                            <rect x="700" y="150" width="200" height="400" rx="10" fill="url(#glassCool)" stroke="#38BDF8" stroke-width="4"/>
+                            <path d="M 700 180 Q 750 170 800 180 Q 850 190 900 180 L 900 550 L 700 550 Z" fill="rgba(56, 189, 248, 0.4)">
+                                <animate attributeName="d" dur="3s" repeatCount="indefinite" values="M 700 180 Q 750 170 800 180 Q 850 190 900 180 L 900 550 L 700 550 Z; M 700 180 Q 750 190 800 180 Q 850 170 900 180 L 900 550 L 700 550 Z; M 700 180 Q 750 170 800 180 Q 850 190 900 180 L 900 550 L 700 550 Z"/>
+                            </path>
+                            <path d="M 800 150 C 730 200, 870 230, 800 280 C 730 330, 870 360, 800 410 C 730 460, 870 490, 800 540" fill="none" stroke="url(#metalNew)" stroke-width="16"/>
+                            <path d="M 800 150 C 730 200, 870 230, 800 280 C 730 330, 870 360, 800 410 C 730 460, 870 490, 800 540" fill="none" stroke="#10B981" stroke-width="4" stroke-dasharray="10 10">
+                                <animate attributeName="stroke-dashoffset" from="100" to="0" dur="3s" repeatCount="indefinite"/>
+                            </path>
+
+                            <rect x="790" y="540" width="20" height="40" fill="url(#metalNew)"/>
+                            <rect x="730" y="610" width="140" height="40" fill="rgba(255,255,255,0.9)" rx="5"/>
+                            <text x="800" y="635" fill="#064E3B" font-size="20" font-weight="bold" text-anchor="middle">Minyak Atsiri</text>
+                            
+                            <path d="M 470 300 L 690 300" stroke="#F59E0B" stroke-width="3" stroke-dasharray="10 5"/>
+                            <text x="580" y="280" fill="#F59E0B" font-size="22" font-weight="bold" text-anchor="middle">TERPISAH</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 7: TABEL KOMPARASI -->
+            <div class="slide" id="slide-7">
+                <div class="slide-header">
+                    <div class="badge">Analisis Komparatif</div>
+                    <h2>Konvensional vs Inovasi Baru</h2>
+                </div>
+                
+                <div class="glass-panel" style="padding: 10px;">
+                    <div class="table-responsive">
+                        <table class="comparison-table">
+                            <thead>
+                                <tr>
+                                    <th>Parameter Teknis</th>
+                                    <th>Sistem Eksisting</th>
+                                    <th>Sistem Baru</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Sumber Energi</td>
+                                    <td style="border-right: 1px solid rgba(255,255,255,0.05);">Gas LPG</td>
+                                    <td>Biomassa (Kayu)</td>
+                                </tr>
+                                <tr>
+                                    <td>Biaya Operasional</td>
+                                    <td class="status-bad" style="border-right: 1px solid rgba(255,255,255,0.05);"><i class="fa-solid fa-arrow-up"></i> Tinggi</td>
+                                    <td class="status-good"><i class="fa-solid fa-arrow-down"></i> Rp 0,- (Gratis)</td>
+                                </tr>
+                                <tr>
+                                    <td>Isolasi Termal</td>
+                                    <td class="status-bad" style="border-right: 1px solid rgba(255,255,255,0.05);"><i class="fa-solid fa-xmark"></i> Tidak Ada</td>
+                                    <td class="status-good"><i class="fa-solid fa-check"></i> Jaket Rockwool</td>
+                                </tr>
+                                <tr>
+                                    <td>Posisi Kondensor</td>
+                                    <td class="status-bad" style="border-right: 1px solid rgba(255,255,255,0.05);"><i class="fa-solid fa-compress"></i> Terpadu</td>
+                                    <td class="status-good"><i class="fa-solid fa-expand"></i> Terpisah Jauh</td>
+                                </tr>
+                                <tr>
+                                    <td>Suhu Pendingin</td>
+                                    <td class="status-bad" style="border-right: 1px solid rgba(255,255,255,0.05);"><i class="fa-solid fa-temperature-arrow-up"></i> Panas/Mendidih</td>
+                                    <td class="status-good"><i class="fa-solid fa-snowflake"></i> Stabil</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 8: DAMPAK (BAR CHARTS) -->
+            <div class="slide" id="slide-8">
+                <div class="slide-header">
+                    <div class="badge">Visualisasi Data</div>
+                    <h2>Dampak Finansial & Produksi</h2>
+                </div>
+                
+                <div class="grid-2">
+                    <div class="glass-panel chart-wrapper">
+                        <h3 style="color: var(--color-accent-secondary);"><i class="fa-solid fa-money-bill-trend-up"></i> Biaya Produksi per Siklus</h3>
+                        <div class="bar-group">
+                            <div class="bar-label"><span>Lama (LPG)</span> <span>Rp 150rb</span></div>
+                            <div class="bar-track"><div class="bar-fill fill-old w-95"></div></div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar-label"><span>Baru (Biomassa)</span> <span style="color: var(--color-accent-main);">Rp 15rb</span></div>
+                            <div class="bar-track"><div class="bar-fill fill-new w-15"></div></div>
+                        </div>
+                        <p style="font-size: clamp(14px, 1.8vw, 16px); color: var(--color-text-muted);">Biaya susut hingga 90%.</p>
+                    </div>
+
+                    <div class="glass-panel chart-wrapper">
+                        <h3 style="color: var(--color-accent-main);"><i class="fa-solid fa-flask-vial"></i> Rendemen Minyak</h3>
+                        <div class="bar-group">
+                            <div class="bar-label"><span>Lama (Overheat)</span> <span>40%</span></div>
+                            <div class="bar-track"><div class="bar-fill fill-old w-40"></div></div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar-label"><span>Baru (Optimal)</span> <span style="color: var(--color-accent-main);">100%</span></div>
+                            <div class="bar-track"><div class="bar-fill fill-new w-100"></div></div>
+                        </div>
+                        <p style="font-size: clamp(14px, 1.8vw, 16px); color: var(--color-text-muted);">Uap sepenuhnya terkondensasi.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 9: TEAM -->
+            <div class="slide" id="slide-9">
+                <div class="slide-header text-center">
+                    <div class="badge">Kesimpulan & Tim</div>
+                    <h2>Proyek Observasi Selesai</h2>
+                </div>
+                
+                <div class="team-grid">
+                    <div class="team-card"><div class="team-avatar"><i class="fa-solid fa-user-tie"></i></div><div class="team-name">Nafis</div><div class="team-role">Project Lead</div></div>
+                    <div class="team-card"><div class="team-avatar"><i class="fa-solid fa-pen-ruler"></i></div><div class="team-name">Riski</div><div class="team-role">Desain</div></div>
+                    <div class="team-card"><div class="team-avatar"><i class="fa-solid fa-fire"></i></div><div class="team-name">Rezki</div><div class="team-role">Riset Termal</div></div>
+                    <div class="team-card"><div class="team-avatar"><i class="fa-solid fa-wrench"></i></div><div class="team-name">Iqbal</div><div class="team-role">Prototipe</div></div>
+                    <div class="team-card"><div class="team-avatar"><i class="fa-solid fa-chart-pie"></i></div><div class="team-name">Risqi</div><div class="team-role">Data</div></div>
+                    <div class="team-card"><div class="team-avatar"><i class="fa-solid fa-camera"></i></div><div class="team-name">Fathan</div><div class="team-role">Dokumentasi</div></div>
+                </div>
+
+                <div class="glass-panel" style="margin-top: 30px; text-align: center; border-color: var(--color-accent-main); background: rgba(16, 185, 129, 0.1);">
+                    <h3 style="font-size: clamp(16px, 2.5vw, 28px); color: white; font-style: italic;">"Teknologi yang baik adalah teknologi tepat guna dan ramah lingkungan."</h3>
+                </div>
+            </div>
+
         </div>
 
-        <!-- CONTROLS -->
+        <!-- KONTROL NAVIGASI FIXED BOTTOM -->
         <div class="controls-container">
             <button class="nav-btn" id="btn-prev" onclick="prevSlide()" disabled><i class="fa-solid fa-chevron-left"></i></button>
             <div class="slide-dots" id="dot-container"></div>
@@ -671,286 +737,116 @@
 
     <!-- JAVASCRIPT ENGINE -->
     <script>
-        // ==========================================
-        // 1. SLIDE ENGINE (Swipe & Nav)
-        // ==========================================
+        // --- 1. SLIDE MANAGEMENT ENGINE ---
         const slides = document.querySelectorAll('.slide');
         const btnPrev = document.getElementById('btn-prev');
         const btnNext = document.getElementById('btn-next');
         const dotContainer = document.getElementById('dot-container');
         const progressBar = document.getElementById('progress-bar');
         let currentSlide = 0;
+        const totalSlides = slides.length;
 
-        for (let i = 0; i < slides.length; i++) {
+        // Generate Dots
+        for (let i = 0; i < totalSlides; i++) {
             const dot = document.createElement('div');
-            dot.className = 'dot' + (i === 0 ? ' active' : '');
+            dot.classList.add('dot');
+            if (i === 0) dot.classList.add('active');
             dot.onclick = () => goToSlide(i);
             dotContainer.appendChild(dot);
         }
         const dots = document.querySelectorAll('.dot');
 
-        function updateNavUI() {
+        function updateUI() {
             btnPrev.disabled = currentSlide === 0;
-            btnNext.disabled = currentSlide === slides.length - 1;
-            progressBar.style.width = `${(currentSlide / (slides.length - 1)) * 100}%`;
-            dots.forEach((dot, index) => dot.classList.toggle('active', index === currentSlide));
+            btnNext.disabled = currentSlide === totalSlides - 1;
+            const progress = (currentSlide / (totalSlides - 1)) * 100;
+            progressBar.style.width = `${progress}%`;
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
         }
 
         function goToSlide(index) {
-            if (index < 0 || index >= slides.length) return;
+            if (index < 0 || index >= totalSlides) return;
             slides.forEach((slide, i) => {
-                slide.classList.remove('active', 'prev-slide');
+                slide.classList.remove('active');
+                slide.classList.remove('prev-slide');
                 if (i < index) slide.classList.add('prev-slide');
             });
             currentSlide = index;
             slides[currentSlide].classList.add('active');
+            // Reset scroll to top
             slides[currentSlide].scrollTop = 0;
-            updateNavUI();
+            updateUI();
         }
 
         function nextSlide() { goToSlide(currentSlide + 1); }
         function prevSlide() { goToSlide(currentSlide - 1); }
 
-        let touchX = 0;
-        document.getElementById('slides-container').addEventListener('touchstart', e => touchX = e.changedTouches[0].screenX, {passive: true});
-        document.getElementById('slides-container').addEventListener('touchend', e => {
-            let diff = e.changedTouches[0].screenX - touchX;
-            if (diff < -60) nextSlide();
-            if (diff > 60) prevSlide();
-        }, {passive: true});
-
-        document.addEventListener('keydown', e => {
-            if (e.key === 'ArrowRight') nextSlide();
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'Space') nextSlide();
             if (e.key === 'ArrowLeft') prevSlide();
         });
 
-        // ==========================================
-        // 2. THERMODYNAMIC SIMULATION ENGINE (V 2.0)
-        // ==========================================
-        
-        // Sim Variables
-        let state = {
-            woodLevel: 0,       // 0 to 100
-            temp: 28,           // Ambient start 28C
-            waterPumpOn: false, // Condenser cooling
-            waterLevel: 0,      // Condenser water 0 to 100
-            oilYield: 0,        // Total oil extracted
-            isBoiling: false,
-            isCondensing: false
+        // --- 2. SWIPE GESTURE ENGINE UNTUK HP ---
+        let touchstartX = 0;
+        let touchendX = 0;
+        const sliderContainer = document.getElementById('slides-container');
+
+        sliderContainer.addEventListener('touchstart', e => {
+            touchstartX = e.changedTouches[0].screenX;
+        }, {passive: true});
+
+        sliderContainer.addEventListener('touchend', e => {
+            touchendX = e.changedTouches[0].screenX;
+            handleGesture();
+        }, {passive: true});
+
+        function handleGesture() {
+            // Deteksi usapan minimal 60px agar tidak sensitif dengan scroll
+            if (touchendX < touchstartX - 60) nextSlide();
+            if (touchendX > touchstartX + 60) prevSlide();
+        }
+
+        // --- 3. INTERACTIVE HOTSPOTS ENGINE ---
+        const hotspotData = {
+            hs1: { title: "1. Biaya LPG Tinggi", desc: "Gas LPG komersial terus menyala 4-6 jam. Margin keuntungan habis untuk beli bahan bakar.", color: "var(--color-danger)" },
+            hs2: { title: "2. Tanpa Isolasi Termal", desc: "Dinding logam langsung terpapar udara luar. Energi panas terbuang percuma (Heat Loss).", color: "var(--color-warning)" },
+            hs3: { title: "3. Cacat Pendinginan", desc: "Suhu ruang dekat reaktor membuat air kondensor mendidih. Uap tidak terkondensasi optimal.", color: "var(--color-danger)" }
         };
-        
-        let simInterval;
 
-        // DOM Elements
-        const elWood = document.getElementById('wood-logs');
-        const elFireGlow = document.getElementById('fire-glow');
-        const elFireFlames = document.getElementById('fire-flames');
-        const elCondWater = document.getElementById('condenser-water');
-        const elSepWater = document.getElementById('sep-water');
-        const elSepOil = document.getElementById('sep-oil');
-        const elSteamPath = document.getElementById('steam-path');
-        const elOilPath = document.getElementById('oil-path');
-        const elOilDrop = document.getElementById('oil-droplet');
-        const elBubbles = document.querySelectorAll('.bubble');
-        
-        const uiTemp = document.getElementById('val-temp');
-        const uiTempFill = document.getElementById('temp-fill');
-        const uiWater = document.getElementById('val-water');
-        const uiWaterFill = document.getElementById('water-fill');
-        const uiOil = document.getElementById('val-oil');
-        const uiOilFill = document.getElementById('oil-fill');
-        const btnWater = document.getElementById('btn-water');
-        const logBox = document.getElementById('term-log');
-
-        function addLog(msg, type='info') {
-            const time = new Date().toLocaleTimeString('id-ID', {hour12:false});
-            const div = document.createElement('div');
-            div.className = 'log-entry';
-            let colorClass = type === 'warn' ? 'log-warn' : (type === 'crit' ? 'log-crit' : '');
-            div.innerHTML = `<span class="log-time">[${time}]</span> <span class="${colorClass}">${msg}</span>`;
-            logBox.appendChild(div);
-            logBox.scrollTop = logBox.scrollHeight;
+        function showInteractiveInfo(id) {
+            const data = hotspotData[id];
+            document.getElementById('info-title').innerText = data.title;
+            document.getElementById('info-title').style.color = data.color;
+            document.getElementById('info-desc').innerText = data.desc;
+            document.getElementById('interactive-info-box').classList.add('show');
         }
 
-        function simAddWood() {
-            if (state.woodLevel < 100) {
-                state.woodLevel += 30;
-                if (state.woodLevel > 100) state.woodLevel = 100;
-                addLog('Biomassa ditambahkan. Api membesar.', 'info');
-                
-                // Visual update wood & fire
-                elWood.style.opacity = (state.woodLevel / 100).toString();
-                elFireFlames.style.opacity = Math.min(1, (state.woodLevel / 50)).toString();
-                elFireGlow.style.opacity = Math.min(0.6, (state.woodLevel / 100)).toString();
-                
-                // Start Engine loop if not running
-                if(!simInterval) startEngine();
-            } else {
-                addLog('Ruang bakar penuh!', 'warn');
-            }
+        function hideInteractiveInfo() {
+            document.getElementById('interactive-info-box').classList.remove('show');
         }
 
-        function simToggleWater() {
-            state.waterPumpOn = !state.waterPumpOn;
-            if (state.waterPumpOn) {
-                btnWater.classList.add('active-state');
-                btnWater.innerHTML = '<i class="fa-solid fa-water"></i> Matikan Pompa Air';
-                addLog('Sistem sirkulasi pendingin AKTIF.');
-                document.querySelectorAll('.water-flow-path').forEach(el => el.classList.add('active'));
-            } else {
-                btnWater.classList.remove('active-state');
-                btnWater.innerHTML = '<i class="fa-solid fa-power-off"></i> Pompa Air Pendingin';
-                addLog('Sistem sirkulasi pendingin MATI.', 'warn');
-                document.querySelectorAll('.water-flow-path').forEach(el => el.classList.remove('active'));
-            }
-            if(!simInterval) startEngine();
-        }
-
-        function simReset() {
-            clearInterval(simInterval);
-            simInterval = null;
-            state = { woodLevel: 0, temp: 28, waterPumpOn: false, waterLevel: 0, oilYield: 0, isBoiling: false, isCondensing: false };
-            
-            // Reset UI
-            elWood.style.opacity = "0"; elFireFlames.style.opacity = "0"; elFireGlow.style.opacity = "0";
-            elCondWater.style.transform = "translateY(0px)";
-            elSepWater.style.transform = "translateY(0px)";
-            elSepOil.style.transform = "translateY(0px)";
-            elSteamPath.classList.remove('active');
-            elOilPath.classList.remove('active');
-            elOilDrop.classList.remove('dropping');
-            elBubbles.forEach(b => b.classList.remove('boiling'));
-            
-            btnWater.classList.remove('active-state');
-            btnWater.innerHTML = '<i class="fa-solid fa-power-off"></i> Pompa Air Pendingin';
-            logBox.innerHTML = ''; addLog('Sistem di-reset ke kondisi awal.');
-            updateDashboard();
-        }
-
-        function startEngine() {
-            simInterval = setInterval(gameLoop, 500); // Run every 0.5s
-        }
-
-        function gameLoop() {
-            // 1. Calculate Temperature based on wood
-            if (state.woodLevel > 0) {
-                state.temp += (state.woodLevel * 0.05); // Heat up
-                state.woodLevel -= 0.5; // Burn wood
-                
-                // Fading fire visually as wood burns
-                elWood.style.opacity = (state.woodLevel / 100).toString();
-                elFireFlames.style.opacity = Math.min(1, (state.woodLevel / 50)).toString();
-            } else {
-                state.temp -= 1; // Cool down if no fire
-            }
-            
-            // Limit temp
-            if (state.temp < 28) state.temp = 28;
-            if (state.temp > 150) state.temp = 150;
-
-            // 2. Condenser Water Level
-            if (state.waterPumpOn) {
-                state.waterLevel += 5;
-                if (state.waterLevel > 100) state.waterLevel = 100;
-            } else {
-                state.waterLevel -= 2;
-                if (state.waterLevel < 0) state.waterLevel = 0;
-            }
-            
-            // Animate condenser water filling (SVG Y offset math: y starts at 190, moves to 10. height is 180)
-            const mapY = 190 - ((state.waterLevel / 100) * 180);
-            elCondWater.style.transform = `translateY(${mapY - 190}px)`;
-
-            // 3. Thermodynamics Logic (Boiling & Condensing)
-            if (state.temp >= 100) {
-                if (!state.isBoiling) {
-                    state.isBoiling = true;
-                    addLog('Mencapai Titik Didih. Uap mulai mengalir!', 'crit');
-                    elSteamPath.classList.add('active');
-                    elBubbles.forEach(b => b.classList.add('boiling'));
-                }
-                
-                // If boiling AND condenser has water, it yields oil
-                if (state.waterLevel > 50) {
-                    if (!state.isCondensing) {
-                        state.isCondensing = true;
-                        elOilPath.classList.add('active');
-                        elOilDrop.classList.add('dropping');
-                        addLog('Kondensasi sukses. Minyak mulai menetes.', 'info');
-                    }
-                    state.oilYield += 0.2; // Gain oil
-                    
-                    // Animate Separator Liquid (Rising)
-                    const waterSepY = 200 - Math.min(100, state.oilYield * 5); // Max 100px rise
-                    const oilSepY = waterSepY - 30; // Oil floats 30px above water line
-                    
-                    elSepWater.style.transform = `translateY(${waterSepY - 200}px)`;
-                    // Since oil rect is grouped in clip, we adjust its Y to stay on top
-                    elSepOil.setAttribute('y', oilSepY);
-                    
-                } else {
-                    if (state.isCondensing) {
-                        state.isCondensing = false;
-                        elOilPath.classList.remove('active');
-                        elOilDrop.classList.remove('dropping');
-                        addLog('WARNING: Kondensor kering! Uap gagal mengembun (Loss).', 'crit');
-                    }
-                }
-            } else {
-                if (state.isBoiling) {
-                    state.isBoiling = false;
-                    state.isCondensing = false;
-                    elSteamPath.classList.remove('active');
-                    elOilPath.classList.remove('active');
-                    elOilDrop.classList.remove('dropping');
-                    elBubbles.forEach(b => b.classList.remove('boiling'));
-                    addLog('Suhu turun. Proses distilasi terhenti.', 'warn');
-                }
-            }
-
-            // Halt loop if idle to save CPU
-            if (state.woodLevel <= 0 && state.temp <= 28 && !state.waterPumpOn) {
-                clearInterval(simInterval);
-                simInterval = null;
-            }
-
-            updateDashboard();
-        }
-
-        function updateDashboard() {
-            // Numbers
-            uiTemp.innerText = state.temp.toFixed(1);
-            uiWater.innerText = state.waterLevel.toFixed(0);
-            uiOil.innerText = state.oilYield.toFixed(2);
-            
-            // Bars (Percentage mapping)
-            uiTempFill.style.width = `${Math.min(100, (state.temp/150)*100)}%`;
-            uiWaterFill.style.width = `${state.waterLevel}%`;
-            uiOilFill.style.width = `${Math.min(100, (state.oilYield/20)*100)}%`; // Max UI bar at 20 yield
-            
-            // Temp color logic
-            if(state.temp > 120) uiTemp.style.color = '#ef4444';
-            else if(state.temp >= 100) uiTemp.style.color = '#10b981';
-            else uiTemp.style.color = '#f8fafc';
-        }
-
-        // ==========================================
-        // 3. BACKGROUND PARTICLES (Aesthetics)
-        // ==========================================
+        // --- 4. PARTICLE BACKGROUND ENGINE ---
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
 
         function initParticles() {
-            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
             particles = [];
-            const pCount = window.innerWidth < 768 ? 30 : 60; 
+            // Kurangi partikel di HP agar lebih ringan
+            const pCount = window.innerWidth < 768 ? 40 : 80; 
             for (let i = 0; i < pCount; i++) {
                 particles.push({
-                    x: Math.random() * canvas.width, y: Math.random() * canvas.height,
-                    r: Math.random() * 2,
-                    vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
-                    op: Math.random() * 0.5 + 0.1
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 2 + 1,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    opacity: Math.random() * 0.5 + 0.1
                 });
             }
         }
@@ -961,13 +857,33 @@
                 p.x += p.vx; p.y += p.vy;
                 if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
                 if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-                ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(16, 185, 129, ${p.op})`; ctx.fill();
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(16, 185, 129, ${p.opacity})`;
+                ctx.fill();
             });
+
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 80) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(16, 185, 129, ${0.1 - dist/800})`;
+                        ctx.lineWidth = 0.5; ctx.stroke();
+                    }
+                }
+            }
             requestAnimationFrame(drawParticles);
         }
+
         window.addEventListener('resize', initParticles);
-        initParticles(); drawParticles();
+        initParticles();
+        drawParticles();
         
     </script>
 </body>
